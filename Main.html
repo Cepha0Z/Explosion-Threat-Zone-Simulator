@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explosion Threat Zone Simulator</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Leaflet.js for interactive maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <!-- Icons from Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Custom styles for the application */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+        }
+        #map {
+            height: 100%;
+            width: 100%;
+            cursor: crosshair;
+        }
+        .control-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+        .control-panel::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+        .control-panel::-webkit-scrollbar-thumb {
+            background: #4b5563;
+            border-radius: 3px;
+        }
+        /* Style for the blast zone circles to add a glow effect */
+        path.leaflet-interactive {
+           filter: drop-shadow(0 0 5px currentColor) drop-shadow(0 0 10px currentColor);
+        }
+        .threat-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        .threat-btn.active {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px 0 rgba(59, 130, 246, 0.5);
+            border-color: #3b82f6;
+        }
+        /* Custom Toggle Switch */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #68d391;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #68d391;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200 flex">
+
+    <!-- Control Panel -->
+    <div class="w-1/3 max-w-sm h-full bg-gray-900/80 backdrop-blur-sm border-r border-gray-700 p-6 shadow-2xl z-10 flex flex-col overflow-y-auto control-panel">
+        <div class="flex-grow">
+            <h1 class="text-3xl font-black text-white mb-2 tracking-tighter">Explosion Simulator</h1>
+            <p class="text-sm text-gray-400 mb-6">Select a threat to visualize its potential impact.</p>
+
+            <!-- Location Parameters -->
+            <div class="space-y-4 mb-8">
+                 <h2 class="text-lg font-bold text-white border-b border-gray-700 pb-2">Detonation Point</h2>
+                 <p class="text-xs text-gray-400 pt-2">Click on the map or enter coordinates below.</p>
+                <div>
+                    <label for="lat" class="block text-sm font-medium text-gray-300">Latitude</label>
+                    <input type="number" id="lat" value="28.6139" step="0.0001" class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white">
+                </div>
+                <div>
+                    <label for="lng" class="block text-sm font-medium text-gray-300">Longitude</label>
+                    <input type="number" id="lng" value="77.2090" step="0.0001" class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white">
+                </div>
+            </div>
+
+            <!-- Threat Selection -->
+            <div>
+                <h2 class="text-lg font-bold text-white border-b border-gray-700 pb-2 mb-4">Threat Scenarios</h2>
+                <h3 class="text-md font-semibold text-blue-400 mb-3">Accidental Threats</h3>
+                <div class="space-y-2 mb-6" id="accidents-container"></div>
+                <h3 class="text-md font-semibold text-red-400 mb-3">Weaponized Threats</h3>
+                <div class="space-y-2" id="weapons-container"></div>
+            </div>
+
+            <!-- Display Options -->
+            <div class="space-y-4 my-8">
+                 <h2 class="text-lg font-bold text-white border-b border-gray-700 pb-2">Display Options</h2>
+                <div class="pt-2">
+                    <label for="fillToggle" class="flex items-center justify-between cursor-pointer">
+                        <span class="text-sm font-medium text-gray-300">Fill Danger Zones</span>
+                        <div class="relative">
+                            <input type="checkbox" id="fillToggle" class="sr-only" checked>
+                            <div class="block bg-gray-600 w-14 h-8 rounded-full"></div>
+                            <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition transform"></div>
+                        </div>
+                    </label>
+                </div>
+                 <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Map Style</label>
+                    <div class="flex rounded-md shadow-sm" role="group">
+                        <button type="button" id="streetMapBtn" class="map-style-btn active-map-style flex-1 px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-gray-700 rounded-l-lg hover:bg-blue-700">
+                            Street
+                        </button>
+                        <button type="button" id="satelliteMapBtn" class="map-style-btn flex-1 px-4 py-2 text-sm font-medium text-gray-300 bg-gray-800 border-t border-b border-r border-gray-700 rounded-r-lg hover:bg-gray-700 hover:text-white">
+                            Satellite
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-8 flex space-x-4">
+                <button id="simulateBtn" class="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-md transition duration-300 ease-in-out transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100">
+                    <i data-lucide="zap"></i> Run Simulation
+                </button>
+                <button id="resetBtn" class="w-full flex items-center justify-center gap-2 bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-md transition duration-300">
+                    <i data-lucide="rotate-cw"></i> Reset
+                </button>
+            </div>
+            
+            <!-- Simulation Results & Legend -->
+            <div id="results" class="mt-8 bg-gray-800/50 p-4 rounded-lg hidden">
+                <h2 class="text-lg font-bold text-white mb-4">Threat Zone Radii</h2>
+                <div id="results-content" class="space-y-3"></div>
+            </div>
+        </div>
+
+        <div class="text-xs text-center text-gray-500 mt-4">
+            <p>Ministry of Home Affairs Initiative</p>
+            <p>Presidency University - Capstone Project</p>
+        </div>
+    </div>
+
+    <!-- Map Display -->
+    <div id="map" class="w-2/3 flex-grow"></div>
+
+    <script>
+        // --- DATA ---
+        const threatScenarios = {
+            accidents: [
+                { name: 'Small Propane Tank', yield: 100 },
+                { name: 'Industrial Gas Leak', yield: 5000 },
+                { name: 'Gasoline Tanker', yield: 10000 },
+            ],
+            weapons: [
+                { name: 'Standard Car Bomb', yield: 500 },
+                { name: 'GBU-43/B (MOAB)', yield: 11000 },
+                { name: 'Little Boy (Hiroshima)', yield: 15000 * 1000 },
+                { name: 'Tsar Bomba (50MT)', yield: 50000000 * 1000 },
+            ]
+        };
+        
+        // --- MAP LAYERS ---
+        const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        });
+        const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        });
+
+        // --- INITIALIZATION ---
+        const map = L.map('map', { layers: [streetLayer] }).setView([28.6139, 77.2090], 10);
+        lucide.createIcons();
+        
+        // --- DOM ELEMENTS ---
+        const latInput = document.getElementById('lat');
+        const lngInput = document.getElementById('lng');
+        const simulateBtn = document.getElementById('simulateBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const resultsDiv = document.getElementById('results');
+        const resultsContent = document.getElementById('results-content');
+        const accidentsContainer = document.getElementById('accidents-container');
+        const weaponsContainer = document.getElementById('weapons-container');
+        const fillToggle = document.getElementById('fillToggle');
+        const streetMapBtn = document.getElementById('streetMapBtn');
+        const satelliteMapBtn = document.getElementById('satelliteMapBtn');
+
+        let simulationLayers = L.layerGroup().addTo(map);
+        let selectedYield = null;
+        let selectedThreatName = '';
+
+        // --- DYNAMIC UI CREATION ---
+        function createThreatButtons() {
+            threatScenarios.accidents.forEach(threat => {
+                const button = document.createElement('button');
+                button.className = 'threat-btn w-full text-left p-3 bg-gray-800 border-2 border-transparent hover:bg-gray-700 rounded-lg';
+                button.textContent = threat.name;
+                button.dataset.yield = threat.yield;
+                button.dataset.name = threat.name;
+                accidentsContainer.appendChild(button);
+            });
+            threatScenarios.weapons.forEach(threat => {
+                const button = document.createElement('button');
+                button.className = 'threat-btn w-full text-left p-3 bg-gray-800 border-2 border-transparent hover:bg-gray-700 rounded-lg';
+                button.textContent = threat.name;
+                button.dataset.yield = threat.yield;
+                button.dataset.name = threat.name;
+                weaponsContainer.appendChild(button);
+            });
+        }
+        createThreatButtons();
+        simulateBtn.disabled = true;
+
+        // --- SIMULATION LOGIC ---
+        function calculateBlastZones(yieldKg) {
+            const scaledDistanceFactor = Math.cbrt(yieldKg);
+            return {
+                lethal: { radius: 25 * scaledDistanceFactor, color: '#ff3838', name: 'Lethal Zone (99% Fatal)' },
+                severe: { radius: 50 * scaledDistanceFactor, color: '#ff8c38', name: 'Severe Damage' },
+                moderate: { radius: 100 * scaledDistanceFactor, color: '#fdd835', name: 'Moderate Damage' },
+                minor: { radius: 200 * scaledDistanceFactor, color: '#38b6ff', name: 'Minor Damage' }
+            };
+        }
+
+        function runSimulation() {
+            const lat = parseFloat(latInput.value);
+            const lng = parseFloat(lngInput.value);
+
+            if (isNaN(lat) || isNaN(lng) || selectedYield === null) {
+                alert("Please enter valid coordinates and select a threat scenario.");
+                return;
+            }
+
+            simulationLayers.clearLayers();
+            const zones = calculateBlastZones(selectedYield);
+            map.panTo([lat, lng], { animate: true, duration: 1.5 });
+
+            const marker = L.marker([lat, lng]).addTo(simulationLayers);
+            marker.bindPopup(`<b>${selectedThreatName}</b><br>Yield: ${selectedYield.toLocaleString()} kg TNT`).openPopup();
+
+            resultsContent.innerHTML = ''; 
+            const currentFillOpacity = fillToggle.checked ? 0.15 : 0;
+
+            Object.values(zones).reverse().forEach(zone => {
+                L.circle([lat, lng], {
+                    radius: zone.radius,
+                    color: zone.color,
+                    fillOpacity: currentFillOpacity,
+                    weight: 3,
+                    dashArray: '10, 10'
+                }).addTo(simulationLayers);
+
+                const resultItem = document.createElement('div');
+                resultItem.className = 'flex items-center text-sm';
+                resultItem.innerHTML = `
+                    <div class="w-4 h-4 rounded-full mr-3 border-2" style="border-color: ${zone.color};"></div>
+                    <div class="flex-grow">
+                        <span class="font-bold">${zone.name}:</span>
+                        <span class="float-right font-mono">${(zone.radius / 1000).toFixed(2)} km</span>
+                    </div>`;
+                resultsContent.appendChild(resultItem);
+            });
+            resultsDiv.classList.remove('hidden');
+        }
+
+        function resetSimulation() {
+            simulationLayers.clearLayers();
+            resultsDiv.classList.add('hidden');
+            latInput.value = '28.6139';
+            lngInput.value = '77.2090';
+            map.flyTo([28.6139, 77.2090], 10);
+            selectedYield = null;
+            selectedThreatName = '';
+            document.querySelectorAll('.threat-btn').forEach(btn => btn.classList.remove('active', 'border-blue-500', 'bg-gray-700'));
+            simulateBtn.disabled = true;
+        }
+
+        // --- EVENT LISTENERS ---
+        map.on('click', function(e) {
+            const { lat, lng } = e.latlng;
+            latInput.value = lat.toFixed(6);
+            lngInput.value = lng.toFixed(6);
+            simulationLayers.clearLayers();
+            L.marker(e.latlng).addTo(simulationLayers);
+        });
+
+        document.querySelectorAll('.threat-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.threat-btn').forEach(btn => btn.classList.remove('active', 'border-blue-500', 'bg-gray-700'));
+                button.classList.add('active', 'border-blue-500', 'bg-gray-700');
+                selectedYield = parseFloat(button.dataset.yield);
+                selectedThreatName = button.dataset.name;
+                simulateBtn.disabled = false;
+            });
+        });
+
+        simulateBtn.addEventListener('click', runSimulation);
+        resetBtn.addEventListener('click', resetSimulation);
+
+        fillToggle.addEventListener('change', (e) => {
+            const newOpacity = e.target.checked ? 0.15 : 0;
+            simulationLayers.eachLayer(layer => {
+                if (layer instanceof L.Circle) {
+                    layer.setStyle({ fillOpacity: newOpacity });
+                }
+            });
+        });
+
+        function switchMapStyle(isStreet) {
+            if (isStreet) {
+                map.removeLayer(satelliteLayer);
+                map.addLayer(streetLayer);
+                streetMapBtn.classList.add('active-map-style', 'bg-blue-600', 'text-white');
+                streetMapBtn.classList.remove('bg-gray-800', 'text-gray-300');
+                satelliteMapBtn.classList.remove('active-map-style', 'bg-blue-600', 'text-white');
+                satelliteMapBtn.classList.add('bg-gray-800', 'text-gray-300');
+            } else {
+                map.removeLayer(streetLayer);
+                map.addLayer(satelliteLayer);
+                satelliteMapBtn.classList.add('active-map-style', 'bg-blue-600', 'text-white');
+                satelliteMapBtn.classList.remove('bg-gray-800', 'text-gray-300');
+                streetMapBtn.classList.remove('active-map-style', 'bg-blue-600', 'text-white');
+                streetMapBtn.classList.add('bg-gray-800', 'text-gray-300');
+            }
+        }
+
+        streetMapBtn.addEventListener('click', () => switchMapStyle(true));
+        satelliteMapBtn.addEventListener('click', () => switchMapStyle(false));
+
+    </script>
+</body>
+</html>
