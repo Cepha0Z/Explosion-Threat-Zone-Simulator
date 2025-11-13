@@ -151,8 +151,7 @@ Each zone uses a scaled distance multiplier to simulate real-world explosive beh
 ---
 
 ## 🤝 Contributing
-Pull requests and feature suggestions are welcome!  
-Fork the repo, create a PR, and contribute.
+Pull requests and feature suggestions are yet to be implemented!
 
 ---
 
