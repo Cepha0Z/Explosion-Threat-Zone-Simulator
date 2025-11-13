@@ -1,0 +1,29 @@
+[
+  {
+    "id": "threat01",
+    "name": "Suspicious Package Found",
+    "location": { "lat": 13.1700625, "lng": 77.5519375 },
+    "locationName": "Rajanukunte, Karnataka",
+    "details": "Reports of a suspicious package near a high-traffic area, posing a potential risk.",
+    "timestamp": "2025-09-23T13:15:00+05:30",
+    "yield": 10
+  },
+  {
+    "id": "threat02",
+    "name": "Aditya fell down",
+    "location": { "lat": 13.116159, "lng": 77.574675 },
+    "locationName": "Rajanukunte, Karnataka",
+    "details": "Reports of a loner falling down, posing a potential risk.",
+    "timestamp": "2025-09-23T13:15:00+05:30",
+    "yield": 0.09
+  },
+  {
+    "id": "threat03",
+    "name": "College Bomb",
+    "location": { "lat": 13.170708, "lng": 77.535670 },
+    "locationName": "Rajanukunte, Karnataka",
+    "details": "Reports of a suspicious package near a high-traffic area, posing a potential risk.",
+    "timestamp": "2025-09-23T13:15:00+05:30",
+    "yield": 10
+  }
+]
