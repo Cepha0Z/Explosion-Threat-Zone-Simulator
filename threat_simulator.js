@@ -58,7 +58,7 @@ app.get("/api/fake-threat", (req, res) => {
   const packaged = {
     id: "sim_" + Date.now(),
     timestamp: new Date().toISOString(),
-    expiresAt: new Date(Date.now() + 12 * 1000).toISOString(),
+    expiresAt: new Date(Date.now() + 5 * 60 * 1000).toISOString(),
     ...selected,
   };
 

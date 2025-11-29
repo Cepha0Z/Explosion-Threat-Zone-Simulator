@@ -134,6 +134,17 @@
                         <input type="number" id="admin-threat-yield" value="500" required class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-sm text-white">
                     </div>
                     <div>
+                        <label class="block text-xs text-gray-400 mb-1">Duration</label>
+                        <select id="admin-threat-duration" class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-sm text-white">
+                            <option value="">No expiry</option>
+                            <option value="15">15 Minutes</option>
+                            <option value="30">30 Minutes</option>
+                            <option value="60">1 Hour</option>
+                            <option value="180">3 Hours</option>
+                            <option value="1440">24 Hours</option>
+                        </select>
+                    </div>
+                    <div>
                         <label class="block text-xs text-gray-400 mb-1">Details</label>
                         <textarea id="admin-threat-details" rows="2" class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-sm text-white"></textarea>
                     </div>

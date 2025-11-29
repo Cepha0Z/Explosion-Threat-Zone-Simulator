@@ -934,6 +934,14 @@ function setupAdminUI() {
                 const lng = parseFloat(document.getElementById('admin-threat-lng').value);
                 const yieldVal = parseFloat(document.getElementById('admin-threat-yield').value);
                 const details = document.getElementById('admin-threat-details').value;
+                const durationMinutes = document.getElementById('admin-threat-duration').value;
+
+                let expiresAt = null;
+                if (durationMinutes) {
+                    const now = new Date();
+                    now.setMinutes(now.getMinutes() + parseInt(durationMinutes));
+                    expiresAt = now.toISOString();
+                }
 
                 const threat = {
                     name,
@@ -941,7 +949,9 @@ function setupAdminUI() {
                     locationName: "Custom Location", // Could reverse geocode here
                     yield: yieldVal,
                     details,
-                    timestamp: new Date().toISOString()
+                    timestamp: new Date().toISOString(),
+                    source: "admin",
+                    expiresAt: expiresAt
                 };
 
                 try {
@@ -995,10 +1005,28 @@ function updateAdminThreatList() {
         const item = document.createElement('div');
         item.className = "flex justify-between items-center bg-gray-900 p-2 rounded border border-gray-700";
         
+        let expiryText = "Permanent";
+        let expiryClass = "text-green-500";
+        
+        if (threat.expiresAt) {
+            const expiryDate = new Date(threat.expiresAt);
+            const now = new Date();
+            const diffMs = expiryDate - now;
+            const diffMins = Math.ceil(diffMs / 60000);
+            
+            if (diffMs > 0) {
+                expiryText = `Expires in ${diffMins}m`;
+                expiryClass = "text-yellow-500";
+            } else {
+                expiryText = "Expired";
+                expiryClass = "text-red-500";
+            }
+        }
+
         const infoDiv = document.createElement('div');
         infoDiv.innerHTML = `
-            <div class="font-bold text-sm text-red-400">${threat.name}</div>
-            <div class="text-xs text-gray-500">${new Date(threat.timestamp).toLocaleTimeString()}</div>
+            <div class="font-bold text-sm text-red-400">${threat.name} <span class="text-[10px] bg-gray-800 text-gray-400 px-1 rounded ml-2">${threat.source || 'unknown'}</span></div>
+            <div class="text-xs text-gray-500">${new Date(threat.timestamp).toLocaleTimeString()} • <span class="${expiryClass}">${expiryText}</span></div>
         `;
         
         const deleteBtn = document.createElement('button');

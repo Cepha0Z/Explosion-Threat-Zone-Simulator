@@ -22,13 +22,32 @@ const hardcodedThreat = [
     location: { lat: 13.016003, lng: 77.625933 },
     details: "i killed the toilet",
     yield: 5000,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    source: "admin"
   }
 ];
+
+function cleanExpiredThreats() {
+    if (fs.existsSync(threatsFile)) {
+        let threats = JSON.parse(fs.readFileSync(threatsFile, "utf-8"));
+        const now = new Date().getTime();
+        const activeThreats = threats.filter(t => {
+            if (!t.expiresAt) return true; // No expiry = active
+            return new Date(t.expiresAt).getTime() > now;
+        });
+
+        if (activeThreats.length !== threats.length) {
+            fs.writeFileSync(threatsFile, JSON.stringify(activeThreats, null, 2));
+            console.log(` Cleaned up ${threats.length - activeThreats.length} expired threats on startup.`);
+        }
+    }
+}
+
 if (!fs.existsSync(threatsFile)) {
   fs.writeFileSync(threatsFile, JSON.stringify(hardcodedThreat, null, 2));
   console.log(" Created threats.json with default test threat");
 } else {
+  cleanExpiredThreats();
   console.log(" Loaded existing threats from threats.json");
 }
 
@@ -124,6 +143,7 @@ app.post("/api/threats", (req, res) => {
   const threat = req.body;
   if (!threat.id) threat.id = Date.now().toString();
   if (!threat.timestamp) threat.timestamp = new Date().toISOString();
+  if (!threat.source) threat.source = "admin"; // Default to admin
 
   const dataPath = path.join(__dirname, "data", "threats.json");
   let stored = [];
@@ -133,7 +153,7 @@ app.post("/api/threats", (req, res) => {
   stored.push(threat);
   fs.writeFileSync(dataPath, JSON.stringify(stored, null, 2));
   
-  console.log(" Admin added threat:", threat.name);
+  console.log(` Admin added threat: ${threat.name} (Expires: ${threat.expiresAt || 'Never'})`);
   res.json({ status: "ok", threat });
 });
 
@@ -194,7 +214,15 @@ app.get("/api/threats", (req, res) => {
   try {
     if (fs.existsSync(dataPath)) {
       const threats = JSON.parse(fs.readFileSync(dataPath, "utf-8"));
-      res.json(threats);
+      const now = new Date().getTime();
+      
+      // Filter expired threats on read
+      const activeThreats = threats.filter(t => {
+          if (!t.expiresAt) return true;
+          return new Date(t.expiresAt).getTime() > now;
+      });
+      
+      res.json(activeThreats);
     } else {
       res.json([]);
     }
@@ -242,6 +270,7 @@ function pollThreatSimulator() {
       // --- 2️⃣ CHECK IF THREAT ALREADY EXISTS ---
       const exists = stored.some((t) => t.id === threat.id);
       if (!exists) {
+        threat.source = "simulation"; // Tag as simulation
         stored.push(threat);
         console.log(" New simulated threat added:", threat.name);
 
