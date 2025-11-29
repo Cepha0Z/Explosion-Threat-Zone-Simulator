@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Threat Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-gray-900 text-gray-200 flex items-center justify-center h-screen">
+
+    <div class="w-full max-w-md bg-gray-800 border border-gray-700 rounded-lg shadow-2xl p-8">
+        <div class="flex flex-col items-center mb-6">
+            <div class="w-16 h-16 bg-green-600/20 text-green-400 rounded-xl flex items-center justify-center border border-green-500/30 mb-4">
+                <i data-lucide="user-plus" class="w-8 h-8"></i>
+            </div>
+            <h1 class="text-2xl font-bold text-white tracking-tight">Create Account</h1>
+            <p class="text-sm text-gray-400">Join the Threat Intelligence Platform</p>
+        </div>
+
+        <form id="signup-form" class="space-y-4">
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-400 mb-1">Email Address</label>
+                <div class="relative">
+                    <i data-lucide="mail" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500"></i>
+                    <input type="email" id="email" required 
+                        class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 pl-10 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                        placeholder="you@example.com">
+                </div>
+            </div>
+            
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-400 mb-1">Password</label>
+                <div class="relative">
+                    <i data-lucide="lock" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500"></i>
+                    <input type="password" id="password" required 
+                        class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 pl-10 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                        placeholder="••••••••">
+                </div>
+            </div>
+
+            <div id="error-msg" class="text-red-400 text-xs text-center hidden"></div>
+            <div id="success-msg" class="text-green-400 text-xs text-center hidden">
+                Account created! Redirecting to login...
+            </div>
+
+            <button type="submit" 
+                class="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded-md transition duration-300 transform hover:scale-[1.02] shadow-lg shadow-green-600/20 flex items-center justify-center gap-2">
+                <i data-lucide="user-plus" class="w-4 h-4"></i> Sign Up
+            </button>
+        </form>
+        
+        <div class="mt-6 text-center">
+             <p class="text-sm text-gray-500">Already have an account?</p>
+             <a href="login.html" class="text-sm text-blue-400 hover:text-blue-300 font-medium">Sign In here</a>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        document.getElementById('signup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('error-msg');
+            const successMsg = document.getElementById('success-msg');
+            const btn = e.target.querySelector('button');
+            
+            // Loading state
+            const originalBtnContent = btn.innerHTML;
+            btn.innerHTML = '<i class="animate-spin" data-lucide="loader-2"></i> Creating...';
+            lucide.createIcons();
+            btn.disabled = true;
+            errorMsg.classList.add('hidden');
+            successMsg.classList.add('hidden');
+
+            try {
+                const res = await fetch('/api/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    successMsg.classList.remove('hidden');
+                    setTimeout(() => {
+                        window.location.href = '/login.html';
+                    }, 1500);
+                } else {
+                    errorMsg.textContent = data.error || 'Signup failed';
+                    errorMsg.classList.remove('hidden');
+                    btn.innerHTML = originalBtnContent;
+                    btn.disabled = false;
+                    lucide.createIcons();
+                }
+            } catch (err) {
+                console.error(err);
+                errorMsg.textContent = 'Connection error. Please try again.';
+                errorMsg.classList.remove('hidden');
+                btn.innerHTML = originalBtnContent;
+                btn.disabled = false;
+                lucide.createIcons();
+            }
+        });
+    </script>
+</body>
+</html>

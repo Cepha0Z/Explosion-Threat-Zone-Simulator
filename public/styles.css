@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+    background-color: #0a0a0a;
+}
+#map {
+    height: 100%;
+    width: 100%;
+}
+.control-panel::-webkit-scrollbar {
+    width: 6px;
+}
+.control-panel::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.1);
+}
+.control-panel::-webkit-scrollbar-thumb {
+    background: #4b5563;
+    border-radius: 3px;
+}
+.threat-btn {
+    transition: all 0.2s ease-in-out;
+}
+.threat-btn.active {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px 0 rgba(59, 130, 246, 0.4);
+    border-color: #3b82f6;
+    background-color: #1f2937;
+}
+/* NEWS STYLES */
+.news-card {
+    transition: all 0.2s ease;
+}
+.news-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    border-color: #3b82f6;
+}
+.nav-btn { transition: all 0.2s; }
+#fillToggle:checked ~ .dot {
+    transform: translateX(1.5rem);
+    background-color: #48bb78;
+}
+#fillToggle:checked ~ .block {
+    background-color: #2f855a;
+}
+.pac-container {
+    background-color: #1f2937;
+    border-radius: 0.5rem;
+    border: 1px solid #4b5563;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    z-index: 10000 !important;
+}
+.pac-item {
+    padding: 0.75rem;
+    color: #d1d5db;
+    cursor: pointer;
+    border-bottom: 1px solid #374151;
+    font-size: 14px;
+}
+.pac-item:last-child { border-bottom: none; }
+.pac-item:hover, .pac-item-selected {
+    background-color: #3b82f6;
+    color: #ffffff;
+}
+.pac-item-query { font-weight: 600; }
+.gm-style .gm-style-iw-c {
+    background-color: rgba(31, 41, 55, 0.9) !important;
+    padding: 0 !important;
+    border-radius: 8px !important;
+    border: 1px solid #4b5563;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3) !important;
+}
+.gm-style .gm-style-iw-d { overflow: hidden !important; }
+.gm-style .gm-style-iw-t::after {
+    background: rgba(31, 41, 55, 0.9) !important;
+    border-top-color: #4b5563 !important;
+}
+input[readonly] {
+    background-color: #1f2937 !important;
+    cursor: default;
+    color: #9ca3af;
+}
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.5; }
+}
+.live-threat-marker-pulse {
+    animation: pulse 2s infinite;
+}
+.custom-map-control-button {
+    background-color: #fff; 
+    border: none; 
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0,0,0,.3);
+    cursor: pointer;
+    margin-bottom: 22px;
+    margin-right: 10px; 
+    text-align: center;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease-in-out;
+}
+.custom-map-control-button:hover {
+    background-color: #f8f8f8;
+}
+.threat-details {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s ease-in-out;
+    padding-top: 0;
+    margin-top: 0;
+}
+.threat-details.active {
+    max-height: 100px; 
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+}

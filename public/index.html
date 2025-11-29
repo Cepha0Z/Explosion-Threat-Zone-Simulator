@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Threat Intelligence Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="bg-gray-900 text-gray-200 flex">
+    <button
+      id="panel-toggle"
+      class="fixed top-4 left-4 z-30 bg-gray-900/80 border border-gray-700 rounded-md p-2 hover:bg-gray-800 transition"
+      title="Hide panel"
+    >
+      <i data-lucide="chevrons-left" class="w-5 h-5 text-gray-100"></i>
+    </button>
+
+    <div
+      class="w-full max-w-md h-full bg-gray-900/80 backdrop-blur-lg border-r border-gray-800 shadow-2xl z-10 flex flex-col control-panel"
+    >
+      <header class="p-6 border-b border-gray-800 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-12 h-12 bg-blue-600/20 text-blue-400 rounded-lg flex items-center justify-center border border-blue-500/30"
+          >
+            <i data-lucide="shield-check" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h1 class="text-2xl font-bold text-white tracking-tight">
+              Threat Intelligence
+            </h1>
+            <p class="text-sm text-gray-400">
+              Live Alerts &amp; Simulation Platform
+            </p>
+          </div>
+        </div>
+        <button 
+          id="logout-btn" 
+          class="p-2 text-gray-400 hover:text-red-400 transition rounded-md hover:bg-red-900/20" 
+          title="Sign Out"
+        >
+          <i data-lucide="log-out" class="w-5 h-5"></i>
+        </button>
+      </header>
+
+      <nav class="flex border-b border-gray-800">
+        <button
+          id="live-mode-btn"
+          onclick="switchTab('live')"
+          class="nav-btn flex-1 p-4 text-sm font-bold text-center border-b-2 border-blue-500 text-white bg-gray-800/50"
+        >
+          <i data-lucide="radar" class="w-4 h-4 inline-block mr-2"></i> Alerts
+        </button>
+        <button
+          id="news-mode-btn"
+          onclick="switchTab('news')"
+          class="nav-btn flex-1 p-4 text-sm font-bold text-center border-b-2 border-transparent text-gray-400 hover:bg-gray-800/50"
+        >
+          <i data-lucide="newspaper" class="w-4 h-4 inline-block mr-2"></i> News
+        </button>
+        <button
+          id="sim-mode-btn"
+          onclick="switchTab('sim')"
+          class="nav-btn flex-1 p-4 text-sm font-bold text-center border-b-2 border-transparent text-gray-400 hover:bg-gray-800/50"
+        >
+          <i data-lucide="zap" class="w-4 h-4 inline-block mr-2"></i> Sim
+        </button>
+        <button
+          id="admin-mode-btn"
+          onclick="switchTab('admin')"
+          class="nav-btn flex-1 p-4 text-sm font-bold text-center border-b-2 border-transparent text-gray-400 hover:bg-gray-800/50 hidden"
+        >
+          <i data-lucide="lock" class="w-4 h-4 inline-block mr-2"></i> Admin
+        </button>
+      </nav>
+
+      <div class="flex-grow overflow-y-auto relative">
+        <!-- LIVE ALERTS -->
+        <div id="live-alerts-panel" class="panel-content p-6 space-y-4">
+          <div class="flex justify-between items-center">
+            <h2 class="text-lg font-bold text-white">Active Threats</h2>
+            <span
+              id="threat-count"
+              class="text-xs font-mono bg-red-500/20 text-red-400 px-2 py-1 rounded"
+              >Loading...</span
+            >
+          </div>
+          <div id="evacuation-container"></div>
+          <div id="live-threats-list" class="space-y-3"></div>
+
+          <div class="mt-6 border-t border-gray-700 pt-4">
+            <h3
+              class="text-sm font-bold text-blue-400 mb-3 flex items-center gap-2"
+            >
+              <i data-lucide="radio" class="w-4 h-4"></i> Verified Reports Near
+              You
+            </h3>
+            <div id="local-alerts-feed" class="space-y-3">
+              <p class="text-xs text-gray-500 italic">
+                Scanning local frequencies...
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADMIN PANEL -->
+        <div id="admin-panel" class="panel-content p-6 space-y-4 hidden">
+            <h2 class="text-lg font-bold text-white mb-4">Admin Control Center</h2>
+            
+            <div class="bg-gray-800/50 p-4 rounded-lg border border-gray-700">
+                <h3 class="text-sm font-bold text-blue-400 mb-3">Broadcast New Alert</h3>
+                <form id="admin-threat-form" class="space-y-3">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Threat Name</label>
+                        <input type="text" id="admin-threat-name" required class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-sm text-white">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1">Latitude</label>
+                            <input type="number" step="any" id="admin-threat-lat" required class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-sm text-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1">Longitude</label>
+                            <input type="number" step="any" id="admin-threat-lng" required class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-sm text-white">
+                        </div>
+                    </div>
+                    <button type="button" id="admin-get-loc-btn" class="text-xs text-blue-400 hover:text-blue-300">
+                        <i data-lucide="crosshair" class="w-3 h-3 inline"></i> Use Current Map Center
+                    </button>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Yield (kg TNT)</label>
+                        <input type="number" id="admin-threat-yield" value="500" required class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Details</label>
+                        <textarea id="admin-threat-details" rows="2" class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-sm text-white"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-2 rounded transition">
+                        Broadcast Alert
+                    </button>
+                </form>
+            </div>
+
+            <div class="mt-6">
+                <h3 class="text-sm font-bold text-gray-400 mb-3">Active Threats Management</h3>
+                <div id="admin-threats-list" class="space-y-2">
+                    <!-- Admin threat items will be injected here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- NEWS PANEL -->
+        <div id="news-panel" class="panel-content p-6 space-y-4 hidden">
+          <div class="flex bg-gray-800 rounded-lg p-1 mb-4">
+            <button
+              onclick="setNewsMode('nearme')"
+              id="btn-nearme"
+              class="flex-1 py-2 text-sm font-medium rounded-md text-white bg-blue-600 shadow-sm transition-all"
+            >
+              <i data-lucide="map-pin" class="w-3 h-3 inline mr-1"></i> Near Me
+            </button>
+            <button
+              onclick="setNewsMode('global')"
+              id="btn-global"
+              class="flex-1 py-2 text-sm font-medium rounded-md text-gray-400 hover:text-white transition-all"
+            >
+              <i data-lucide="globe" class="w-3 h-3 inline mr-1"></i> Global
+            </button>
+          </div>
+
+          <div class="flex justify-between items-center">
+            <h2
+              class="text-xs font-bold text-gray-400 uppercase tracking-wider"
+              id="news-heading"
+            >
+              Local Intelligence
+            </h2>
+            <div class="flex gap-2">
+              <!-- EMAIL BUTTON -->
+              <button
+                onclick="triggerEmailAlert()"
+                class="text-xs bg-green-600/20 text-green-400 px-2 py-1 rounded hover:bg-green-600/40 transition"
+                title="Send Email Report"
+              >
+                <i data-lucide="mail" class="w-3 h-3 inline"></i>
+              </button>
+              <button
+                onclick="refreshCurrentNews()"
+                class="text-xs bg-gray-800 text-gray-400 px-2 py-1 rounded hover:bg-gray-700 transition"
+              >
+                <i data-lucide="refresh-cw" class="w-3 h-3 inline"></i>
+              </button>
+            </div>
+          </div>
+
+          <div id="location-status" class="text-xs text-blue-400 hidden">
+            <i data-lucide="crosshair" class="w-3 h-3 inline"></i> Region:
+            <span id="detected-city">Detecting...</span>
+          </div>
+
+          <div id="news-container" class="space-y-4 min-h-[200px]"></div>
+        </div>
+
+        <!-- SIMULATOR -->
+        <div id="simulator-panel" class="panel-content p-6 space-y-8 hidden">
+          <section>
+            <h2
+              class="flex items-center gap-2 text-lg font-bold text-white mb-4"
+            >
+              <i data-lucide="map-pin" class="w-5 h-5 text-blue-400"></i>
+              Detonation Point
+            </h2>
+            <div class="space-y-4">
+              <div class="relative">
+                <i
+                  data-lucide="search"
+                  class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500"
+                ></i>
+                <input
+                  type="text"
+                  id="location-search"
+                  placeholder="Search for a location..."
+                  class="w-full bg-gray-800 border border-gray-700 rounded-md shadow-sm py-2 pl-10 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white transition"
+                />
+                <button
+                  id="use-location-btn"
+                  title="Use my current location"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition"
+                >
+                  <i data-lucide="crosshair" class="w-5 h-5"></i>
+                </button>
+              </div>
+              <p class="text-xs text-gray-500 text-center">
+                - or click on the map to set a point -
+              </p>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label
+                    for="lat"
+                    class="block text-sm font-medium text-gray-400"
+                    >Latitude</label
+                  >
+                  <input
+                    type="number"
+                    id="lat"
+                    value="13.1368"
+                    step="0.0001"
+                    class="mt-1 block w-full bg-gray-800 border border-gray-700 rounded-md py-2 px-3 focus:outline-none focus:ring-0 text-white font-mono"
+                    readonly
+                  />
+                </div>
+                <div>
+                  <label
+                    for="lng"
+                    class="block text-sm font-medium text-gray-400"
+                    >Longitude</label
+                  >
+                  <input
+                    type="number"
+                    id="lng"
+                    value="77.5895"
+                    step="0.0001"
+                    class="mt-1 block w-full bg-gray-800 border border-gray-700 rounded-md py-2 px-3 focus:outline-none focus:ring-0 text-white font-mono"
+                    readonly
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h2
+              class="flex items-center gap-2 text-lg font-bold text-white mb-4"
+            >
+              <i data-lucide="bomb" class="w-5 h-5 text-blue-400"></i> Threat
+              Scenarios
+            </h2>
+            <h3
+              class="text-sm font-semibold text-gray-400 mb-3 flex items-center gap-2"
+            >
+              <i data-lucide="factory" class="w-4 h-4 text-cyan-400"></i>
+              Accidental Threats
+            </h3>
+            <div class="space-y-2 mb-6" id="accidents-container"></div>
+            <h3
+              class="text-sm font-semibold text-gray-400 mb-3 flex items-center gap-2"
+            >
+              <i data-lucide="target" class="w-4 h-4 text-red-400"></i>
+              Weaponized Threats
+            </h3>
+            <div class="space-y-2" id="weapons-container"></div>
+          </section>
+          <section id="results" class="bg-gray-800/50 p-4 rounded-lg hidden">
+            <h2 class="text-base font-bold text-white mb-4">
+              Simulation Results
+            </h2>
+            <div id="results-content" class="space-y-3"></div>
+            <p
+              id="evacuation-prompt"
+              class="text-xs text-center text-blue-400 mt-4 hidden animate-pulse"
+            >
+              Click a zone on the map for an evacuation route.
+            </p>
+          </section>
+          <section>
+            <h2
+              class="flex items-center gap-2 text-lg font-bold text-white mb-4"
+            >
+              <i data-lucide="settings-2" class="w-5 h-5 text-blue-400"></i>
+              Display Options
+            </h2>
+            <div class="space-y-4">
+              <label
+                for="fillToggle"
+                class="flex items-center justify-between cursor-pointer bg-gray-800/50 p-3 rounded-lg"
+              >
+                <span class="text-sm font-medium text-gray-300"
+                  >Fill Danger Zones</span
+                >
+                <div class="relative">
+                  <input
+                    type="checkbox"
+                    id="fillToggle"
+                    class="sr-only"
+                    checked
+                  />
+                  <div
+                    class="block bg-gray-600 w-14 h-8 rounded-full transition"
+                  ></div>
+                  <div
+                    class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition transform"
+                  ></div>
+                </div>
+              </label>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <footer class="p-6 border-t border-gray-800 mt-auto bg-gray-900/50">
+        <div id="simulator-actions" class="hidden">
+          <div class="flex space-x-4 mb-4">
+            <button
+              id="simulateBtn"
+              class="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-4 rounded-md transition duration-300 transform hover:scale-105 shadow-lg shadow-blue-600/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100 disabled:shadow-none"
+              disabled
+            >
+              <i data-lucide="zap"></i> Run Simulation
+            </button>
+            <button
+              id="resetBtn"
+              class="w-full flex items-center justify-center gap-2 bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded-md transition duration-300"
+            >
+              <i data-lucide="rotate-cw"></i> Reset
+            </button>
+          </div>
+        </div>
+
+
+
+        <div id="simulator-actions" class="hidden">
+          <!-- existing buttons ... -->
+        </div>
+
+        <div class="text-xs text-center text-gray-500">
+          <p>Ministry of Home Affairs Initiative</p>
+          <p>Presidency University - Capstone Project</p>
+        </div>
+      </footer>
+    </div>
+
+    <div id="map" class="flex-grow"></div>
+    <script src="app.js"></script>
+
+    <script>
+      let currentNewsMode = "nearme";
+      let userCity = null;
+
+      window.addEventListener("load", () => {
+        getUserLocation(true);
+      });
+
+      function switchTab(tabName) {
+        document.querySelectorAll(".nav-btn").forEach((btn) => {
+          btn.classList.remove(
+            "border-blue-500",
+            "text-white",
+            "bg-gray-800/50"
+          );
+          btn.classList.add("border-transparent", "text-gray-400");
+        });
+        document
+          .querySelectorAll(".panel-content")
+          .forEach((panel) => panel.classList.add("hidden"));
+
+        const activeBtn = document.getElementById(tabName + "-mode-btn");
+        const activePanel = document.getElementById(
+          tabName === "live" ? "live-alerts-panel" : tabName === "admin" ? "admin-panel" : tabName + "-panel"
+        );
+
+        activeBtn.classList.remove("border-transparent", "text-gray-400");
+        activeBtn.classList.add(
+          "border-blue-500",
+          "text-white",
+          "bg-gray-800/50"
+        );
+        activePanel.classList.remove("hidden");
+
+        const simActions = document.getElementById("simulator-actions");
+        if (tabName === "sim") simActions.classList.remove("hidden");
+        else simActions.classList.add("hidden");
+
+        if (tabName === "news") refreshCurrentNews();
+      }
+
+      function setNewsMode(mode) {
+        currentNewsMode = mode;
+        const btnNear = document.getElementById("btn-nearme");
+        const btnGlobal = document.getElementById("btn-global");
+        const heading = document.getElementById("news-heading");
+        const locStatus = document.getElementById("location-status");
+
+        if (mode === "nearme") {
+          btnNear.className =
+            "flex-1 py-2 text-sm font-medium rounded-md text-white bg-blue-600 shadow-sm transition-all";
+          btnGlobal.className =
+            "flex-1 py-2 text-sm font-medium rounded-md text-gray-400 hover:text-white transition-all";
+          heading.innerText = "Local Intelligence";
+          locStatus.classList.remove("hidden");
+        } else {
+          btnNear.className =
+            "flex-1 py-2 text-sm font-medium rounded-md text-gray-400 hover:text-white transition-all";
+          btnGlobal.className =
+            "flex-1 py-2 text-sm font-medium rounded-md text-white bg-blue-600 shadow-sm transition-all";
+          heading.innerText = "Global Threat Monitor";
+          locStatus.classList.add("hidden");
+        }
+        refreshCurrentNews();
+      }
+
+      function refreshCurrentNews() {
+        if (currentNewsMode === "nearme") {
+          if (!userCity) getUserLocation(false);
+          else fetchNews(userCity, "news-container");
+        } else {
+          fetchNews("Global", "news-container");
+        }
+      }
+
+      function getUserLocation(forAlertsOnly) {
+        if (!navigator.geolocation) {
+          userCity = "India";
+          if (forAlertsOnly) fetchNews(userCity, "local-alerts-feed");
+          return;
+        }
+        navigator.geolocation.getCurrentPosition(
+          async (pos) => {
+            const { latitude: lat, longitude: lng } = pos.coords;
+            try {
+              const res = await fetch(
+                `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`
+              );
+              const data = await res.json();
+              userCity = data.city || data.locality || "India";
+
+              const el = document.getElementById("detected-city");
+              if (el) el.innerText = userCity;
+
+              fetchNews(userCity, "local-alerts-feed");
+              if (!forAlertsOnly && currentNewsMode === "nearme")
+                fetchNews(userCity, "news-container");
+            } catch (e) {
+              userCity = "India";
+              fetchNews(userCity, "local-alerts-feed");
+            }
+          },
+          () => {
+            userCity = "India";
+            fetchNews(userCity, "local-alerts-feed");
+          }
+        );
+      }
+
+      async function fetchNews(location, containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML =
+          '<div class="text-center text-blue-400 animate-pulse text-xs py-4">Scanning feeds...</div>';
+
+        try {
+          const response = await fetch(
+            `http://localhost:5000/api/news?location=${location}`
+          );
+          if (!response.ok) throw new Error(`Error: ${response.status}`);
+          const articles = await response.json();
+
+          container.innerHTML = "";
+          if (articles.length === 0 || articles.error) {
+            container.innerHTML =
+              '<p class="text-center text-gray-500 text-xs py-2">No high-priority threats reported.</p>';
+            return;
+          }
+
+          const limit = containerId === "local-alerts-feed" ? 3 : 100;
+
+          articles.slice(0, limit).forEach((news) => {
+            const card = document.createElement("div");
+            const isMini = containerId === "local-alerts-feed";
+
+            card.className = isMini
+              ? "p-3 bg-red-900/10 border border-red-900/30 rounded hover:bg-red-900/20 transition cursor-pointer"
+              : "news-card p-4 bg-gray-800 border border-gray-700 rounded-lg hover:border-blue-500 transition group overflow-hidden";
+
+            const date = new Date(news.publishedAt).toLocaleDateString();
+            const imageHtml =
+              !isMini && news.image
+                ? `<div class="h-32 w-full bg-cover bg-center rounded mb-3" style="background-image: url('${news.image}');"></div>`
+                : "";
+            const cleanTitle = news.title.replace(/'/g, "\\'");
+            const cleanDesc = news.description
+              ? news.description.replace(/'/g, "\\'")
+              : "";
+
+            if (isMini) {
+              card.innerHTML = `
+                            <div class="flex justify-between items-start">
+                                <h4 class="text-sm font-bold text-red-200 leading-tight line-clamp-2">${news.title}</h4>
+                                <span class="text-[10px] text-red-400 ml-2 whitespace-nowrap">${date}</span>
+                            </div>
+                            <div class="mt-2 flex justify-end">
+                                <button onclick="simulateThreat('${cleanTitle}', '${cleanDesc}')" class="text-[10px] bg-red-600 hover:bg-red-500 text-white px-2 py-1 rounded flex items-center gap-1">
+                                    <i data-lucide="crosshair" class="w-3 h-3"></i> Locate
+                                </button>
+                            </div>
+                        `;
+            } else {
+              card.innerHTML = `
+                            ${imageHtml}
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-[10px] font-bold text-blue-400 bg-blue-900/30 px-2 py-1 rounded uppercase tracking-wider">${
+                                  news.source
+                                }</span>
+                                <span class="text-[10px] text-gray-500">${date}</span>
+                            </div>
+                            <h3 class="text-sm font-bold text-white mb-2 leading-tight">${
+                              news.title
+                            }</h3>
+                            <p class="text-xs text-gray-400 line-clamp-2 mb-3">${
+                              news.description || ""
+                            }</p>
+                            
+                            <div class="flex gap-2">
+                                <button onclick="simulateThreat('${cleanTitle}', '${cleanDesc}')" class="flex-1 bg-red-600 hover:bg-red-500 text-white text-xs font-bold py-2 rounded transition flex items-center justify-center gap-1">
+                                    <i data-lucide="crosshair" class="w-3 h-3"></i> Locate & Sim
+                                </button>
+                                <a href="${
+                                  news.url
+                                }" target="_blank" class="flex-1 bg-gray-700 hover:bg-gray-600 text-white text-xs font-bold py-2 rounded transition flex items-center justify-center gap-1">
+                                    <i data-lucide="external-link" class="w-3 h-3"></i> Read
+                                </a>
+                            </div>
+                        `;
+            }
+            container.appendChild(card);
+          });
+          lucide.createIcons();
+        } catch (error) {
+          console.error(error);
+          container.innerHTML =
+            '<p class="text-center text-red-900/50 text-xs">Offline</p>';
+        }
+      }
+
+      function simulateThreat(title, description) {
+        let targetLocation = null;
+
+        const match = title.match(/\b(in|at|near|from)\s+([A-Z][a-zA-Z\s]+)/);
+        if (match && match[2]) {
+          targetLocation = match[2].trim();
+        } else if (currentNewsMode === "nearme" && userCity) {
+          targetLocation = userCity;
+        } else {
+          alert("Could not auto-detect location. Switching to Simulator.");
+          switchTab("sim");
+          return;
+        }
+
+        const text = (title + " " + description).toLowerCase();
+        let weaponKeyword = "bomb";
+
+        if (text.includes("nuclear") || text.includes("atomic"))
+          weaponKeyword = "nuclear";
+        else if (text.includes("chemical") || text.includes("gas"))
+          weaponKeyword = "chemical";
+        else if (
+          text.includes("bag") ||
+          text.includes("package") ||
+          text.includes("suitcase")
+        )
+          weaponKeyword = "suitcase";
+        else if (text.includes("car") || text.includes("vehicle"))
+          weaponKeyword = "car";
+        else if (text.includes("pipe")) weaponKeyword = "pipe";
+
+        if (typeof google !== "undefined" && google.maps) {
+          const geocoder = new google.maps.Geocoder();
+          geocoder.geocode(
+            { address: targetLocation },
+            function (results, status) {
+              if (status === "OK") {
+                const loc = results[0].geometry.location;
+                switchTab("sim");
+                document.getElementById("location-search").value =
+                  targetLocation;
+                document.getElementById("lat").value = loc.lat().toFixed(5);
+                document.getElementById("lng").value = loc.lng().toFixed(5);
+
+                if (window.map) {
+                  window.map.setCenter(loc);
+                  window.map.setZoom(15);
+
+                  new google.maps.Marker({
+                    map: window.map,
+                    position: loc,
+                    animation: google.maps.Animation.DROP,
+                    title: "Potential Threat Source",
+                  });
+
+                  const buttons = document.querySelectorAll(
+                    "#weapons-container button, #accidents-container button"
+                  );
+                  let matched = false;
+                  buttons.forEach((btn) => {
+                    if (btn.innerText.toLowerCase().includes(weaponKeyword)) {
+                      btn.click();
+                      matched = true;
+                    }
+                  });
+                  if (!matched && buttons.length > 0) buttons[0].click();
+
+                  google.maps.event.addListenerOnce(
+                    window.map,
+                    "idle",
+                    function () {
+                      const simBtn = document.getElementById("simulateBtn");
+                      if (simBtn) {
+                        simBtn.disabled = false;
+                        simBtn.click();
+                      }
+                    }
+                  );
+                }
+              } else {
+                alert("Location not found on map: " + status);
+                switchTab("sim");
+              }
+            }
+          );
+        } else {
+          alert("Maps API not loaded. Please check connection.");
+        }
+      }
+
+      // --- EMAIL ALERT LOGIC ---
+      async function triggerEmailAlert() {
+        const email = prompt(
+          "Enter your email address to receive a threat report:"
+        );
+        if (!email) return;
+
+        const location = userCity || "Global";
+
+        // Feedback
+        const btn = document.querySelector(
+          'button[onclick="triggerEmailAlert()"]'
+        );
+        const originalContent = btn.innerHTML;
+        btn.innerHTML = '<i class="animate-spin" data-lucide="loader-2"></i>';
+        lucide.createIcons();
+
+        try {
+          const response = await fetch("http://localhost:5000/api/alert", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: email, location: location }),
+          });
+
+          const result = await response.json();
+
+          if (response.ok) {
+            alert(`Report sent to ${email}!`);
+          } else {
+            alert("Failed to send email: " + result.error);
+          }
+        } catch (error) {
+          alert("Error connecting to email service.");
+        } finally {
+          btn.innerHTML = originalContent;
+          lucide.createIcons();
+        }
+      }
+    </script>
+    <button
+      id="floating-evac-btn"
+      class="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 bg-red-600 text-white font-black text-2xl py-4 px-12 rounded-full shadow-[0_0_20px_rgba(220,38,38,0.8)] hidden animate-pulse hover:scale-105 transition-all border-4 border-red-400 tracking-widest uppercase"
+      onclick="handleEvacuationClick()"
+    >
+      <i data-lucide="siren" class="w-8 h-8 inline-block mr-2 animate-bounce"></i>
+      Evacuate Now
+    </button>
+  </body>
+</html>
