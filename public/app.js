@@ -1012,10 +1012,11 @@ function updateAdminThreatList() {
             const expiryDate = new Date(threat.expiresAt);
             const now = new Date();
             const diffMs = expiryDate - now;
-            const diffMins = Math.ceil(diffMs / 60000);
             
             if (diffMs > 0) {
-                expiryText = `Expires in ${diffMins}m`;
+                const diffMins = Math.floor(diffMs / 60000);
+                const diffSecs = Math.floor((diffMs % 60000) / 1000);
+                expiryText = `Expires in ${diffMins}m ${diffSecs}s`;
                 expiryClass = "text-yellow-500";
             } else {
                 expiryText = "Expired";

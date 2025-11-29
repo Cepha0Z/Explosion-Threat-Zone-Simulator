@@ -10,5 +10,33 @@
     "details": "i killed the toilet",
     "yield": 7700,
     "timestamp": "2025-11-28T18:12:35.600Z"
+  },
+  {
+    "id": "sim_1764423251710",
+    "timestamp": "2025-11-29T13:34:11.710Z",
+    "expiresAt": "2025-11-29T13:34:23.710Z",
+    "name": "Sewer Line Methane Ignition",
+    "locationName": "Majestic Bus Stand, Bengaluru",
+    "location": {
+      "lat": 12.976,
+      "lng": 77.573
+    },
+    "details": "Methane pocket explosion under tarmac.",
+    "yield": 1.2,
+    "source": "simulation"
+  },
+  {
+    "id": "sim_1764423261719",
+    "timestamp": "2025-11-29T13:34:21.719Z",
+    "expiresAt": "2025-11-29T13:34:33.719Z",
+    "name": "Nitrogen Tank Rupture",
+    "locationName": "Electronic City Phase 1, Bengaluru",
+    "location": {
+      "lat": 12.845,
+      "lng": 77.66
+    },
+    "details": "Cryogenic tank failure in manufacturing unit.",
+    "yield": 6,
+    "source": "simulation"
   }
 ]
