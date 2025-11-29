@@ -12,16 +12,15 @@
     "timestamp": "2025-11-28T18:12:35.600Z"
   },
   {
-    "id": "sim_1764353910379",
-    "timestamp": "2025-11-28T18:18:30.379Z",
-    "expiresAt": "2025-11-28T18:18:42.379Z",
-    "name": "Sewer Line Methane Ignition",
-    "locationName": "Majestic Bus Stand, Bengaluru",
+    "name": "asd",
     "location": {
-      "lat": 12.976,
-      "lng": 77.573
+      "lat": 1,
+      "lng": 1
     },
-    "details": "Methane pocket explosion under tarmac.",
-    "yield": 1.2
+    "locationName": "Custom Location",
+    "yield": 500,
+    "details": "123",
+    "timestamp": "2025-11-29T12:48:07.400Z",
+    "id": "1764420487403"
   }
 ]

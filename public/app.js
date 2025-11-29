@@ -335,9 +335,37 @@ function generateEvacuationNavigation() {
             service.nearbySearch(request, (results, status) => {
                 let finalDestination = safeDestination;
                 let waypoint = null;
+                let decisionTag = "no-hospital-safe-only";
+
+                // Helper to check if a place is safe (outside danger zone)
+                const isSafe = (place) => {
+                    if (!place.geometry || !place.geometry.location) return false;
+                    const distToThreat = google.maps.geometry.spherical.computeDistanceBetween(
+                        place.geometry.location, 
+                        threatLatLng
+                    );
+                    return distToThreat > largestRadius * 1.05; // 5% safety buffer
+                };
+
+                // Helper to open navigation
+                const openNavigation = (destination, tag) => {
+                    console.log(`[Evacuation] Decision: ${tag}`);
+                    console.log(`[Evacuation] Destination: ${destination.lat()}, ${destination.lng()}`);
+                    
+                    let navUrl = `https://www.google.com/maps/dir/?api=1&origin=${userLocation.lat},${userLocation.lng}&destination=${destination.lat()},${destination.lng()}&travelmode=driving`;
+                    
+                    if (isInside) {
+                        waypoint = safeDestination;
+                        navUrl += `&waypoints=${waypoint.lat()},${waypoint.lng()}`;
+                        console.log(`[Evacuation] Added waypoint (safe exit): ${waypoint.lat()}, ${waypoint.lng()}`);
+                    }
+                    
+                    console.log(`[Evacuation] Opening URL: ${navUrl}`);
+                    window.open(navUrl, "_blank");
+                };
 
                 if (status === google.maps.places.PlacesServiceStatus.OK && results && results.length > 0) {
-                    // Filter: Must be outside the danger zone AND not be a non-emergency facility
+                    // 1. Strict Filtering
                     const excludedKeywords = [
                         "dentist", "dental", "orthodontist", "optometry", "veterinary", "animal", "pet", 
                         "eye", "skin", "plastic surgery", "shop", "store", "food", "restaurant", "cafe", 
@@ -346,35 +374,26 @@ function generateEvacuationNavigation() {
                     ];
                     
                     const safeHospitals = results.filter(place => {
-                        if (!place.geometry || !place.geometry.location) return false;
+                        if (!isSafe(place)) return false;
                         
-                        // Check for excluded keywords in name and types
                         const name = place.name.toLowerCase();
                         const types = place.types ? place.types.join(" ") : "";
                         const isExcluded = excludedKeywords.some(keyword => name.includes(keyword) || types.includes(keyword));
                         if (isExcluded) return false;
 
-                        // Strict Type Check: Must explicitly be a hospital
                         if (!place.types || !place.types.includes("hospital")) return false;
-
-                        const distToThreat = google.maps.geometry.spherical.computeDistanceBetween(
-                            place.geometry.location, 
-                            threatLatLng
-                        );
-                        return distToThreat > largestRadius * 1.05; // 5% safety buffer
+                        
+                        return true;
                     });
 
-
-
                     if (safeHospitals.length > 0) {
-                        // Take top 10 candidates to send to AI
+                        // PRIORITY 1: AI Selection
                         const candidates = safeHospitals.slice(0, 10).map(place => ({
                             name: place.name,
                             types: place.types,
                             distance: google.maps.geometry.spherical.computeDistanceBetween(place.geometry.location, safeDestination)
                         }));
 
-                        // Call AI to evaluate
                         fetch('/api/evaluate-facilities', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
@@ -382,57 +401,48 @@ function generateEvacuationNavigation() {
                         })
                         .then(res => res.json())
                         .then(data => {
-                            const selectedIndex = data.selected_index || 0;
-                            const bestHospital = safeHospitals[selectedIndex];
+                            const selectedIndex = data.selected_index;
                             
-                            console.log(`AI Selected: ${bestHospital.name} (${data.reason})`);
-
-                            finalDestination = bestHospital.geometry.location;
-                            
-                            console.log(`Final Destination: ${bestHospital.name} at ${finalDestination.lat()}, ${finalDestination.lng()}`);
-                            
-                            // If we were inside, use the safe exit point as a waypoint
-                            if (isInside) {
-                                waypoint = safeDestination;
-                                console.log(`Adding waypoint (safe exit): ${waypoint.lat()}, ${waypoint.lng()}`);
+                            // Validate AI response
+                            if (typeof selectedIndex === 'number' && selectedIndex >= 0 && selectedIndex < safeHospitals.length) {
+                                const bestHospital = safeHospitals[selectedIndex];
+                                console.log(`[Evacuation] AI Selected: ${bestHospital.name} (${data.reason})`);
+                                openNavigation(bestHospital.geometry.location, "ai-selected");
+                            } else {
+                                // PRIORITY 2: AI Failed -> Nearest Safe Hospital
+                                console.warn("[Evacuation] AI returned invalid index, falling back to nearest safe hospital.");
+                                openNavigation(safeHospitals[0].geometry.location, "ai-fallback");
                             }
-
-                            // Construct Navigation URL
-                            let navUrl = `https://www.google.com/maps/dir/?api=1&origin=${userLocation.lat},${userLocation.lng}&destination=${finalDestination.lat()},${finalDestination.lng()}&travelmode=driving`;
-                            
-                            if (waypoint) {
-                                navUrl += `&waypoints=${waypoint.lat()},${waypoint.lng()}`;
-                            }
-
-                            console.log(`Opening navigation URL: ${navUrl}`);
-                            window.open(navUrl, "_blank");
                         })
                         .catch(err => {
-                            console.error("AI Evaluation failed, falling back to nearest:", err);
-                            // Fallback to nearest
-                            finalDestination = safeHospitals[0].geometry.location;
-                            if (isInside) waypoint = safeDestination;
-                            
-                            let navUrl = `https://www.google.com/maps/dir/?api=1&origin=${userLocation.lat},${userLocation.lng}&destination=${finalDestination.lat()},${finalDestination.lng()}&travelmode=driving`;
-                            if (waypoint) navUrl += `&waypoints=${waypoint.lat()},${waypoint.lng()}`;
-                            window.open(navUrl, "_blank");
+                            // PRIORITY 2: AI Error -> Nearest Safe Hospital
+                            console.error("[Evacuation] AI Evaluation failed:", err);
+                            openNavigation(safeHospitals[0].geometry.location, "ai-fallback");
                         });
-                    } else {
-                        // No hospitals found, just go to safe point
-                         let navUrl = `https://www.google.com/maps/dir/?api=1&origin=${userLocation.lat},${userLocation.lng}&destination=${safeDestination.lat()},${safeDestination.lng()}&travelmode=driving`;
-                         window.open(navUrl, "_blank");
+                        return; // Async flow takes over
+                    } 
+                    
+                    // PRIORITY 3: Filter Relaxation (No strict hospitals found, but results exist)
+                    console.warn("[Evacuation] No strict hospitals found. Relaxing filters...");
+                    const relaxedCandidates = results.filter(place => isSafe(place));
+                    
+                    if (relaxedCandidates.length > 0) {
+                        // Use the nearest safe place (even if it's a "clinic" or has filtered keywords)
+                        // Sort by distance to safe destination just to be sure
+                        relaxedCandidates.sort((a, b) => {
+                            const distA = google.maps.geometry.spherical.computeDistanceBetween(a.geometry.location, safeDestination);
+                            const distB = google.maps.geometry.spherical.computeDistanceBetween(b.geometry.location, safeDestination);
+                            return distA - distB;
+                        });
+                        
+                        openNavigation(relaxedCandidates[0].geometry.location, "filter-relaxed");
+                        return;
                     }
                 }
 
-                // 6. Construct Navigation URL
-                // Using the Universal Cross-Platform URL Scheme
-                let navUrl = `https://www.google.com/maps/dir/?api=1&origin=${userLocation.lat},${userLocation.lng}&destination=${finalDestination.lat()},${finalDestination.lng()}&travelmode=driving`;
-                
-                if (waypoint) {
-                    navUrl += `&waypoints=${waypoint.lat()},${waypoint.lng()}`;
-                }
-
-                window.open(navUrl, "_blank");
+                // PRIORITY 4: No Hospitals/Safe Places Found -> Safe Exit Point Only
+                console.warn("[Evacuation] No safe facilities found. Routing to safe exit point only.");
+                openNavigation(safeDestination, "no-hospital-safe-only");
             });
 
         } else {
