@@ -412,6 +412,7 @@
         else simActions.classList.add("hidden");
 
         if (tabName === "news") refreshCurrentNews();
+        if (tabName === "admin" && typeof updateAdminThreatList === 'function') updateAdminThreatList();
       }
 
       function setNewsMode(mode) {

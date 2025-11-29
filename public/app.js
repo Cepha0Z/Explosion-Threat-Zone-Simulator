@@ -979,3 +979,56 @@ document.addEventListener("DOMContentLoaded", async () => {
   setupAdminUI();
 });
 
+
+function updateAdminThreatList() {
+    const list = document.getElementById('admin-threats-list');
+    if (!list) return;
+    
+    list.innerHTML = '';
+    
+    if (liveThreats.length === 0) {
+        list.innerHTML = '<p class="text-xs text-gray-500 text-center">No active threats</p>';
+        return;
+    }
+
+    liveThreats.forEach(threat => {
+        const item = document.createElement('div');
+        item.className = "flex justify-between items-center bg-gray-900 p-2 rounded border border-gray-700";
+        
+        const infoDiv = document.createElement('div');
+        infoDiv.innerHTML = `
+            <div class="font-bold text-sm text-red-400">${threat.name}</div>
+            <div class="text-xs text-gray-500">${new Date(threat.timestamp).toLocaleTimeString()}</div>
+        `;
+        
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = "text-red-500 hover:text-red-400 p-1 transition";
+        deleteBtn.innerHTML = '<i data-lucide="trash-2" class="w-4 h-4"></i>';
+        deleteBtn.onclick = () => deleteThreat(threat.id);
+        
+        item.appendChild(infoDiv);
+        item.appendChild(deleteBtn);
+        list.appendChild(item);
+    });
+    lucide.createIcons();
+}
+
+async function deleteThreat(id) {
+    if(!confirm("Are you sure you want to delete this threat?")) return;
+    
+    try {
+        const res = await fetch(`/api/threats/${id}`, { method: 'DELETE' });
+        if (res.ok) {
+            // Force update immediately
+            const res2 = await fetch("/api/threats");
+            liveThreats = await res2.json();
+            displayLiveThreats();
+            updateAdminThreatList();
+        } else {
+            alert("Failed to delete threat");
+        }
+    } catch (e) {
+        console.error(e);
+        alert("Error deleting threat");
+    }
+}
