@@ -1,0 +1,48 @@
+[
+  {
+    "id": "test-threat-001",
+    "name": "test01",
+    "locationName": "Lingarajapurum, Bengaluru",
+    "location": {
+      "lat": 13.013251,
+      "lng": 77.624151
+    },
+    "details": "i killed the toilet lol (it worked!!)",
+    "yield": 7700,
+    "timestamp": "2025-11-28T18:12:35.600Z"
+  },
+  {
+    "id": "news_sim_1764444132456",
+    "timestamp": "2025-11-29T19:22:16.153Z",
+    "expiresAt": "2025-11-29T21:22:16.153Z",
+    "name": "Waste Processing Plant Fire",
+    "locationName": "Mandur, Bengaluru",
+    "location": {
+      "lat": 12.9716,
+      "lng": 77.5946
+    },
+    "details": "A waste processing plant has caught fire, releasing thick black smoke over the northern suburbs.",
+    "yield": 15,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A waste processing plant in Mandur, Bengaluru, has caught fire, sending thick black smoke over the northern suburbs."
+  },
+  {
+    "id": "news_sim_1764444147457",
+    "timestamp": "2025-11-29T19:22:30.937Z",
+    "expiresAt": "2025-11-29T21:22:30.937Z",
+    "name": "Massive Chemical Leak",
+    "locationName": "Lingarajapuram, Bengaluru",
+    "location": {
+      "lat": 12.9865,
+      "lng": 77.6101
+    },
+    "details": "A massive chemical leak has been reported at an industrial facility, prompting officials to evacuate nearby residents.",
+    "yield": 40,
+    "incidentType": "chemical_leak",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "A massive chemical leak has been reported at an industrial facility in Lingarajapuram, Bengaluru, prompting officials to evacuate nearby residents."
+  }
+]

@@ -250,52 +250,97 @@ app.listen(PORT, () => {
 function pollThreatSimulator() {
   setInterval(async () => {
     try {
-      const response = await axios.get("http://localhost:5050/api/fake-threat");
-      const threat = response.data;
+      // 1. Fetch raw text from News Dummy Server
+      const response = await axios.get("http://localhost:5050/api/fake-news-threat");
+      const newsItem = response.data; // { id, timestamp, text, sourceType }
+      
+      console.log(`[Pipeline] Received news: "${newsItem.text.substring(0, 50)}..."`);
 
       const dataPath = path.join(__dirname, "data", "threats.json");
       let stored = [];
-
       if (fs.existsSync(dataPath)) {
         stored = JSON.parse(fs.readFileSync(dataPath, "utf-8"));
       }
 
-      // --- 1️⃣ REMOVE EXPIRED THREATS ---
+      // Check if we already processed this ID
+      if (stored.some(t => t.id === newsItem.id)) {
+        return; // Skip duplicates
+      }
+
+      // 2. Call AI to extract structured info
+      console.log("[Pipeline] Extracting structured data...");
+      let extracted;
+      try {
+        const extractRes = await axios.post("http://localhost:5000/api/extract-threat-info", {
+          text: newsItem.text
+        });
+        extracted = extractRes.data;
+      } catch (e) {
+        console.error("[Pipeline Error] Extraction failed:", e.message);
+        return; // Abort if extraction fails
+      }
+
+      // 3. Call AI to geocode the location
+      console.log(`[Pipeline] Geocoding location: ${extracted.locationName}...`);
+      let coords;
+      try {
+        const geoRes = await axios.post("http://localhost:5000/api/geocode", {
+          locationName: extracted.locationName
+        });
+        coords = geoRes.data; // { lat, lng }
+      } catch (e) {
+        console.error("[Pipeline Error] Geocoding failed:", e.message);
+        // Optional: Fallback to a default location or skip
+        return; 
+      }
+
+      // 4. Assemble Final Threat Object
+      const durationMinutes = extracted.durationMinutes || 60;
+      const finalThreat = {
+        id: newsItem.id,
+        timestamp: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + durationMinutes * 60 * 1000).toISOString(),
+        name: extracted.name,
+        locationName: extracted.locationName,
+        location: { lat: coords.lat, lng: coords.lng },
+        details: extracted.details,
+        yield: extracted.yield || 1.0,
+        incidentType: extracted.incidentType,
+        hazardCategory: extracted.hazardCategory,
+        source: "simulation_news",
+        rawText: newsItem.text
+      };
+
+      // 5. Save to threats.json
+      stored.push(finalThreat);
+      
+      // Clean up expired threats while we're here
       const now = Date.now();
-      stored = stored.filter((t) => {
-        if (!t.expiresAt) return true; // keep threats that don't expire
-        return new Date(t.expiresAt).getTime() > now; // keep only active
+      stored = stored.filter(t => {
+        if (!t.expiresAt) return true;
+        return new Date(t.expiresAt).getTime() > now;
       });
 
-      // --- 2️⃣ CHECK IF THREAT ALREADY EXISTS ---
-      const exists = stored.some((t) => t.id === threat.id);
-      if (!exists) {
-        threat.source = "simulation"; // Tag as simulation
-        stored.push(threat);
-        console.log(" New simulated threat added:", threat.name);
+      fs.writeFileSync(dataPath, JSON.stringify(stored, null, 2));
+      console.log(`[Pipeline] Success! Added threat: ${finalThreat.name}`);
 
-        // --- 3️⃣ EMAIL ALERT USING LOGGED-IN USER EMAIL ---
-        if (currentUserEmail) {
-          try {
-            await axios.post("http://localhost:5000/api/alert", {
-              email: currentUserEmail,
-              location: threat.locationName || "Global",
-            });
-            console.log(" Email alert sent to", currentUserEmail);
-          } catch (e) {
-            console.error(" Error sending email alert:", e.message);
-          }
-        } else {
-          console.log(" No user email set; skipping email alert.");
+      // 6. Email Alert (if user subscribed)
+      if (currentUserEmail) {
+        try {
+          await axios.post("http://localhost:5000/api/alert", {
+            email: currentUserEmail,
+            location: finalThreat.locationName || "Global",
+          });
+          console.log(" Email alert sent to", currentUserEmail);
+        } catch (e) {
+          console.error(" Error sending email alert:", e.message);
         }
       }
 
-      // --- 4️⃣ WRITE UPDATED THREAT LIST BACK TO FILE ---
-      fs.writeFileSync(dataPath, JSON.stringify(stored, null, 2));
     } catch (err) {
-      console.error("Error fetching from simulator:", err.message);
+      console.error("[Pipeline Error] General failure:", err.message);
     }
-  }, 10000); // every 10 seconds
+  }, 15000); // Poll every 15 seconds
 }
 
 pollThreatSimulator();

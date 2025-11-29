@@ -6,65 +6,41 @@ app.use(cors());
 
 const PORT = 5050;
 
-// --- FLAT ARRAY (NOT NESTED!) ---
-const threatPool = [
-  {
-    name: "Restaurant Cylinder Blast",
-    locationName: "Indiranagar, Bengaluru",
-    location: { lat: 12.971, lng: 77.641 },
-    details: "Multiple commercial LPG cylinders exploded in a kitchen.",
-    yield: 3.5,
-  },
-  {
-    name: "Nitrogen Tank Rupture",
-    locationName: "Electronic City Phase 1, Bengaluru",
-    location: { lat: 12.845, lng: 77.66 },
-    details: "Cryogenic tank failure in manufacturing unit.",
-    yield: 6.0,
-  },
-  {
-    name: "Petrol Pump Fireball",
-    locationName: "Richmond Circle, Bengaluru",
-    location: { lat: 12.966, lng: 77.597 },
-    details: "Massive thermal release from underground tank ignition.",
-    yield: 14.0,
-  },
-  {
-    name: "Fireworks Warehouse Detonation",
-    locationName: "Attibele, Bengaluru Outskirts",
-    location: { lat: 12.78, lng: 77.77 },
-    details: "Illegal pyrotechnics chain reaction.",
-    yield: 25.0,
-  },
-  {
-    name: "Sewer Line Methane Ignition",
-    locationName: "Majestic Bus Stand, Bengaluru",
-    location: { lat: 12.976, lng: 77.573 },
-    details: "Methane pocket explosion under tarmac.",
-    yield: 1.2,
-  },
-  {
-    name: "Laboratory Chemical Spill",
-    locationName: "IISc Campus, Bengaluru",
-    location: { lat: 13.013, lng: 77.564 },
-    details: "Corrosive fumes released in lab.",
-    yield: 0.8,
-  },
+/**
+ * Text-only news incidents (no structured data)
+ * These simulate raw news/tweets that need AI processing
+ */
+const newsIncidents = [
+  "A massive chemical leak has been reported at an industrial facility in Lingarajapuram, Bengaluru, prompting officials to evacuate nearby residents.",
+  "Firefighters are battling a large blaze at a fireworks warehouse in Attibele, Bengaluru, with reports of multiple explosions.",
+  "A gas pipeline rupture near Electronic City Phase 1, Bengaluru, has caused a major fire and traffic gridlock.",
+  "An explosion at a paint factory in Peenya Industrial Area, Bengaluru, has released toxic fumes into the surrounding neighborhoods.",
+  "Structural collapse reported at a construction site in Whitefield, Bengaluru, trapping several workers and causing panic.",
+  "A fuel tanker overturned and caught fire on the Outer Ring Road near Marathahalli, Bengaluru, creating a massive fireball.",
+  "Ammonia gas leak detected at a cold storage unit in Yeshwanthpur, Bengaluru, leading to breathing difficulties for local residents.",
+  "A transformer explosion in Koramangala, Bengaluru, has triggered a local blackout and minor fires in nearby shops.",
+  "Industrial boiler blast reported at a textile unit on Hosur Road, Bengaluru, causing significant structural damage.",
+  "A waste processing plant in Mandur, Bengaluru, has caught fire, sending thick black smoke over the northern suburbs."
 ];
 
-app.get("/api/fake-threat", (req, res) => {
-  const selected = threatPool[Math.floor(Math.random() * threatPool.length)];
+/**
+ * GET /api/fake-news-threat
+ * Returns raw text-only news (no structured threat data)
+ */
+app.get("/api/fake-news-threat", (req, res) => {
+  const selectedText = newsIncidents[Math.floor(Math.random() * newsIncidents.length)];
 
   const packaged = {
-    id: "sim_" + Date.now(),
+    id: "news_sim_" + Date.now(),
     timestamp: new Date().toISOString(),
-    expiresAt: new Date(Date.now() + 5 * 60 * 1000).toISOString(),
-    ...selected,
+    text: selectedText,
+    sourceType: "news_simulation"
   };
 
   res.json(packaged);
 });
 
 app.listen(PORT, () => {
-  console.log(` Threat Simulator running at http://localhost:${PORT}`);
+  console.log(`🔥 Threat Simulator running at http://localhost:${PORT}`);
+  console.log(`📰 Emitting text-only news for AI processing`);
 });

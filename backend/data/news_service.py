@@ -341,6 +341,125 @@ def evaluate_facilities():
         return jsonify({"selected_index": 0, "reason": "AI evaluation failed."})
 
 
+
+# -----------------------------------
+# THREAT EXTRACTION & GEOCODING
+# -----------------------------------
+
+@app.post("/api/extract-threat-info")
+def extract_threat_info():
+    """
+    Takes raw text (e.g. from news dummy server) and extracts structured threat info.
+    """
+    data = request.get_json(silent=True) or {}
+    text = data.get("text")
+
+    if not text:
+        return jsonify({"error": "No text provided"}), 400
+
+    if not llm_client:
+        print("[AI] No LLM client configured.")
+        return jsonify({"error": "AI service unavailable"}), 503
+
+    try:
+        prompt = (
+            "You are a strict emergency threat extractor. "
+            "Output only valid JSON with the exact fields specified. "
+            "If some information is not explicitly in the text, infer a reasonable value based on the scenario.\n\n"
+            "Required Output Fields:\n"
+            "- name (Short title, e.g., 'Industrial Chemical Leak')\n"
+            "- locationName (Area/city, e.g., 'Lingarajapuram, Bengaluru')\n"
+            "- details (One or two sentences summary)\n"
+            "- yield (Numeric severity approximation 0.5-50. Infer from words like 'massive', 'minor')\n"
+            "- durationMinutes (Estimated active threat duration. Small=30-60, Large=120+)\n"
+            "- incidentType (e.g., 'chemical_leak', 'explosion', 'fire')\n"
+            "- hazardCategory (e.g., 'chemical', 'thermal', 'structural')\n\n"
+            f"INPUT TEXT:\n{text}\n\n"
+            "Respond with JSON only."
+        )
+
+        print(f"[AI] Extracting threat info from: {text[:50]}...")
+        completion = llm_client.chat.completions.create(
+            model=OPENROUTER_MODEL,
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant that outputs JSON."},
+                {"role": "user", "content": prompt},
+            ],
+            temperature=0.1,
+            max_tokens=300,
+            response_format={"type": "json_object"}
+        )
+
+        content = completion.choices[0].message.content
+        print(f"[AI] Extraction result: {content}")
+        
+        try:
+            result = json.loads(content)
+            return jsonify(result)
+        except json.JSONDecodeError:
+            print("[AI ERROR] Failed to parse JSON from extraction.")
+            return jsonify({"error": "Invalid JSON from AI"}), 500
+
+    except Exception as e:
+        print("[AI EXTRACTION ERROR]", e)
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
+
+@app.post("/api/geocode")
+def geocode_location():
+    """
+    Takes a location name and returns approximate lat/lng using AI knowledge.
+    """
+    data = request.get_json(silent=True) or {}
+    location_name = data.get("locationName")
+
+    if not location_name:
+        return jsonify({"error": "No locationName provided"}), 400
+
+    if not llm_client:
+        return jsonify({"error": "AI service unavailable"}), 503
+
+    try:
+        prompt = (
+            "You are a geocoding assistant. "
+            "Given a locationName string, look up its approximate latitude and longitude using your knowledge. "
+            "Output only JSON with 'lat' and 'lng' as decimal degrees.\n\n"
+            f"Location: {location_name}\n\n"
+            "Respond with JSON only: { \"lat\": 12.34, \"lng\": 56.78 }"
+        )
+
+        print(f"[AI] Geocoding: {location_name}")
+        completion = llm_client.chat.completions.create(
+            model=OPENROUTER_MODEL,
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant that outputs JSON."},
+                {"role": "user", "content": prompt},
+            ],
+            temperature=0.1,
+            max_tokens=100,
+            response_format={"type": "json_object"}
+        )
+
+        content = completion.choices[0].message.content
+        print(f"[AI] Geocode result: {content}")
+
+        try:
+            result = json.loads(content)
+            # Basic validation
+            if "lat" in result and "lng" in result:
+                return jsonify(result)
+            else:
+                return jsonify({"error": "AI returned invalid format"}), 500
+        except json.JSONDecodeError:
+            return jsonify({"error": "Invalid JSON from AI"}), 500
+
+    except Exception as e:
+        print("[AI GEOCODE ERROR]", e)
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
+
 if __name__ == "__main__":
     print("Python News Service running on port 5000...")
     app.run(host="0.0.0.0", port=5000, debug=False)
