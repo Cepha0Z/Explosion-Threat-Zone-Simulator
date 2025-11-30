@@ -51,23 +51,27 @@ export default function SystemStatusBar() {
     : null;
 
   return (
-    <div className="w-full bg-gray-950 border-b border-gray-800 text-xs text-gray-300 px-4 py-1.5 flex items-center gap-4 overflow-x-auto">
-      <span className="font-mono text-[10px] text-gray-500 font-bold tracking-wider">SYSTEM STATUS</span>
+    <div className="w-full bg-white border-b border-slate-200 text-xs text-slate-700 px-4 py-2 flex items-center gap-4 overflow-x-auto z-50 shadow-sm">
+      <span className="font-mono text-xs text-slate-500 font-bold tracking-wider shrink-0">TMZ 2.0</span>
       
-      <StatusPill label="BACKEND" status={health?.backend?.status} icon={Server} />
-      <StatusPill label="AI ENGINE" status={health?.python?.status} icon={Database} />
-      <StatusPill label="SIMULATOR" status={health?.simulator?.status} icon={Radio} />
+      <div className="flex items-center gap-2.5 shrink-0">
+        <StatusPill label="BACKEND" status={health?.backend?.status} icon={Server} />
+        <StatusPill label="AI ENGINE" status={health?.python?.status} icon={Database} />
+        <StatusPill label="SIMULATOR" status={health?.simulator?.status} icon={Radio} />
+      </div>
       
-      <div className="h-4 w-px bg-gray-800 mx-2" />
+      <div className="h-4 w-px bg-slate-300 mx-1 shrink-0" />
       
-      <span className="flex items-center gap-1.5 text-[10px] font-mono text-gray-400">
-        <AlertTriangle className="w-3 h-3 text-yellow-500" />
-        ACTIVE THREATS: <span className="text-white font-bold">{health?.threats?.activeCount ?? 0}</span>
+      <span className="flex items-center gap-2 text-xs font-mono text-slate-600 shrink-0">
+        <AlertTriangle className="w-4 h-4 text-yellow-600" />
+        ACTIVE: <span className="text-slate-900 font-bold">{health?.threats?.activeCount ?? 0}</span>
       </span>
 
       {lastNews && (
-        <span className="ml-auto text-[10px] text-gray-500 truncate max-w-[300px] hidden md:block">
-          Latest Intel: <span className="text-gray-300">{lastNews}</span> ({lastNewsTime})
+        <span className="ml-auto text-xs text-slate-500 truncate max-w-[250px] hidden md:flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+          <span className="text-slate-700 font-medium">{lastNews}</span> 
+          <span className="opacity-60">({lastNewsTime})</span>
         </span>
       )}
     </div>
