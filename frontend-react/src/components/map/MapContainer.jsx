@@ -135,12 +135,62 @@ export default function MapContainer({ threats, onMapLoad }) {
       if (onMapLoad) {
         onMapLoad(googleMapRef.current);
       }
+
+      // Auto-zoom to user location
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const userPos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            };
+            if (googleMapRef.current) {
+              googleMapRef.current.setCenter(userPos);
+              googleMapRef.current.setZoom(12);
+              
+              // Optional: Add "You are here" marker
+              new window.google.maps.Marker({
+                position: userPos,
+                map: googleMapRef.current,
+                icon: {
+                  path: window.google.maps.SymbolPath.CIRCLE,
+                  scale: 7,
+                  fillColor: '#4285F4',
+                  fillOpacity: 1,
+                  strokeColor: 'white',
+                  strokeWeight: 2,
+                },
+                title: "Your Location"
+              });
+            }
+          },
+          (error) => {
+            console.warn("Map auto-zoom failed (geolocation):", error.message);
+          }
+        );
+      }
     }
   }, [mapLoaded, onMapLoad]);
 
+  // Handle Focus Location
+  useEffect(() => {
+    if (googleMapRef.current && threats) {
+       // This effect handles threats updates, but we need a way to focus externally.
+       // The parent component can call map.panTo directly if it has the instance.
+       // Alternatively, we could accept a 'focusedLocation' prop.
+       // For now, we'll rely on the parent using the map instance via onMapLoad.
+    }
+  }, [threats]);
+
   // Render Threats
   useEffect(() => {
-    if (!googleMapRef.current || !threats) return;
+    if (!window.google || !googleMapRef.current || !threats) return;
+
+    // Safety check: ensure it's actually a Map instance, not a DOM element
+    if (!(googleMapRef.current instanceof window.google.maps.Map)) {
+      console.warn('MapContainer: googleMapRef.current is not a Map instance', googleMapRef.current);
+      return;
+    }
 
     // Clear existing
     markersRef.current.forEach(m => m.setMap(null));

@@ -19,6 +19,7 @@ import cors from "cors";
 import authRoutes from "./backend/routes/auth.routes.js";
 import threatRoutes from "./backend/routes/threat.routes.js";
 import configRoutes from "./backend/routes/config.routes.js";
+import newsRoutes from "./backend/routes/news.routes.js";
 
 // Import services
 import { initializeThreatsFile } from "./backend/services/threatStorage.service.js";
@@ -43,6 +44,7 @@ app.use(cors());
 // Register routes
 app.use("/api", authRoutes);
 app.use("/api", threatRoutes);
+app.use("/api", newsRoutes);
 app.use("/", configRoutes);
 app.use("/api", configRoutes);
 

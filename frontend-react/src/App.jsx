@@ -3,7 +3,7 @@ import Login from './pages/Login';
 import MainLayout from './components/layout/MainLayout';
 import ProtectedRoute from './components/ProtectedRoute';
 import LiveAlerts from './pages/LiveAlerts';
-import News from './pages/News';
+import NewsFeed from './pages/NewsFeed';
 import Simulator from './pages/Simulator';
 import Admin from './pages/Admin';
 import { useAuth } from './context/AuthContext';
@@ -18,7 +18,7 @@ function App() {
       <Route element={<ProtectedRoute />}>
         <Route element={<MainLayout />}>
           <Route path="/" element={<LiveAlerts />} />
-          <Route path="/news" element={<News />} />
+          <Route path="/news" element={<NewsFeed />} />
           <Route path="/simulator" element={<Simulator />} />
           
           {/* Admin Route Protection */}

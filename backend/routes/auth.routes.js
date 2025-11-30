@@ -8,6 +8,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { logger } from '../utils/logger.util.js';
+import { setAlertRecipient } from '../services/alertRecipient.service.js';
 
 const router = express.Router();
 const __filename = fileURLToPath(import.meta.url);
@@ -45,6 +46,10 @@ router.post('/login', (req, res) => {
     
     if (user) {
         const role = email === "admin@tmz.com" ? "admin" : "user";
+        
+        // Update global alert recipient
+        setAlertRecipient(email);
+        
         logger.auth(`Login successful: ${email} (${role})`);
         return res.json({ 
             token: `authorized_token_${Date.now()}`,

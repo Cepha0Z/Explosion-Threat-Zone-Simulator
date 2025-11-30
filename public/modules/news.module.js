@@ -114,6 +114,10 @@ export const NewsModule = {
 
     /**
      * Fetch news from Python service
+     * Legacy News feed:
+     * - Endpoint: GET http://localhost:5000/api/news
+     * - Response shape: Array of objects [{ title, description, publishedAt, source, url, image, ... }]
+     * - Client filtering: none (renders all articles)
      * @param {string} location
      * @param {string} containerId
      */

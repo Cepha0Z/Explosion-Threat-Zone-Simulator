@@ -1,7 +1,7 @@
 import { AlertTriangle, Clock, MapPin } from 'lucide-react';
 import clsx from 'clsx';
 
-export default function ThreatList({ threats }) {
+export default function ThreatList({ threats, onSelectThreat }) {
   if (!threats || threats.length === 0) {
     return (
       <div className="bg-gray-800 rounded-lg p-6 text-center text-gray-400 border border-gray-700">
@@ -25,10 +25,11 @@ export default function ThreatList({ threats }) {
         {threats.map((threat) => (
           <div 
             key={threat.id} 
-            className="bg-gray-800 border border-gray-700 rounded-lg p-4 shadow-lg hover:border-red-500/50 transition-colors"
+            onClick={() => onSelectThreat && onSelectThreat(threat)}
+            className="bg-gray-800 border border-gray-700 rounded-lg p-4 shadow-lg hover:border-red-500/50 transition-colors cursor-pointer group"
           >
             <div className="flex justify-between items-start mb-2">
-              <h4 className="font-bold text-red-400 text-lg leading-tight">{threat.name}</h4>
+              <h4 className="font-bold text-red-400 text-lg leading-tight group-hover:text-red-300 transition-colors">{threat.name}</h4>
               <span className={clsx(
                 "text-xs px-2 py-0.5 rounded border uppercase font-mono",
                 threat.source === 'simulation_news' 

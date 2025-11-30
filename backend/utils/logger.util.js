@@ -26,5 +26,9 @@ export const logger = {
     admin: (msg) => console.log(formatMessage('ADMIN', COLORS.magenta, msg)),
     auth: (msg) => console.log(formatMessage('AUTH', COLORS.green, msg)),
     error: (msg) => console.error(formatMessage('ERROR', COLORS.red, msg)),
-    python: (msg) => console.log(formatMessage('PYTHON', COLORS.green, msg))
+    python: (msg) => console.log(formatMessage('PYTHON', COLORS.green, msg)),
+    info: (msg, data) => {
+        console.log(formatMessage('INFO', COLORS.bright, msg));
+        if (data) console.log(data);
+    }
 };

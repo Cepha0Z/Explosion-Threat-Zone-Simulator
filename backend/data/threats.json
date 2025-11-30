@@ -1,22 +1,5 @@
 [
   {
-    "id": "news_sim_1764444132456",
-    "timestamp": "2025-11-29T19:22:16.153Z",
-    "expiresAt": "2025-11-29T21:22:16.153Z",
-    "name": "Waste Processing Plant Fire",
-    "locationName": "Mandur, Bengaluru",
-    "location": {
-      "lat": 12.9716,
-      "lng": 77.5946
-    },
-    "details": "A waste processing plant has caught fire, releasing thick black smoke over the northern suburbs.",
-    "yield": 15,
-    "incidentType": "fire",
-    "hazardCategory": "thermal",
-    "source": "simulation_news",
-    "rawText": "A waste processing plant in Mandur, Bengaluru, has caught fire, sending thick black smoke over the northern suburbs."
-  },
-  {
     "id": "test-threat-001",
     "name": "test01",
     "locationName": "Lingarajapurum, Bengaluru",
@@ -28,5 +11,39 @@
     "yield": 5000,
     "timestamp": "2025-11-30T11:06:39.743Z",
     "source": "admin"
+  },
+  {
+    "id": "news_sim_1764535335025",
+    "timestamp": "2025-11-30T20:42:19.374Z",
+    "expiresAt": "2025-11-30T22:42:19.374Z",
+    "name": "Gas Pipeline Rupture",
+    "locationName": "Electronic City Phase 1, Bengaluru",
+    "location": {
+      "lat": 12.8508,
+      "lng": 77.6659
+    },
+    "details": "A gas pipeline rupture has resulted in a major fire and significant traffic disruptions.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A gas pipeline rupture near Electronic City Phase 1, Bengaluru, has caused a major fire and traffic gridlock."
+  },
+  {
+    "id": "news_sim_1764535350022",
+    "timestamp": "2025-11-30T20:42:33.892Z",
+    "expiresAt": "2025-11-30T22:42:33.892Z",
+    "name": "Explosion at Paint Factory",
+    "locationName": "Peenya Industrial Area, Bengaluru",
+    "location": {
+      "lat": 13.0138,
+      "lng": 77.5705
+    },
+    "details": "An explosion at a paint factory has released toxic fumes into the surrounding neighborhoods.",
+    "yield": 25,
+    "incidentType": "explosion",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "An explosion at a paint factory in Peenya Industrial Area, Bengaluru, has released toxic fumes into the surrounding neighborhoods."
   }
 ]

@@ -14,7 +14,21 @@ const __dirname = path.dirname(__filename);
 const THREATS_FILE = path.join(__dirname, '..', 'data', 'threats.json');
 
 /**
+ * Check if a threat is persistent (survives restart)
+ * @param {Object} threat 
+ * @returns {boolean}
+ */
+export function isPersistentThreat(threat) {
+    if (!threat) return false;
+    if (threat.id === 'test-threat-001') return true;
+    if (threat.source === 'admin') return true;
+    if (threat.persistent === true) return true;
+    return false;
+}
+
+/**
  * Initialize threats file with default threat if it doesn't exist
+ * Also performs startup cleanup of ephemeral/expired threats
  */
 export function initializeThreatsFile() {
     const hardcodedThreat = [{
@@ -32,17 +46,43 @@ export function initializeThreatsFile() {
         fs.writeFileSync(THREATS_FILE, JSON.stringify(hardcodedThreat, null, 2));
         logger.threat('Created threats.json with default test threat');
     } else {
-        cleanExpiredThreats();
+        // Startup Cleanup: Remove expired AND ephemeral threats
+        const allThreats = readThreats(true); // Read raw
+        const now = Date.now();
         
-        // Immortal Threat Logic: Ensure test-threat-001 exists
-        const currentThreats = readThreats(true);
-        if (!currentThreats.some(t => t.id === 'test-threat-001')) {
-            currentThreats.push(hardcodedThreat[0]);
-            writeThreats(currentThreats);
+        const keptThreats = [];
+        let removedExpired = 0;
+        let removedEphemeral = 0;
+
+        for (const t of allThreats) {
+            if (isExpired(t, now)) {
+                removedExpired++;
+                continue;
+            }
+            if (!isPersistentThreat(t)) {
+                removedEphemeral++;
+                continue;
+            }
+            keptThreats.push(t);
+        }
+
+        // Ensure immortal threat exists
+        if (!keptThreats.some(t => t.id === 'test-threat-001')) {
+            keptThreats.push(hardcodedThreat[0]);
             logger.threat('Respawned immortal test threat: test-threat-001');
         }
 
-        logger.threat('Loaded existing threats from threats.json');
+        if (removedExpired > 0 || removedEphemeral > 0) {
+            writeThreats(keptThreats);
+            logger.info('[Startup] Threat cleanup complete', {
+                totalBefore: allThreats.length,
+                kept: keptThreats.length,
+                removedExpired,
+                removedEphemeral
+            });
+        } else {
+            logger.threat('Loaded existing threats (no cleanup needed)');
+        }
     }
 }
 

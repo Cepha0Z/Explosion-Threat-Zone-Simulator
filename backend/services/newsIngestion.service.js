@@ -75,9 +75,17 @@ async function processNewsItem(newsItem) {
         addThreat(finalThreat);
         logger.pipeline(`✓ Successfully processed threat: ${finalThreat.name}`);
         
-        // Step 5: Send email alert if user subscribed
-        if (currentUserEmail) {
-            await sendEmailAlert(currentUserEmail, finalThreat);
+        // Step 5: Trigger global email alert
+        try {
+            logger.pipeline(`[EMAIL] Triggering alert for new threat`, { id: finalThreat.id, name: finalThreat.name });
+            // Pass null to use global default/env var
+            await sendEmailAlert(null, finalThreat);
+            logger.pipeline(`[EMAIL] Alert successfully sent for threat`, { id: finalThreat.id });
+        } catch (err) {
+            logger.error(`[EMAIL] Failed to send alert for threat`, {
+                id: finalThreat.id,
+                error: err.message
+            });
         }
         
         return finalThreat;
