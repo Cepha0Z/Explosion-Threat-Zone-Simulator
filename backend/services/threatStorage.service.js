@@ -33,6 +33,15 @@ export function initializeThreatsFile() {
         logger.threat('Created threats.json with default test threat');
     } else {
         cleanExpiredThreats();
+        
+        // Immortal Threat Logic: Ensure test-threat-001 exists
+        const currentThreats = readThreats(true);
+        if (!currentThreats.some(t => t.id === 'test-threat-001')) {
+            currentThreats.push(hardcodedThreat[0]);
+            writeThreats(currentThreats);
+            logger.threat('Respawned immortal test threat: test-threat-001');
+        }
+
         logger.threat('Loaded existing threats from threats.json');
     }
 }

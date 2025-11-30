@@ -99,7 +99,11 @@ async function pollSimulator() {
         await processNewsItem(newsItem);
         
     } catch (error) {
-        logger.error(`Polling error: ${error.message}`);
+        if (error.code === 'ECONNREFUSED') {
+            logger.error('Threat simulator not reachable (is threat_simulator.js running?)');
+        } else {
+            logger.error(`Polling error: ${error.message}`);
+        }
     }
 }
 
