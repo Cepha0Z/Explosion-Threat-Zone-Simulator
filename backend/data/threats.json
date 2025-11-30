@@ -44,5 +44,39 @@
     "hazardCategory": "chemical",
     "source": "simulation_news",
     "rawText": "A massive chemical leak has been reported at an industrial facility in Lingarajapuram, Bengaluru, prompting officials to evacuate nearby residents."
+  },
+  {
+    "id": "news_sim_1764493764844",
+    "timestamp": "2025-11-30T09:09:28.747Z",
+    "expiresAt": "2025-11-30T11:09:28.747Z",
+    "name": "Gas Pipeline Rupture",
+    "locationName": "Electronic City Phase 1, Bengaluru",
+    "location": {
+      "lat": 12.8508,
+      "lng": 77.6659
+    },
+    "details": "A gas pipeline rupture has resulted in a major fire and significant traffic disruptions.",
+    "yield": 25,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A gas pipeline rupture near Electronic City Phase 1, Bengaluru, has caused a major fire and traffic gridlock."
+  },
+  {
+    "id": "news_sim_1764493779844",
+    "timestamp": "2025-11-30T09:09:43.611Z",
+    "expiresAt": "2025-11-30T11:09:43.611Z",
+    "name": "Massive Chemical Leak",
+    "locationName": "Lingarajapuram, Bengaluru",
+    "location": {
+      "lat": 13.0101,
+      "lng": 77.6348
+    },
+    "details": "A massive chemical leak has been reported at an industrial facility, prompting officials to evacuate nearby residents.",
+    "yield": 40,
+    "incidentType": "chemical_leak",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "A massive chemical leak has been reported at an industrial facility in Lingarajapuram, Bengaluru, prompting officials to evacuate nearby residents."
   }
 ]
