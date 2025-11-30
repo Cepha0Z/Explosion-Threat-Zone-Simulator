@@ -11,39 +11,5 @@
     "yield": 5000,
     "timestamp": "2025-11-30T11:06:39.743Z",
     "source": "admin"
-  },
-  {
-    "id": "news_sim_1764536757394",
-    "timestamp": "2025-11-30T21:06:01.949Z",
-    "expiresAt": "2025-11-30T23:06:01.949Z",
-    "name": "Explosion at Paint Factory",
-    "locationName": "Peenya Industrial Area, Bengaluru",
-    "location": {
-      "lat": 13.0138,
-      "lng": 77.5705
-    },
-    "details": "An explosion at a paint factory has released toxic fumes into the surrounding neighborhoods.",
-    "yield": 30,
-    "incidentType": "explosion",
-    "hazardCategory": "chemical",
-    "source": "simulation_news",
-    "rawText": "An explosion at a paint factory in Peenya Industrial Area, Bengaluru, has released toxic fumes into the surrounding neighborhoods."
-  },
-  {
-    "id": "news_sim_1764536772411",
-    "timestamp": "2025-11-30T21:06:15.689Z",
-    "expiresAt": "2025-11-30T23:06:15.689Z",
-    "name": "Massive Chemical Leak",
-    "locationName": "Lingarajapuram, Bengaluru",
-    "location": {
-      "lat": 13.0116,
-      "lng": 77.6404
-    },
-    "details": "A massive chemical leak has been reported at an industrial facility, prompting officials to evacuate nearby residents.",
-    "yield": 40,
-    "incidentType": "chemical_leak",
-    "hazardCategory": "chemical",
-    "source": "simulation_news",
-    "rawText": "A massive chemical leak has been reported at an industrial facility in Lingarajapuram, Bengaluru, prompting officials to evacuate nearby residents."
   }
 ]

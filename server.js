@@ -1,3 +1,10 @@
+/**
+ * LEGACY SERVER (DEPRECATED)
+ * --------------------------
+ * This file is kept only for reference.
+ * The primary backend entrypoint is now server.new.js used with the React frontend.
+ */
+
 import express from "express";
 import dotenv from "dotenv";
 import fs from "fs";

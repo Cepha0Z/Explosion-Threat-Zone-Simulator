@@ -21,6 +21,7 @@ import threatRoutes from "./backend/routes/threat.routes.js";
 import configRoutes from "./backend/routes/config.routes.js";
 import newsRoutes from "./backend/routes/news.routes.js";
 import healthRoutes from "./backend/routes/health.routes.js";
+import demoRoutes from "./backend/routes/demo.routes.js";
 
 // Import services
 import { initializeThreatsFile } from "./backend/services/threatStorage.service.js";
@@ -39,6 +40,9 @@ const app = express();
 
 // Middleware
 app.use(express.json());
+// NOTE:
+// This static /public HTML app is legacy.
+// The primary frontend is the React app in /frontend-react (Vite dev or built bundle).
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 
@@ -47,6 +51,7 @@ app.use("/api", authRoutes);
 app.use("/api", threatRoutes);
 app.use("/api", newsRoutes);
 app.use("/api", healthRoutes);
+app.use("/api/demo", demoRoutes);
 app.use("/", configRoutes);
 app.use("/api", configRoutes);
 

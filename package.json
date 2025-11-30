@@ -4,7 +4,8 @@
   "description": "Threat Intelligence and Simulation Platform",
   "type": "module",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.new.js",
+    "start:legacy": "node server.js"
   },
   "dependencies": {
     "axios": "^1.13.2",
