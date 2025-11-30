@@ -18,13 +18,17 @@ const PYTHON_SERVICE_URL = 'http://localhost:5000';
  */
 export async function sendEmailAlert(email = null, threat = null) {
     try {
-        // Determine recipient: explicit argument > last logged-in user > env var > default
-        const recipient = email || getAlertRecipient() || process.env.ALERT_EMAIL || 'admin@tmz.com';
+        // Determine recipient: explicit argument > last logged-in user > env var
+        const remembered = getAlertRecipient();
+        const fallback = process.env.ALERT_EMAIL || null;
+        const recipient = email || remembered || fallback;
 
         if (!recipient) {
             logger.pipeline('[EMAIL] No alert recipient is set (no user has logged in yet); skipping email send.');
             return;
         }
+
+        logger.info('[EMAIL] Using recipient', { remembered, fallback, effective: recipient });
 
         const payload = { email: recipient };
         if (threat) {

@@ -13,26 +13,9 @@
     "source": "admin"
   },
   {
-    "id": "news_sim_1764535335025",
-    "timestamp": "2025-11-30T20:42:19.374Z",
-    "expiresAt": "2025-11-30T22:42:19.374Z",
-    "name": "Gas Pipeline Rupture",
-    "locationName": "Electronic City Phase 1, Bengaluru",
-    "location": {
-      "lat": 12.8508,
-      "lng": 77.6659
-    },
-    "details": "A gas pipeline rupture has resulted in a major fire and significant traffic disruptions.",
-    "yield": 30,
-    "incidentType": "fire",
-    "hazardCategory": "thermal",
-    "source": "simulation_news",
-    "rawText": "A gas pipeline rupture near Electronic City Phase 1, Bengaluru, has caused a major fire and traffic gridlock."
-  },
-  {
-    "id": "news_sim_1764535350022",
-    "timestamp": "2025-11-30T20:42:33.892Z",
-    "expiresAt": "2025-11-30T22:42:33.892Z",
+    "id": "news_sim_1764536757394",
+    "timestamp": "2025-11-30T21:06:01.949Z",
+    "expiresAt": "2025-11-30T23:06:01.949Z",
     "name": "Explosion at Paint Factory",
     "locationName": "Peenya Industrial Area, Bengaluru",
     "location": {
@@ -40,10 +23,27 @@
       "lng": 77.5705
     },
     "details": "An explosion at a paint factory has released toxic fumes into the surrounding neighborhoods.",
-    "yield": 25,
+    "yield": 30,
     "incidentType": "explosion",
     "hazardCategory": "chemical",
     "source": "simulation_news",
     "rawText": "An explosion at a paint factory in Peenya Industrial Area, Bengaluru, has released toxic fumes into the surrounding neighborhoods."
+  },
+  {
+    "id": "news_sim_1764536772411",
+    "timestamp": "2025-11-30T21:06:15.689Z",
+    "expiresAt": "2025-11-30T23:06:15.689Z",
+    "name": "Massive Chemical Leak",
+    "locationName": "Lingarajapuram, Bengaluru",
+    "location": {
+      "lat": 13.0116,
+      "lng": 77.6404
+    },
+    "details": "A massive chemical leak has been reported at an industrial facility, prompting officials to evacuate nearby residents.",
+    "yield": 40,
+    "incidentType": "chemical_leak",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "A massive chemical leak has been reported at an industrial facility in Lingarajapuram, Bengaluru, prompting officials to evacuate nearby residents."
   }
 ]

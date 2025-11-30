@@ -3,6 +3,8 @@ import { LogOut, Shield, Radio, Newspaper, Settings, Map } from 'lucide-react';
 import { NavLink, Outlet } from 'react-router-dom';
 import clsx from 'clsx';
 
+import SystemStatusBar from './SystemStatusBar';
+
 export default function MainLayout() {
   const { user, logout } = useAuth();
 
@@ -18,6 +20,9 @@ export default function MainLayout() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex flex-col">
+      {/* System Status Bar */}
+      <SystemStatusBar />
+
       {/* Top Bar */}
       <header className="bg-gray-800 border-b border-gray-700 h-16 flex items-center justify-between px-6 shadow-md z-10">
         <div className="flex items-center gap-3">

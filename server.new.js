@@ -20,6 +20,7 @@ import authRoutes from "./backend/routes/auth.routes.js";
 import threatRoutes from "./backend/routes/threat.routes.js";
 import configRoutes from "./backend/routes/config.routes.js";
 import newsRoutes from "./backend/routes/news.routes.js";
+import healthRoutes from "./backend/routes/health.routes.js";
 
 // Import services
 import { initializeThreatsFile } from "./backend/services/threatStorage.service.js";
@@ -45,6 +46,7 @@ app.use(cors());
 app.use("/api", authRoutes);
 app.use("/api", threatRoutes);
 app.use("/api", newsRoutes);
+app.use("/api", healthRoutes);
 app.use("/", configRoutes);
 app.use("/api", configRoutes);
 

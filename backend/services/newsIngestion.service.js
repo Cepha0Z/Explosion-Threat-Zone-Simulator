@@ -26,6 +26,19 @@ export function setAlertEmail(email) {
     logger.pipeline(`Alert email set to: ${email}`);
 }
 
+let lastIngestionStatus = {
+    lastArticleTitle: null,
+    lastProcessedAt: null
+};
+
+/**
+ * Get the last ingestion status
+ * @returns {Object}
+ */
+export function getLastIngestionStatus() {
+    return lastIngestionStatus;
+}
+
 /**
  * Process raw news text through AI pipeline
  * @param {Object} newsItem - {id, text, timestamp, sourceType}
@@ -73,6 +86,13 @@ async function processNewsItem(newsItem) {
         
         // Step 4: Save to storage
         addThreat(finalThreat);
+        
+        // Update status
+        lastIngestionStatus = {
+            lastArticleTitle: finalThreat.name,
+            lastProcessedAt: new Date().toISOString()
+        };
+        
         logger.pipeline(`✓ Successfully processed threat: ${finalThreat.name}`);
         
         // Step 5: Trigger global email alert
