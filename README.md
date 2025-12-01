@@ -1,31 +1,27 @@
 # TMZ 2.0 - Threat Intelligence Platform
 
 ## Frontend
-- **Primary**: React app in `frontend-react` (Vite + React)
-- **Legacy**: HTML/CSS/JS app in `public/` (kept for reference)
+- **Primary UI:** HTML/CSS/JS app in `public/`, served by `server.new.js`.
+- React prototype in `frontend-react/` is **not used** anymore and kept only as an experiment.
 
-## How to Run (Primary Stack)
+## How to Run TMZ 2.0
 
-1. **Start backend** (modular server):
+1. **Install dependencies (backend)**:
    ```bash
    npm install
-   npm start      # uses server.new.js
    ```
 
-2. **Start React frontend**:
+2. **Start the backend + frontend**:
    ```bash
-   cd frontend-react
-   npm install
-   npm run dev
+   npm start   # runs server.new.js, serves /public UI
    ```
 
-3. **(Optional) Start dummy simulator**:
+3. **(Optional) Start the threat simulator**:
    ```bash
    node threat_simulator.js
    ```
 
-## Legacy (HTML) UI
-If needed for reference:
-```bash
-npm run start:legacy   # uses server.js with old HTML UI
-```
+4. **Open the app**:
+   http://localhost:3000
+
+> **Note:** React dev server (`frontend-react`) is not used in this final setup.

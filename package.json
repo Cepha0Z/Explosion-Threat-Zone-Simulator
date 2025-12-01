@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node server.new.js",
-    "start:legacy": "node server.js"
+    "start:legacy-html": "node server.js"
   },
   "dependencies": {
     "axios": "^1.13.2",

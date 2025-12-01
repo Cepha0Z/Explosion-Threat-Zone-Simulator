@@ -1,4 +1,4 @@
-<!-- LEGACY HTML UI - primary UI is now the React app in /frontend-react -->
+<!-- Primary UI - Served by server.new.js -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -383,7 +383,8 @@
     </div>
 
     <div id="map" class="flex-grow"></div>
-    <script src="app.js"></script>
+    <div id="map" class="flex-grow"></div>
+    <script type="module" src="/app.new.js"></script>
 
     <script>
       let currentNewsMode = "nearme";

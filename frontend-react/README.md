@@ -1,3 +1,10 @@
+# React + Vite (UNUSED)
+
+> [!IMPORTANT]
+> **This React frontend is NOT USED in the final TMZ 2.0 stack.**
+> The production UI is the HTML/JS frontend in `/public` served by `server.new.js`.
+> This directory is kept for reference only.
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

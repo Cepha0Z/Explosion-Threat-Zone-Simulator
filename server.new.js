@@ -40,10 +40,16 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-// NOTE:
-// This static /public HTML app is legacy.
-// The primary frontend is the React app in /frontend-react (Vite dev or built bundle).
+// Serve static files from /public (Primary UI)
 app.use(express.static(path.join(__dirname, "public")));
+
+// Catch-all route to serve index.html for any unmatched routes (SPA fallback)
+app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) {
+        return next();
+    }
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 app.use(cors());
 
 // Register routes
