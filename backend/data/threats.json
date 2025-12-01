@@ -11,5 +11,39 @@
     "yield": 5000,
     "timestamp": "2025-11-30T11:06:39.743Z",
     "source": "admin"
+  },
+  {
+    "id": "news_sim_1764570134718",
+    "timestamp": "2025-12-01T06:22:19.001Z",
+    "expiresAt": "2025-12-01T08:22:19.001Z",
+    "name": "Explosion at Paint Factory",
+    "locationName": "Peenya Industrial Area, Bengaluru",
+    "location": {
+      "lat": 13.0138,
+      "lng": 77.5705
+    },
+    "details": "An explosion at a paint factory has released toxic fumes into the surrounding neighborhoods.",
+    "yield": 30,
+    "incidentType": "explosion",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "An explosion at a paint factory in Peenya Industrial Area, Bengaluru, has released toxic fumes into the surrounding neighborhoods."
+  },
+  {
+    "id": "news_sim_1764570149718",
+    "timestamp": "2025-12-01T06:22:32.991Z",
+    "expiresAt": "2025-12-01T07:22:32.991Z",
+    "name": "Transformer Explosion",
+    "locationName": "Koramangala, Bengaluru",
+    "location": {
+      "lat": 12.9352,
+      "lng": 77.6245
+    },
+    "details": "A transformer explosion has caused a local blackout and minor fires in nearby shops.",
+    "yield": 5,
+    "incidentType": "explosion",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A transformer explosion in Koramangala, Bengaluru, has triggered a local blackout and minor fires in nearby shops."
   }
 ]

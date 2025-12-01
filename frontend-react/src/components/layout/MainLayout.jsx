@@ -1,100 +1,87 @@
 import { useAuth } from '../../context/AuthContext';
-import { LogOut, Map, Newspaper, Radio, Settings } from 'lucide-react';
-import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { LogOut, Shield, Radio, Newspaper, Settings, Map } from 'lucide-react';
+import { NavLink, Outlet } from 'react-router-dom';
 import clsx from 'clsx';
 
 import SystemStatusBar from './SystemStatusBar';
 
 export default function MainLayout() {
   const { user, logout } = useAuth();
-  const location = useLocation();
 
   const navItems = [
-    { to: '/', label: 'Alerts', icon: Map },
-    { to: '/news', label: 'News', icon: Newspaper },
-    { to: '/simulator', label: 'Sim', icon: Radio },
+    { to: '/', label: 'Live Alerts', icon: Map },
+    { to: '/news', label: 'News Feed', icon: Newspaper },
+    { to: '/simulator', label: 'Simulator', icon: Radio },
   ];
 
   if (user?.role === 'admin') {
-    navItems.push({ to: '/admin', label: 'Admin', icon: Settings });
+    navItems.push({ to: '/admin', label: 'Admin Panel', icon: Settings });
   }
 
-  // Determine if current page should show map on right
-  const showsMap = location.pathname === '/' || location.pathname === '/simulator';
-
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans">
-      {/* System Status Bar - very top */}
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col">
+      {/* System Status Bar */}
       <SystemStatusBar />
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
-        
-        {/* LEFT SIDEBAR - Control Panel */}
-        <aside className="w-full md:w-[380px] bg-white border-r border-slate-300 flex flex-col shadow-sm">
-          
-          {/* Header */}
-          <header className="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
-            <div>
-              <h1 className="text-xl font-bold text-slate-900 tracking-wide">TMZ 2.0</h1>
-              <p className="text-xs text-slate-500 uppercase tracking-[0.18em] mt-0.5">
-                Threat Intelligence Platform
-              </p>
-            </div>
-            <button
-              onClick={logout}
-              className="p-2 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
-              title="Sign Out"
-            >
-              <LogOut className="w-5 h-5" />
-            </button>
-          </header>
+      {/* Top Bar */}
+      <header className="bg-gray-800 border-b border-gray-700 h-16 flex items-center justify-between px-6 shadow-md z-10">
+        <div className="flex items-center gap-3">
+          <Shield className="w-8 h-8 text-red-500" />
+          <span className="text-xl font-bold tracking-wide">TMZ 2.0</span>
+        </div>
 
-          {/* Tab Navigation */}
-          <nav className="px-4 pt-3 pb-2 border-b border-slate-200 flex gap-2 text-sm font-medium">
+        <div className="flex items-center gap-6">
+          <div className="text-sm text-gray-400">
+            Logged in as <span className="text-white font-medium">{user?.email}</span>
+            {user?.role === 'admin' && (
+              <span className="ml-2 px-2 py-0.5 bg-red-500/20 text-red-400 text-xs rounded border border-red-500/30">ADMIN</span>
+            )}
+          </div>
+          <button
+            onClick={logout}
+            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm"
+          >
+            <LogOut className="w-4 h-4" />
+            Logout
+          </button>
+        </div>
+      </header>
+
+      {/* Main Content Area */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* Sidebar Navigation */}
+        <aside className="w-64 bg-gray-800/50 border-r border-gray-700 flex flex-col">
+          <nav className="flex-1 p-4 space-y-2">
             {navItems.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
                   clsx(
-                    'flex-1 px-3 py-2.5 rounded-lg text-xs md:text-sm flex items-center justify-center gap-1.5 transition-all font-semibold',
+                    'flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200',
                     isActive
-                      ? 'bg-red-600 text-white shadow-md'
-                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900'
+                      ? 'bg-red-600 text-white shadow-lg shadow-red-900/20'
+                      : 'text-gray-400 hover:bg-gray-700 hover:text-white'
                   )
                 }
               >
-                <item.icon className="w-4 h-4" />
-                <span>{item.label}</span>
+                <item.icon className="w-5 h-5" />
+                <span className="font-medium">{item.label}</span>
               </NavLink>
             ))}
           </nav>
-
-          {/* Left Panel Content - rendered by each page */}
-          <section className="flex-1 overflow-hidden">
-            <Outlet context={{ renderLocation: 'leftPanel' }} />
-          </section>
-
+          
+          <div className="p-4 border-t border-gray-700">
+            <div className="text-xs text-gray-500 text-center">
+              TMZ System v2.0.1 (React)
+            </div>
+          </div>
         </aside>
 
-        {/* RIGHT CONTENT AREA - Map or Empty */}
-        <main className={clsx(
-          "flex-1 relative",
-          showsMap ? "bg-slate-100" : "bg-slate-50"
-        )}>
-          {showsMap ? (
-            <Outlet context={{ renderLocation: 'rightPanel' }} />
-          ) : (
-            <div className="h-full flex items-center justify-center">
-              <div className="text-center text-slate-400">
-                <p className="text-base">Content area</p>
-                <p className="text-sm mt-1">Map displays on Alerts and Simulator tabs</p>
-              </div>
-            </div>
-          )}
+        {/* Page Content */}
+        <main className="flex-1 overflow-auto bg-gray-900 relative">
+          <Outlet />
         </main>
-
       </div>
     </div>
   );

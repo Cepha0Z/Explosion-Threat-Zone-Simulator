@@ -123,17 +123,7 @@ export default function MapContainer({ threats, onMapLoad }) {
 
   // Initialize Map
   useEffect(() => {
-    if (!mapLoaded || !mapRef.current || googleMapRef.current) return;
-    
-    // Safety check: ensure Google Maps API is fully loaded
-    if (!window.google || !window.google.maps || !window.google.maps.Map) {
-      console.warn('[MapContainer] Google Maps API not fully loaded yet, retrying...');
-      // Retry after a short delay
-      const retryTimer = setTimeout(() => setMapLoaded(true), 500);
-      return () => clearTimeout(retryTimer);
-    }
-
-    try {
+    if (mapLoaded && mapRef.current && !googleMapRef.current) {
       googleMapRef.current = new window.google.maps.Map(mapRef.current, {
         center: { lat: 20.5937, lng: 78.9629 }, // India center
         zoom: 5,
@@ -179,8 +169,6 @@ export default function MapContainer({ threats, onMapLoad }) {
           }
         );
       }
-    } catch (error) {
-      console.error('[MapContainer] Failed to initialize map:', error);
     }
   }, [mapLoaded, onMapLoad]);
 

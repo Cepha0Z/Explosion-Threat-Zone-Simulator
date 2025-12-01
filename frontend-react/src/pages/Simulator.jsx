@@ -104,27 +104,27 @@ export default function Simulator() {
   return (
     <div className="h-full flex flex-col md:flex-row relative">
       {/* Left: Map Area */}
-      <div className="flex-1 h-[50vh] md:h-full relative z-0 bg-black md:rounded-l-xl overflow-hidden">
+      <div className="flex-1 h-[50vh] md:h-full relative z-0">
         <MapContainer threats={simThreats} onMapLoad={handleMapLoad} />
         
         {/* Overlay Stats */}
-        <div className="absolute top-4 left-4 bg-gray-900/90 backdrop-blur border border-gray-700 px-3 py-2 rounded-lg shadow-lg z-10">
-          <div className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold mb-1">Mode</div>
+        <div className="absolute top-4 left-4 bg-gray-900/80 backdrop-blur border border-gray-700 p-3 rounded-lg shadow-xl z-10">
+          <div className="text-xs text-gray-400 uppercase tracking-wider font-bold mb-1">Mode</div>
           <div className="flex items-center gap-2">
             <Radio className="w-4 h-4 text-yellow-500 animate-pulse" />
-            <span className="text-yellow-400 font-mono text-xs">SIMULATOR</span>
+            <span className="text-yellow-400 font-mono text-sm">SIMULATOR</span>
           </div>
         </div>
       </div>
 
       {/* Right: Control Panel */}
-      <div className="w-full md:w-96 bg-gray-950 border-l border-gray-800 flex flex-col h-[50vh] md:h-full z-10">
-        <div className="p-4 border-b border-gray-800 bg-gray-900/90 backdrop-blur sticky top-0">
-          <h2 className="text-sm md:text-base font-semibold text-white tracking-wide flex items-center gap-2">
-            <Target className="w-4 h-4 text-yellow-500" />
+      <div className="w-full md:w-96 bg-gray-900 border-l border-gray-700 flex flex-col h-[50vh] md:h-full z-10 shadow-2xl">
+        <div className="p-4 border-b border-gray-800 bg-gray-900/95 backdrop-blur sticky top-0">
+          <h2 className="text-xl font-bold text-white tracking-wide flex items-center gap-2">
+            <Target className="w-5 h-5 text-yellow-500" />
             Threat Simulator
           </h2>
-          <p className="text-[11px] text-gray-500 mt-1">Analyze blast impact radius</p>
+          <p className="text-xs text-gray-500 mt-1">Analyze blast impact radius</p>
         </div>
 
         <div className="flex-1 overflow-y-auto p-4 custom-scrollbar space-y-6">
