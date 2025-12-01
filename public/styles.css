@@ -122,3 +122,82 @@ input[readonly] {
     margin-top: 0.5rem;
     padding-top: 0.5rem;
 }
+
+/* --- VISUAL HIERARCHY & ANIMATIONS --- */
+
+/* Severity Colors */
+:root {
+    --severity-critical: #ef4444; /* Red-500 */
+    --severity-high: #f97316;     /* Orange-500 */
+    --severity-moderate: #eab308; /* Yellow-500 */
+    --severity-low: #3b82f6;      /* Blue-500 */
+    --severity-unknown: #6b7280;  /* Gray-500 */
+}
+
+/* Sidebar Threat Item */
+.threat-item {
+    display: flex;
+    background-color: rgba(31, 41, 55, 0.5); /* gray-800/50 */
+    border: 1px solid #374151; /* gray-700 */
+    border-radius: 0.5rem;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 0.75rem;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.threat-item:hover {
+    background-color: rgba(55, 65, 81, 0.5); /* gray-700/50 */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Severity Bar */
+.threat-severity-bar {
+    width: 6px;
+    flex-shrink: 0;
+}
+
+.threat-severity-critical .threat-severity-bar { background-color: var(--severity-critical); box-shadow: 0 0 8px var(--severity-critical); }
+.threat-severity-high .threat-severity-bar { background-color: var(--severity-high); }
+.threat-severity-moderate .threat-severity-bar { background-color: var(--severity-moderate); }
+.threat-severity-low .threat-severity-bar { background-color: var(--severity-low); }
+.threat-severity-unknown .threat-severity-bar { background-color: var(--severity-unknown); }
+
+/* Content Layout */
+.threat-content {
+    padding: 0.75rem;
+    flex-grow: 1;
+}
+
+/* Typography */
+.threat-title {
+    font-weight: 700;
+    color: #f3f4f6; /* gray-100 */
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+    line-height: 1.2;
+}
+
+.threat-meta {
+    font-size: 0.75rem;
+    color: #9ca3af; /* gray-400 */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.threat-meta span {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Fade Out Animation */
+.threat-exiting {
+    opacity: 0;
+    transform: translateX(-20px);
+    pointer-events: none;
+}

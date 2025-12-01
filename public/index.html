@@ -383,7 +383,6 @@
     </div>
 
     <div id="map" class="flex-grow"></div>
-    <div id="map" class="flex-grow"></div>
     <script type="module" src="/app.new.js"></script>
 
     <script>
@@ -409,8 +408,16 @@
 
         const activeBtn = document.getElementById(tabName + "-mode-btn");
         const activePanel = document.getElementById(
-          tabName === "live" ? "live-alerts-panel" : tabName === "admin" ? "admin-panel" : tabName + "-panel"
+          tabName === "live" ? "live-alerts-panel" : 
+          tabName === "admin" ? "admin-panel" : 
+          tabName === "sim" ? "simulator-panel" :
+          tabName + "-panel"
         );
+
+        if (!activeBtn || !activePanel) {
+          console.error('Tab elements not found:', { tabName, activeBtn: !!activeBtn, activePanel: !!activePanel });
+          return;
+        }
 
         activeBtn.classList.remove("border-transparent", "text-gray-400");
         activeBtn.classList.add(
@@ -421,8 +428,15 @@
         activePanel.classList.remove("hidden");
 
         const simActions = document.getElementById("simulator-actions");
-        if (tabName === "sim") simActions.classList.remove("hidden");
-        else simActions.classList.add("hidden");
+        if (tabName === "sim") {
+          if (simActions) simActions.classList.remove("hidden");
+          // Ensure simulation buttons are created when tab is shown
+          if (window.SimulationModule) {
+            window.SimulationModule.ensureButtonsCreated();
+          }
+        } else {
+          if (simActions) simActions.classList.add("hidden");
+        }
 
         if (tabName === "news") refreshCurrentNews();
         if (tabName === "admin" && typeof updateAdminThreatList === 'function') updateAdminThreatList();

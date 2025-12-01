@@ -39,7 +39,50 @@ export const MapModule = {
             }
         });
 
+        // Try to center on user location
+        this.centerOnUser();
+
         return this.map;
+    },
+
+    /**
+     * Center map on user's current location
+     */
+    centerOnUser() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                    };
+
+                    this.map.setCenter(pos);
+                    this.map.setZoom(14); // Zoom in to city level
+
+                    // Add a blue dot for user location
+                    new google.maps.Marker({
+                        position: pos,
+                        map: this.map,
+                        icon: {
+                            path: google.maps.SymbolPath.CIRCLE,
+                            scale: 7,
+                            fillColor: '#4285F4',
+                            fillOpacity: 1,
+                            strokeColor: 'white',
+                            strokeWeight: 2,
+                        },
+                        title: "Your Location"
+                    });
+                },
+                () => {
+                    console.warn("Geolocation service failed or permission denied.");
+                    // Fallback is already set in initialize (center of India)
+                }
+            );
+        } else {
+            console.warn("Browser doesn't support Geolocation");
+        }
     },
 
     /**

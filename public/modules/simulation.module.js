@@ -28,9 +28,24 @@ export const SimulationModule = {
      * @param {google.maps.Map} map
      */
     initialize(map) {
-        this.createThreatButtons();
+        const success = this.createThreatButtons();
         this.setupEventListeners(map);
         this.setupAutocomplete(map);
+        
+        // If buttons weren't created, retry after a short delay
+        if (!success) {
+            setTimeout(() => {
+                console.log('🔄 Retrying simulation button creation...');
+                this.createThreatButtons();
+            }, 500);
+        }
+    },
+
+    /**
+     * Ensure buttons are created (can be called externally)
+     */
+    ensureButtonsCreated() {
+        return this.createThreatButtons();
     },
 
     /**
@@ -39,6 +54,15 @@ export const SimulationModule = {
     createThreatButtons() {
         const accidentsContainer = document.getElementById('accidents-container');
         const weaponsContainer = document.getElementById('weapons-container');
+
+        if (!accidentsContainer || !weaponsContainer) {
+            console.warn('⚠️ Simulation containers not found in DOM, will retry when tab is shown');
+            return false;
+        }
+
+        // Clear existing buttons first
+        accidentsContainer.innerHTML = '';
+        weaponsContainer.innerHTML = '';
 
         if (accidentsContainer) {
             this.threatScenarios.accidents.forEach(threat => {
@@ -51,6 +75,18 @@ export const SimulationModule = {
                 weaponsContainer.appendChild(this.createButton(threat));
             });
         }
+
+        // Refresh lucide icons after adding buttons
+        if (window.lucide) {
+            lucide.createIcons();
+        }
+        
+        console.log('✅ Simulation buttons created:', {
+            accidents: this.threatScenarios.accidents.length,
+            weapons: this.threatScenarios.weapons.length
+        });
+        
+        return true;
     },
 
     /**

@@ -40,19 +40,9 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-// Serve static files from /public (Primary UI)
-app.use(express.static(path.join(__dirname, "public")));
-
-// Catch-all route to serve index.html for any unmatched routes (SPA fallback)
-app.get('*', (req, res, next) => {
-    if (req.path.startsWith('/api')) {
-        return next();
-    }
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
 app.use(cors());
 
-// Register routes
+// Register API routes FIRST (before catch-all)
 app.use("/api", authRoutes);
 app.use("/api", threatRoutes);
 app.use("/api", newsRoutes);
@@ -60,6 +50,18 @@ app.use("/api", healthRoutes);
 app.use("/api/demo", demoRoutes);
 app.use("/", configRoutes);
 app.use("/api", configRoutes);
+
+// Serve static files from /public (Primary UI)
+app.use(express.static(path.join(__dirname, "public")));
+
+// Catch-all route to serve index.html for any unmatched routes (SPA fallback)
+// This MUST come AFTER API routes
+app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) {
+        return next();
+    }
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // Initialize data storage
 initializeThreatsFile();
