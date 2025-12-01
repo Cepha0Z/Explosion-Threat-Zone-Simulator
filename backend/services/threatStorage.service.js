@@ -27,28 +27,45 @@ export function isPersistentThreat(threat) {
 }
 
 /**
+ * Ensure the test threat exists in the list
+ * @param {Array} threats 
+ * @returns {Array}
+ */
+function seedTestThreatIfMissing(threats) {
+    const TEST_THREAT_ID = 'test-threat-001';
+    const TEST_THREAT_OBJECT = {
+        id: TEST_THREAT_ID,
+        name: 'test01',
+        locationName: 'Lingarajapurum, Bengaluru',
+        location: { lat: 13.013251, lng: 77.624151 },
+        details: 'i killed the toilet lol (it worked!!)',
+        yield: 7700,
+        timestamp: new Date().toISOString(),
+        source: 'admin'
+    };
+
+    const exists = threats.some(t => t.id === TEST_THREAT_ID);
+    if (exists) return threats;
+    
+    logger.threat('Seeding missing test threat: test-threat-001');
+    return [...threats, TEST_THREAT_OBJECT];
+}
+
+/**
  * Initialize threats file with default threat if it doesn't exist
  * Also performs startup cleanup of ephemeral/expired threats
  */
 export function initializeThreatsFile() {
-    const hardcodedThreat = [{
-        id: "test-threat-001",
-        name: "test01",
-        locationName: "Lingarajapurum, Bengaluru",
-        location: { lat: 13.016003, lng: 77.625933 },
-        details: "i killed the toilet",
-        yield: 5000,
-        timestamp: new Date().toISOString(),
-        source: "admin"
-    }];
-
     if (!fs.existsSync(THREATS_FILE)) {
-        fs.writeFileSync(THREATS_FILE, JSON.stringify(hardcodedThreat, null, 2));
+        // Create new file with seeded threat
+        const initialThreats = seedTestThreatIfMissing([]);
+        fs.writeFileSync(THREATS_FILE, JSON.stringify(initialThreats, null, 2));
         logger.threat('Created threats.json with default test threat');
     } else {
         // Startup Cleanup: Remove expired AND ephemeral threats
-        const allThreats = readThreats(true); // Read raw
+        let allThreats = readThreats(true); // Read raw
         const now = Date.now();
+        const initialCount = allThreats.length;
         
         const keptThreats = [];
         let removedExpired = 0;
@@ -67,21 +84,22 @@ export function initializeThreatsFile() {
         }
 
         // Ensure immortal threat exists
-        if (!keptThreats.some(t => t.id === 'test-threat-001')) {
-            keptThreats.push(hardcodedThreat[0]);
-            logger.threat('Respawned immortal test threat: test-threat-001');
-        }
+        const finalThreats = seedTestThreatIfMissing(keptThreats);
+        const wasSeeded = finalThreats.length > keptThreats.length;
 
-        if (removedExpired > 0 || removedEphemeral > 0) {
-            writeThreats(keptThreats);
-            logger.info('[Startup] Threat cleanup complete', {
-                totalBefore: allThreats.length,
+        // Save if we changed anything (removed threats OR added seed)
+        if (removedExpired > 0 || removedEphemeral > 0 || wasSeeded) {
+            writeThreats(finalThreats);
+            logger.info('[Startup] Threat cleanup & seeding complete', {
+                totalBefore: initialCount,
                 kept: keptThreats.length,
+                final: finalThreats.length,
                 removedExpired,
-                removedEphemeral
+                removedEphemeral,
+                seeded: wasSeeded
             });
         } else {
-            logger.threat('Loaded existing threats (no cleanup needed)');
+            logger.threat('Loaded existing threats (no cleanup or seeding needed)');
         }
     }
 }

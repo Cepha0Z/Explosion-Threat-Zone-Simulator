@@ -4,7 +4,7 @@
  */
 
 import express from 'express';
-import { readThreats, addThreat, deleteThreat } from '../services/threatStorage.service.js';
+import { readThreats, addThreat, deleteThreat, isPersistentThreat } from '../services/threatStorage.service.js';
 import { calculateExpiry } from '../utils/threatExpiry.util.js';
 import { logger } from '../utils/logger.util.js';
 
@@ -44,6 +44,15 @@ router.post('/threats', (req, res) => {
 router.delete('/threats/:id', (req, res) => {
     try {
         const { id } = req.params;
+
+        // Check if threat is persistent before deleting
+        const threats = readThreats(true); // Read all threats including expired/persistent
+        const targetThreat = threats.find(t => t.id === id);
+
+        if (targetThreat && isPersistentThreat(targetThreat)) {
+            return res.status(403).json({ error: "This built-in test threat cannot be permanently deleted." });
+        }
+
         const deleted = deleteThreat(id);
         
         if (deleted) {
