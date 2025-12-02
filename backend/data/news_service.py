@@ -19,6 +19,9 @@ load_dotenv()
 BASE_DIR = os.path.dirname(__file__)
 THREATS_FILE = os.path.join(BASE_DIR, "threats.json")
 
+# **NEWS FILTERING MODE: Set to True for strict filtering, False for relaxed (demo-friendly)**
+STRICT_MODE = True  # Change to True for precise threat filtering
+
 API_KEY = os.getenv("NEWS_API_KEY")
 SENDER_EMAIL = os.getenv("SENDER_EMAIL")
 SENDER_PASSWORD = os.getenv("APP_PASSWORD")
@@ -44,6 +47,7 @@ llm_client = (
 
 print("Has OPENROUTER_API_KEY:", bool(OPENROUTER_API_KEY))
 print("Using OpenRouter model:", OPENROUTER_MODEL)
+print(f"NEWS FILTERING MODE: {'STRICT' if STRICT_MODE else 'RELAXED (Demo-Friendly)'}")
 
 
 #ai model ig
@@ -142,22 +146,255 @@ app = Flask(__name__)
 CORS(app)
 
 # -----------------------------------
-# NEWS FOR UI PANEL
+# THREAT CATEGORIES & KEYWORDS
 # -----------------------------------
-def fetch_explosion_news():
-    print("Using NEWS_API_KEY:", API_KEY)
-    """Fetch explosion-related news from NewsAPI."""
+THREAT_KEYWORDS = {
+    "explosion": {
+        "keywords": ["explosion", "blast", "detonation", "bomb", "ied", "fireball", "cylinder blast", "explode", "blew up"],
+        "weight": 1.0,
+        "priority": "high"
+    },
+    "terror": {
+        "keywords": ["terror attack", "terrorist", "bombing", "active shooter", "hostage", "gunman", "armed attack"],
+        "weight": 1.0,
+        "priority": "high"
+    },
+    "chemical": {
+        "keywords": ["chemical leak", "toxic spill", "hazmat", "gas leak", "ammonia", "chlorine", "radiation", "toxic fumes"],
+        "weight": 0.8,
+        "priority": "high"
+    },
+    "fire": {
+        "keywords": ["wildfire", "forest fire", "brush fire", "blaze", "inferno", "fire spreading"],
+        "weight": 0.8,
+        "priority": "medium"
+    },
+    "natural": {
+        "keywords": ["earthquake", "flood", "tsunami", "hurricane", "cyclone", "tornado", "landslide", "avalanche"],
+        "weight": 0.7,
+        "priority": "medium"
+    },
+    "infrastructure": {
+        "keywords": ["power outage", "blackout", "grid failure", "dam breach", "bridge collapse"],
+        "weight": 0.5,
+        "priority": "medium"
+    },
+    "structural": {
+        "keywords": ["building collapse", "structural failure", "construction accident", "collapse"],
+        "weight": 0.6,
+        "priority": "medium"
+    },
+    "pandemic": {
+        "keywords": ["pandemic", "outbreak", "epidemic", "virus spread", "disease cluster", "contagion"],
+        "weight": 0.4,
+        "priority": "low"
+    }
+}
+
+# -----------------------------------
+# NEWS FILTERING FUNCTIONS
+# -----------------------------------
+def build_threat_query():
+    """Build comprehensive threat-focused query for NewsAPI."""
+    all_keywords = []
+    for category, data in THREAT_KEYWORDS.items():
+        all_keywords.extend(data["keywords"][:3])  # Top 3 keywords per category
+    
+    # Build query with OR operators
+    query = " OR ".join([f'"{kw}"' if " " in kw else kw for kw in all_keywords])
+    return f"({query})"
+
+
+def calculate_threat_score(article, location=None, scope="city", strict=False):
+    """
+    Calculate priority score for an article based on:
+    - Threat category match
+    - Location relevance
+    - Recency
+    - Keyword density
+    
+    Args:
+        article: Article object
+        location: User's city name
+        scope: Filtering scope
+        strict: If True, use strict scoring with penalties
+    """
+    score = 0
+    text = f"{article.get('title', '')} {article.get('description', '')}".lower()
+    
+    # Threat category scoring
+    matched_categories = []
+    for category, data in THREAT_KEYWORDS.items():
+        for keyword in data["keywords"]:
+            if keyword.lower() in text:
+                score += data["weight"] * 100
+                matched_categories.append(category)
+                break  # Count category once
+    
+    # Location relevance scoring
+    if location and scope != "global":
+        location_lower = location.lower()
+        if location_lower in text:
+            score += 50  # Exact city match
+        elif scope == "near_me":
+            # Check for nearby area indicators
+            nearby_keywords = ["near", "vicinity", "area", "region"]
+            if any(kw in text for kw in nearby_keywords):
+                score += 25
+    
+    # Global scope - no location bonuses or penalties
+    # Just show top threat news from anywhere
+    if scope == "global":
+        # Small bonus for truly global events
+        global_keywords = ["global", "international", "worldwide"]
+        if any(kw in text for kw in global_keywords):
+            score += 20
+    
+    # Recency scoring (based on publishedAt)
+    try:
+        from datetime import datetime, timezone
+        published = article.get("publishedAt")
+        if published:
+            pub_time = datetime.fromisoformat(published.replace("Z", "+00:00"))
+            now = datetime.now(timezone.utc)
+            hours_old = (now - pub_time).total_seconds() / 3600
+            
+            if hours_old < 1:
+                score += 30
+            elif hours_old < 6:
+                score += 20
+            elif hours_old < 24:
+                score += 10
+    except:
+        pass
+    
+    # Keyword density bonus
+    keyword_count = sum(1 for cat_data in THREAT_KEYWORDS.values() 
+                       for kw in cat_data["keywords"] if kw.lower() in text)
+    score += min(keyword_count * 5, 20)  # Max 20 points
+    
+    return score
+    
+    # Recency scoring (based on publishedAt)
+    try:
+        from datetime import datetime, timezone
+        published = article.get("publishedAt")
+        if published:
+            pub_time = datetime.fromisoformat(published.replace("Z", "+00:00"))
+            now = datetime.now(timezone.utc)
+            hours_old = (now - pub_time).total_seconds() / 3600
+            
+            if hours_old < 1:
+                score += 30
+            elif hours_old < 6:
+                score += 20
+            elif hours_old < 24:
+                score += 10
+    except:
+        pass
+    
+    # Keyword density bonus
+    keyword_count = sum(1 for cat_data in THREAT_KEYWORDS.values() 
+                       for kw in cat_data["keywords"] if kw.lower() in text)
+    score += min(keyword_count * 5, 20)  # Max 20 points
+    
+    return score
+
+
+def is_threat_relevant(article, strict=False):
+    """
+    Check if article contains any threat keywords.
+    
+    Args:
+        article: Article object
+        strict: If True, only match exact threat keywords. If False, also match emergency keywords.
+    """
+    text = f"{article.get('title', '')} {article.get('description', '')}".lower()
+    
+    # Check for threat keywords
+    for category, data in THREAT_KEYWORDS.items():
+        for keyword in data["keywords"]:
+            if keyword.lower() in text:
+                return True
+    
+    # RELAXED MODE: Also accept articles with general emergency/incident keywords
+    if not strict:
+        emergency_keywords = ["emergency", "incident", "accident", "disaster", "crisis", 
+                             "alert", "warning", "danger", "hazard", "evacuate", "rescue"]
+        if any(kw in text for kw in emergency_keywords):
+            return True
+    
+    return False
+
+
+def filter_by_location(articles, location, scope, strict=False):
+    """
+    Filter articles by location scope:
+    - near_me: Only articles from user's location (e.g., Bengaluru)
+    - city: Articles from user's city (same as near_me for now)
+    - global: Top worldwide news (any location)
+    
+    Args:
+        articles: List of articles
+        location: User's city name
+        scope: Filtering scope (near_me, city, global)
+        strict: If True, use strict filtering. If False, more lenient.
+    """
+    if scope == "global":
+        # GLOBAL: Return all threat-related news (top worldwide news)
+        # No location filtering - show news from anywhere
+        return articles
+    
+    # For "near_me" and "city": Filter by user's location
+    if not location:
+        return articles
+    
+    filtered = []
+    location_lower = location.lower()
+    
+    for article in articles:
+        text = f"{article.get('title', '')} {article.get('description', '')}".lower()
+        
+        # Check if article mentions user's location
+        if location_lower in text:
+            filtered.append(article)
+        elif not strict:
+            # RELAXED: Also include if no specific location mentioned
+            # (could be general threat news relevant to the area)
+            common_cities = ["new york", "london", "paris", "tokyo", "delhi", "mumbai", "beijing", 
+                           "los angeles", "chicago", "houston", "sydney", "toronto"]
+            has_other_city = any(city in text for city in common_cities if city != location_lower)
+            if not has_other_city:
+                # No other city mentioned - might be local or general news
+                filtered.append(article)
+    
+    # Return filtered results, or all articles if no matches (in relaxed mode)
+    return filtered if (filtered or strict) else articles
+
+
+
+def fetch_threat_news(location=None, scope="city", strict=False):
+    """
+    Fetch threat-related news with location filtering.
+    
+    Args:
+        location: User's city name (e.g., "Bengaluru")
+        scope: "near_me", "city", or "global"
+        strict: If True, use strict filtering. If False, more lenient (default for demo).
+    """
+    print(f"[NEWS] Fetching threat news for location={location}, scope={scope}, strict={strict}")
+    
     if not API_KEY:
         print("[NEWS] Missing NEWS_API_KEY, returning empty list.")
         return []
 
-    query = "(explosion OR blast OR detonation OR bomb OR fireball OR \"cylinder blast\")"
+    query = build_threat_query()
     url = (
         "https://newsapi.org/v2/everything"
         f"?q={query}"
         "&language=en"
         "&sortBy=publishedAt"
-        "&pageSize=20"
+        "&pageSize=50"  # Fetch more to filter
         f"&apiKey={API_KEY}"
     )
 
@@ -165,7 +402,28 @@ def fetch_explosion_news():
         r = requests.get(url, timeout=8)
         r.raise_for_status()
         data = r.json()
-        return data.get("articles", [])
+        articles = data.get("articles", [])
+        
+        # Filter for threat relevance
+        threat_articles = [a for a in articles if is_threat_relevant(a, strict)]
+        print(f"[NEWS] Found {len(threat_articles)} threat-relevant articles out of {len(articles)} (strict={strict})")
+        
+        # Filter by location
+        location_filtered = filter_by_location(threat_articles, location, scope, strict)
+        print(f"[NEWS] {len(location_filtered)} articles match location filter (strict={strict})")
+        
+        # Calculate scores and sort
+        scored_articles = []
+        for article in location_filtered:
+            score = calculate_threat_score(article, location, scope, strict)
+            scored_articles.append((score, article))
+        
+        # Sort by score (highest first)
+        scored_articles.sort(key=lambda x: x[0], reverse=True)
+        
+        # Return top articles
+        return [article for score, article in scored_articles]
+        
     except Exception as e:
         print("[NEWS ERROR]", e)
         return []
@@ -173,11 +431,24 @@ def fetch_explosion_news():
 
 @app.get("/api/news")
 def get_news():
-    """Return cleaned explosion-related articles for frontend."""
-    articles = fetch_explosion_news()
+    """
+    Return filtered and prioritized threat-related articles for frontend.
+    
+    Filtering mode is controlled by STRICT_MODE variable at top of file.
+    
+    Query Parameters:
+        location: City name (default: "Bengaluru")
+        scope: "near_me", "city", or "global" (default: "city")
+    """
+    location = request.args.get("location", "Bengaluru")
+    scope = request.args.get("scope", "city")  # near_me, city, global
+    
+    # Use global STRICT_MODE setting
+    articles = fetch_threat_news(location, scope, STRICT_MODE)
     cleaned = []
 
-    for a in articles:
+    # Return top 20 by priority
+    for a in articles[:20]:
         cleaned.append(
             {
                 "title": a.get("title"),
