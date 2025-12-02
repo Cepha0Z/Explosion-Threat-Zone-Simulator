@@ -9,17 +9,22 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body class="bg-gray-900 text-gray-200 flex">
+  <body class="bg-gray-900 text-gray-200 flex h-screen overflow-hidden">
+    <!-- Toggle button - always visible, positioned over map/sidebar -->
     <button
       id="panel-toggle"
-      class="fixed top-4 left-4 z-30 bg-gray-900/80 border border-gray-700 rounded-md p-2 hover:bg-gray-800 transition"
-      title="Hide panel"
+      class="fixed top-4 left-4 z-50 bg-gray-900/90 border border-gray-700 rounded-md p-2 hover:bg-gray-800 transition shadow-lg"
+      title="Toggle menu"
     >
-      <i data-lucide="chevrons-left" class="w-5 h-5 text-gray-100"></i>
+      <i data-lucide="menu" class="w-5 h-5 text-gray-100"></i>
     </button>
 
+    <!-- Mobile overlay backdrop -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-20 hidden md:hidden"></div>
+
     <div
-      class="w-full max-w-md h-full bg-gray-900/80 backdrop-blur-lg border-r border-gray-800 shadow-2xl z-10 flex flex-col control-panel"
+      id="control-panel"
+      class="control-panel fixed md:relative w-full max-w-md h-full bg-gray-900/95 md:bg-gray-900/80 backdrop-blur-lg border-r border-gray-800 shadow-2xl z-30 md:z-10 flex flex-col -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out"
     >
       <header class="p-6 border-b border-gray-800 flex items-center justify-between">
         <div class="flex items-center gap-3">
@@ -382,44 +387,82 @@
       </footer>
     </div>
 
-    <div id="map" class="flex-grow"></div>
+    <div id="map" class="flex-1 w-full h-full"></div>
     <script type="module" src="/app.new.js"></script>
 
     <script>
-      // ===== SIDEBAR COLLAPSE FUNCTIONALITY =====
+      // ===== SIDEBAR COLLAPSE FUNCTIONALITY (MOBILE-RESPONSIVE) =====
       
       const panelToggleBtn = document.getElementById('panel-toggle');
-      const controlPanel = document.querySelector('.control-panel');
+      const controlPanel = document.getElementById('control-panel');
+      const sidebarOverlay = document.getElementById('sidebar-overlay');
       const mapContainer = document.getElementById('map');
       const toggleIcon = panelToggleBtn.querySelector('i');
       
       // Check for reduced motion preference
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       
-      // Load saved state from localStorage
+      // Check if mobile viewport
+      function isMobile() {
+        return window.innerWidth < 768;
+      }
+      
+      // Load saved state from localStorage (desktop only)
       const savedState = localStorage.getItem('sidebarCollapsed');
       let isCollapsed = savedState === 'true';
       
-      // Apply initial state
-      if (isCollapsed) {
-        applySidebarState(true, false); // true = collapsed, false = no animation on load
+      // Apply initial state (desktop only - mobile starts collapsed)
+      if (!isMobile() && isCollapsed) {
+        applySidebarState(true, false);
       }
       
       // Toggle button click handler
       panelToggleBtn.addEventListener('click', () => {
         isCollapsed = !isCollapsed;
-        applySidebarState(isCollapsed, true); // true = animate
+        applySidebarState(isCollapsed, true);
         
-        // Save state to localStorage
-        localStorage.setItem('sidebarCollapsed', isCollapsed);
+        // Save state to localStorage (desktop only)
+        if (!isMobile()) {
+          localStorage.setItem('sidebarCollapsed', isCollapsed);
+        }
       });
       
-      // Keyboard accessibility (Enter or Space)
+      // Close sidebar when clicking overlay (mobile only)
+      sidebarOverlay.addEventListener('click', () => {
+        if (isMobile() && !isCollapsed) {
+          isCollapsed = true;
+          applySidebarState(true, true);
+        }
+      });
+      
+      // Keyboard accessibility
       panelToggleBtn.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           panelToggleBtn.click();
         }
+      });
+      
+      // Handle window resize - reset state appropriately
+      let resizeTimeout;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          if (!isMobile()) {
+            // Desktop: restore saved state
+            const savedDesktopState = localStorage.getItem('sidebarCollapsed') === 'true';
+            if (savedDesktopState !== isCollapsed) {
+              isCollapsed = savedDesktopState;
+              applySidebarState(isCollapsed, false);
+            }
+          } else {
+            // Mobile: always start collapsed
+            if (!isCollapsed) {
+              isCollapsed = true;
+              applySidebarState(true, false);
+            }
+          }
+        }, 150);
       });
       
       /**
@@ -428,50 +471,80 @@
        * @param {boolean} animate - Whether to animate the transition
        */
       function applySidebarState(collapsed, animate) {
-        const duration = (animate && !prefersReducedMotion) ? 300 : 0;
+        const mobile = isMobile();
         
-        if (collapsed) {
-          // Collapse sidebar - change width to 0 to reclaim space
-          controlPanel.style.transition = duration ? `width ${duration}ms ease-in-out, opacity ${duration}ms ease-in-out, padding ${duration}ms ease-in-out` : 'none';
-          controlPanel.style.width = '0';
-          controlPanel.style.minWidth = '0';
-          controlPanel.style.maxWidth = '0';
-          controlPanel.style.opacity = '0';
-          controlPanel.style.padding = '0';
-          controlPanel.style.overflow = 'hidden';
-          
-          // Update toggle button
-          toggleIcon.setAttribute('data-lucide', 'chevrons-right');
-          panelToggleBtn.title = 'Show panel';
-          panelToggleBtn.style.left = '4px';
+        if (mobile) {
+          // MOBILE: Off-canvas behavior with overlay
+          if (collapsed) {
+            // Hide sidebar off-screen
+            controlPanel.classList.add('-translate-x-full');
+            controlPanel.classList.remove('translate-x-0');
+            sidebarOverlay.classList.add('hidden');
+            
+            // Update toggle button - stays at left-4
+            toggleIcon.setAttribute('data-lucide', 'menu');
+            panelToggleBtn.title = 'Open menu';
+            panelToggleBtn.style.left = '1rem'; // left-4
+          } else {
+            // Show sidebar over map
+            controlPanel.classList.remove('-translate-x-full');
+            controlPanel.classList.add('translate-x-0');
+            sidebarOverlay.classList.remove('hidden');
+            
+            // Update toggle button - stays at left-4
+            toggleIcon.setAttribute('data-lucide', 'x');
+            panelToggleBtn.title = 'Close menu';
+            panelToggleBtn.style.left = '1rem'; // left-4
+          }
         } else {
-          // Expand sidebar - restore original width
-          controlPanel.style.transition = duration ? `width ${duration}ms ease-in-out, opacity ${duration}ms ease-in-out, padding ${duration}ms ease-in-out` : 'none';
-          controlPanel.style.width = '';
-          controlPanel.style.minWidth = '';
-          controlPanel.style.maxWidth = '';
-          controlPanel.style.opacity = '1';
-          controlPanel.style.padding = '';
-          controlPanel.style.overflow = '';
+          // DESKTOP: Width-based collapse
+          const duration = (animate && !prefersReducedMotion) ? 300 : 0;
           
-          // Update toggle button
-          toggleIcon.setAttribute('data-lucide', 'chevrons-left');
-          panelToggleBtn.title = 'Hide panel';
-          panelToggleBtn.style.left = '16px';
+          if (collapsed) {
+            // Collapse sidebar - change width to 0
+            controlPanel.style.transition = duration ? `width ${duration}ms ease-in-out, opacity ${duration}ms ease-in-out, padding ${duration}ms ease-in-out` : 'none';
+            controlPanel.style.width = '0';
+            controlPanel.style.minWidth = '0';
+            controlPanel.style.maxWidth = '0';
+            controlPanel.style.opacity = '0';
+            controlPanel.style.padding = '0';
+            controlPanel.style.overflow = 'hidden';
+            
+            // Update toggle button - move to left edge
+            panelToggleBtn.style.transition = duration ? `left ${duration}ms ease-in-out` : 'none';
+            panelToggleBtn.style.left = '1rem'; // left-4
+            toggleIcon.setAttribute('data-lucide', 'chevrons-right');
+            panelToggleBtn.title = 'Show panel';
+          } else {
+            // Expand sidebar
+            controlPanel.style.transition = duration ? `width ${duration}ms ease-in-out, opacity ${duration}ms ease-in-out, padding ${duration}ms ease-in-out` : 'none';
+            controlPanel.style.width = '';
+            controlPanel.style.minWidth = '';
+            controlPanel.style.maxWidth = '';
+            controlPanel.style.opacity = '1';
+            controlPanel.style.padding = '';
+            controlPanel.style.overflow = '';
+            
+            // Update toggle button - move to right of sidebar (max-w-md = 28rem = 448px)
+            panelToggleBtn.style.transition = duration ? `left ${duration}ms ease-in-out` : 'none';
+            panelToggleBtn.style.left = 'calc(28rem + 1rem)'; // sidebar width + padding
+            toggleIcon.setAttribute('data-lucide', 'chevrons-left');
+            panelToggleBtn.title = 'Hide panel';
+          }
+          
+          // Trigger Google Maps resize after transition (desktop only)
+          if (duration > 0) {
+            setTimeout(() => {
+              if (window.google && window.google.maps && window.MapModule) {
+                google.maps.event.trigger(window.MapModule.getMap(), 'resize');
+              }
+            }, duration);
+          }
         }
         
         // Re-render lucide icons
         if (window.lucide) {
           lucide.createIcons();
-        }
-        
-        // Trigger Google Maps resize after transition
-        if (duration > 0) {
-          setTimeout(() => {
-            if (window.google && window.google.maps && window.MapModule) {
-              google.maps.event.trigger(window.MapModule.getMap(), 'resize');
-            }
-          }, duration);
         }
       }
       
