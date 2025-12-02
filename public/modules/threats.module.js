@@ -8,6 +8,10 @@ export const ThreatsModule = {
     liveThreatOverlays: [],
     lastThreatHash: '',
     userLocation: null, // Store user's location for proximity checks
+    
+    // Threat Timeline (session-scoped)
+    threatTimeline: [], // Array of {id, name, created, ended, source, status}
+    activeThreatsMap: new Map(), // Track currently active threats by ID
 
     /**
      * Update user location for proximity-based features
@@ -115,6 +119,9 @@ export const ThreatsModule = {
         // 1. Handle Removed Threats (Fade Out)
         for (const [id, data] of this.activeThreatsMap) {
             if (!currentThreatIds.has(id)) {
+                // Add to timeline before removing
+                this.addToTimeline(id, data.threat, 'removed');
+                
                 // Remove from sidebar with animation
                 if (data.element) {
                     data.element.classList.add('threat-exiting');
@@ -223,8 +230,11 @@ export const ThreatsModule = {
             this.activeThreatsMap.set(threat.id, {
                 element: threatEl,
                 overlays: threatOverlays,
-                data: threat
+                threat: threat
             });
+            
+            // Add to timeline as active
+            this.addToTimeline(threat.id, threat, 'active');
         });
     },
 
@@ -451,5 +461,106 @@ export const ThreatsModule = {
         
         this.autoUpdate(map); // Initial load
         setInterval(() => this.autoUpdate(map), interval);
+    },
+    
+    /**
+     * Add or update threat in timeline
+     * @param {string} id - Threat ID
+     * @param {object} threat - Threat object
+     * @param {string} status - 'active', 'expired', or 'removed'
+     */
+    addToTimeline(id, threat, status = 'active') {
+        const existingIndex = this.threatTimeline.findIndex(entry => entry.id === id);
+        
+        if (existingIndex >= 0) {
+            // Update existing entry
+            if (status !== 'active') {
+                this.threatTimeline[existingIndex].ended = new Date().toISOString();
+                this.threatTimeline[existingIndex].status = status;
+            }
+        } else {
+            // Add new entry
+            this.threatTimeline.push({
+                id: id,
+                name: threat.name,
+                created: threat.timestamp,
+                ended: status !== 'active' ? new Date().toISOString() : null,
+                source: threat.source || 'unknown',
+                status: status
+            });
+        }
+        
+        // Render timeline
+        this.renderTimeline();
+    },
+    
+    /**
+     * Render threat timeline UI
+     */
+    renderTimeline() {
+        const timelineContainer = document.getElementById('threat-timeline-list');
+        if (!timelineContainer) return;
+        
+        // Sort by created time (most recent first)
+        const sortedTimeline = [...this.threatTimeline].sort((a, b) => 
+            new Date(b.created) - new Date(a.created)
+        );
+        
+        if (sortedTimeline.length === 0) {
+            timelineContainer.innerHTML = '<div class="text-sm text-gray-500 italic p-4">No threat history this session</div>';
+            return;
+        }
+        
+        timelineContainer.innerHTML = sortedTimeline.map(entry => {
+            const createdDate = new Date(entry.created);
+            const createdTime = createdDate.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+            
+            let endedTime = '';
+            if (entry.ended) {
+                const endedDate = new Date(entry.ended);
+                endedTime = endedDate.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+            }
+            
+            // Status class for left border color
+            const statusClass = entry.status === 'active' ? 'timeline-active' : 
+                               entry.status === 'expired' ? 'timeline-expired' : 'timeline-removed';
+            
+            const sourceDisplay = entry.source === 'simulation_news' ? 'News Feed' : 
+                                 entry.source === 'admin' ? 'Admin' : 
+                                 entry.source === 'demo' ? 'Demo' : 'Unknown';
+            
+            // Status badge
+            const statusBadge = entry.status === 'active' ? 
+                '<span class="timeline-status-badge timeline-badge-active">Active</span>' :
+                entry.status === 'expired' ?
+                '<span class="timeline-status-badge timeline-badge-expired">Expired</span>' :
+                '<span class="timeline-status-badge timeline-badge-removed">Removed</span>';
+            
+            return `
+                <div class="threat-item ${statusClass}">
+                    <div class="threat-severity-bar"></div>
+                    <div class="threat-content">
+                        <div class="threat-title">${entry.name}</div>
+                        <div class="threat-meta">
+                            <span><i data-lucide="clock" class="w-3 h-3 mr-1"></i>${createdTime}</span>
+                            ${endedTime ? `<span><i data-lucide="x-circle" class="w-3 h-3 mr-1"></i>${endedTime}</span>` : ''}
+                            <span><i data-lucide="radio" class="w-3 h-3 mr-1"></i>${sourceDisplay}</span>
+                        </div>
+                        ${statusBadge}
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        // Update timeline count
+        const timelineCount = document.getElementById('timeline-count');
+        if (timelineCount) {
+            timelineCount.textContent = `${sortedTimeline.length} ${sortedTimeline.length === 1 ? 'Entry' : 'Entries'}`;
+        }
+        
+        // Re-render lucide icons
+        if (window.lucide) {
+            lucide.createIcons();
+        }
     }
 };

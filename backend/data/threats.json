@@ -11,5 +11,1722 @@
     "yield": 700,
     "timestamp": "2025-12-01T08:29:30.824Z",
     "source": "admin"
+  },
+  {
+    "id": "news_sim_1764702743542",
+    "timestamp": "2025-12-02T19:12:28.222Z",
+    "expiresAt": "2025-12-02T19:12:33.222Z",
+    "name": "Fireworks Warehouse Blaze",
+    "locationName": "Attibele, Bengaluru",
+    "location": {
+      "lat": 12.8738,
+      "lng": 77.7063
+    },
+    "details": "Firefighters are battling a large blaze at a fireworks warehouse with reports of multiple explosions.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "Firefighters are battling a large blaze at a fireworks warehouse in Attibele, Bengaluru, with reports of multiple explosions."
+  },
+  {
+    "id": "news_sim_1764702758543",
+    "timestamp": "2025-12-02T19:12:42.099Z",
+    "expiresAt": "2025-12-02T19:12:52.099Z",
+    "name": "Gas Pipeline Rupture",
+    "locationName": "Electronic City Phase 1, Bengaluru",
+    "location": {
+      "lat": 12.8508,
+      "lng": 77.6545
+    },
+    "details": "A gas pipeline rupture has resulted in a major fire and significant traffic disruptions.",
+    "yield": 25,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A gas pipeline rupture near Electronic City Phase 1, Bengaluru, has caused a major fire and traffic gridlock."
+  },
+  {
+    "id": "news_sim_1764702773558",
+    "timestamp": "2025-12-02T19:12:57.215Z",
+    "expiresAt": "2025-12-02T19:13:12.215Z",
+    "name": "Gas Pipeline Rupture",
+    "locationName": "Electronic City Phase 1, Bengaluru",
+    "location": {
+      "lat": 12.8508,
+      "lng": 77.6659
+    },
+    "details": "A gas pipeline rupture has resulted in a major fire and significant traffic disruptions.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A gas pipeline rupture near Electronic City Phase 1, Bengaluru, has caused a major fire and traffic gridlock."
+  },
+  {
+    "id": "news_sim_1764702788569",
+    "timestamp": "2025-12-02T19:13:12.185Z",
+    "expiresAt": "2025-12-02T19:13:20.185Z",
+    "name": "Waste Processing Plant Fire",
+    "locationName": "Mandur, Bengaluru",
+    "location": {
+      "lat": 12.9739,
+      "lng": 77.6101
+    },
+    "details": "A waste processing plant has caught fire, producing thick black smoke over the northern suburbs.",
+    "yield": 20,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A waste processing plant in Mandur, Bengaluru, has caught fire, sending thick black smoke over the northern suburbs."
+  },
+  {
+    "id": "news_sim_1764702803574",
+    "timestamp": "2025-12-02T19:13:27.682Z",
+    "expiresAt": "2025-12-02T19:13:34.682Z",
+    "name": "Structural Collapse at Construction Site",
+    "locationName": "Whitefield, Bengaluru",
+    "location": {
+      "lat": 12.9739,
+      "lng": 77.7499
+    },
+    "details": "A structural collapse has occurred at a construction site, trapping several workers and causing panic among bystanders.",
+    "yield": 20,
+    "incidentType": "structural_collapse",
+    "hazardCategory": "structural",
+    "source": "simulation_news",
+    "rawText": "Structural collapse reported at a construction site in Whitefield, Bengaluru, trapping several workers and causing panic."
+  },
+  {
+    "id": "news_sim_1764702818583",
+    "timestamp": "2025-12-02T19:13:42.210Z",
+    "expiresAt": "2025-12-02T19:13:56.210Z",
+    "name": "Gas Pipeline Rupture",
+    "locationName": "Electronic City Phase 1, Bengaluru",
+    "location": {
+      "lat": 12.8508,
+      "lng": 77.6659
+    },
+    "details": "A gas pipeline rupture has resulted in a major fire and significant traffic disruptions.",
+    "yield": 25,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A gas pipeline rupture near Electronic City Phase 1, Bengaluru, has caused a major fire and traffic gridlock."
+  },
+  {
+    "id": "news_sim_1764702833592",
+    "timestamp": "2025-12-02T19:13:57.765Z",
+    "expiresAt": "2025-12-02T19:14:06.765Z",
+    "name": "Ammonia Gas Leak",
+    "locationName": "Yeshwanthpur, Bengaluru",
+    "location": {
+      "lat": 13.0138,
+      "lng": 77.5585
+    },
+    "details": "Ammonia gas leak detected at a cold storage unit, causing breathing difficulties for local residents.",
+    "yield": 15,
+    "incidentType": "chemical_leak",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "Ammonia gas leak detected at a cold storage unit in Yeshwanthpur, Bengaluru, leading to breathing difficulties for local residents."
+  },
+  {
+    "id": "news_sim_1764702848596",
+    "timestamp": "2025-12-02T19:14:15.940Z",
+    "expiresAt": "2025-12-02T19:14:22.940Z",
+    "name": "Industrial Boiler Blast",
+    "locationName": "Hosur Road, Bengaluru",
+    "location": {
+      "lat": 12.9256,
+      "lng": 77.6101
+    },
+    "details": "An industrial boiler blast occurred at a textile unit, resulting in significant structural damage.",
+    "yield": 25,
+    "incidentType": "explosion",
+    "hazardCategory": "structural",
+    "source": "simulation_news",
+    "rawText": "Industrial boiler blast reported at a textile unit on Hosur Road, Bengaluru, causing significant structural damage."
+  },
+  {
+    "id": "news_sim_1764702863608",
+    "timestamp": "2025-12-02T19:14:28.342Z",
+    "expiresAt": "2025-12-02T19:14:38.341Z",
+    "name": "Waste Processing Plant Fire",
+    "locationName": "Mandur, Bengaluru",
+    "location": {
+      "lat": 12.9716,
+      "lng": 77.5946
+    },
+    "details": "A waste processing plant has caught fire, releasing thick black smoke over the northern suburbs.",
+    "yield": 20,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A waste processing plant in Mandur, Bengaluru, has caught fire, sending thick black smoke over the northern suburbs."
+  },
+  {
+    "id": "news_sim_1764702878609",
+    "timestamp": "2025-12-02T19:14:43.250Z",
+    "expiresAt": "2025-12-02T19:14:48.250Z",
+    "name": "Ammonia Gas Leak",
+    "locationName": "Yeshwanthpur, Bengaluru",
+    "location": {
+      "lat": 13.0148,
+      "lng": 77.5585
+    },
+    "details": "Ammonia gas leak detected at a cold storage unit, causing breathing difficulties for local residents.",
+    "yield": 15,
+    "incidentType": "chemical_leak",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "Ammonia gas leak detected at a cold storage unit in Yeshwanthpur, Bengaluru, leading to breathing difficulties for local residents."
+  },
+  {
+    "id": "news_sim_1764702893610",
+    "timestamp": "2025-12-02T19:14:57.457Z",
+    "expiresAt": "2025-12-02T19:15:06.457Z",
+    "name": "Structural Collapse at Construction Site",
+    "locationName": "Whitefield, Bengaluru",
+    "location": {
+      "lat": 12.9739,
+      "lng": 77.7499
+    },
+    "details": "A structural collapse has occurred at a construction site, trapping several workers and causing panic among bystanders.",
+    "yield": 20,
+    "incidentType": "structural_collapse",
+    "hazardCategory": "structural",
+    "source": "simulation_news",
+    "rawText": "Structural collapse reported at a construction site in Whitefield, Bengaluru, trapping several workers and causing panic."
+  },
+  {
+    "id": "news_sim_1764702908621",
+    "timestamp": "2025-12-02T19:15:12.313Z",
+    "expiresAt": "2025-12-02T19:15:20.313Z",
+    "name": "Structural Collapse at Construction Site",
+    "locationName": "Whitefield, Bengaluru",
+    "location": {
+      "lat": 12.9739,
+      "lng": 77.7499
+    },
+    "details": "A structural collapse has occurred at a construction site, trapping several workers and causing panic among bystanders.",
+    "yield": 20,
+    "incidentType": "structural_collapse",
+    "hazardCategory": "structural",
+    "source": "simulation_news",
+    "rawText": "Structural collapse reported at a construction site in Whitefield, Bengaluru, trapping several workers and causing panic."
+  },
+  {
+    "id": "news_sim_1764702923623",
+    "timestamp": "2025-12-02T19:15:28.179Z",
+    "expiresAt": "2025-12-02T19:15:36.179Z",
+    "name": "Gas Pipeline Rupture",
+    "locationName": "Electronic City Phase 1, Bengaluru",
+    "location": {
+      "lat": 12.8508,
+      "lng": 77.6659
+    },
+    "details": "A gas pipeline rupture has caused a major fire and significant traffic gridlock in the area.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A gas pipeline rupture near Electronic City Phase 1, Bengaluru, has caused a major fire and traffic gridlock."
+  },
+  {
+    "id": "news_sim_1764702938640",
+    "timestamp": "2025-12-02T19:15:44.027Z",
+    "expiresAt": "2025-12-02T19:15:57.027Z",
+    "name": "Fireworks Warehouse Blaze",
+    "locationName": "Attibele, Bengaluru",
+    "location": {
+      "lat": 12.8667,
+      "lng": 77.71
+    },
+    "details": "Firefighters are battling a large blaze at a fireworks warehouse, with reports of multiple explosions.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "Firefighters are battling a large blaze at a fireworks warehouse in Attibele, Bengaluru, with reports of multiple explosions."
+  },
+  {
+    "id": "news_sim_1764702953637",
+    "timestamp": "2025-12-02T19:15:56.746Z",
+    "expiresAt": "2025-12-02T19:16:08.746Z",
+    "name": "Waste Processing Plant Fire",
+    "locationName": "Mandur, Bengaluru",
+    "location": {
+      "lat": 12.9716,
+      "lng": 77.5946
+    },
+    "details": "A waste processing plant has caught fire, producing thick black smoke over the northern suburbs.",
+    "yield": 15,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A waste processing plant in Mandur, Bengaluru, has caught fire, sending thick black smoke over the northern suburbs."
+  },
+  {
+    "id": "news_sim_1764702968647",
+    "timestamp": "2025-12-02T19:16:13.505Z",
+    "expiresAt": "2025-12-02T19:16:27.505Z",
+    "name": "Waste Processing Plant Fire",
+    "locationName": "Mandur, Bengaluru",
+    "location": {
+      "lat": 12.9716,
+      "lng": 77.5946
+    },
+    "details": "A waste processing plant has caught fire, producing thick black smoke over the northern suburbs.",
+    "yield": 20,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A waste processing plant in Mandur, Bengaluru, has caught fire, sending thick black smoke over the northern suburbs."
+  },
+  {
+    "id": "news_sim_1764702983652",
+    "timestamp": "2025-12-02T19:16:27.197Z",
+    "expiresAt": "2025-12-02T19:16:32.197Z",
+    "name": "Gas Pipeline Rupture",
+    "locationName": "Electronic City Phase 1, Bengaluru",
+    "location": {
+      "lat": 12.8508,
+      "lng": 77.6545
+    },
+    "details": "A gas pipeline rupture has resulted in a major fire and significant traffic disruptions.",
+    "yield": 25,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A gas pipeline rupture near Electronic City Phase 1, Bengaluru, has caused a major fire and traffic gridlock."
+  },
+  {
+    "id": "news_sim_1764702998656",
+    "timestamp": "2025-12-02T19:16:43.831Z",
+    "expiresAt": "2025-12-02T19:16:53.831Z",
+    "name": "Ammonia Gas Leak",
+    "locationName": "Yeshwanthpur, Bengaluru",
+    "location": {
+      "lat": 13.0148,
+      "lng": 77.5585
+    },
+    "details": "Ammonia gas leak detected at a cold storage unit, causing breathing difficulties for local residents.",
+    "yield": 15,
+    "incidentType": "chemical_leak",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "Ammonia gas leak detected at a cold storage unit in Yeshwanthpur, Bengaluru, leading to breathing difficulties for local residents."
+  },
+  {
+    "id": "news_sim_1764703013657",
+    "timestamp": "2025-12-02T19:16:56.946Z",
+    "expiresAt": "2025-12-02T19:17:01.946Z",
+    "name": "Waste Processing Plant Fire",
+    "locationName": "Mandur, Bengaluru",
+    "location": {
+      "lat": 12.9716,
+      "lng": 77.5946
+    },
+    "details": "A waste processing plant has caught fire, releasing thick black smoke over the northern suburbs.",
+    "yield": 15,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A waste processing plant in Mandur, Bengaluru, has caught fire, sending thick black smoke over the northern suburbs."
+  },
+  {
+    "id": "news_sim_1764703028676",
+    "timestamp": "2025-12-02T19:17:14.118Z",
+    "expiresAt": "2025-12-02T19:17:29.118Z",
+    "name": "Gas Pipeline Rupture",
+    "locationName": "Electronic City Phase 1, Bengaluru",
+    "location": {
+      "lat": 12.8508,
+      "lng": 77.6659
+    },
+    "details": "A gas pipeline rupture has resulted in a significant fire and severe traffic congestion in the area.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A gas pipeline rupture near Electronic City Phase 1, Bengaluru, has caused a major fire and traffic gridlock."
+  },
+  {
+    "id": "news_sim_1764703043676",
+    "timestamp": "2025-12-02T19:17:27.122Z",
+    "expiresAt": "2025-12-02T19:17:36.122Z",
+    "name": "Explosion at Paint Factory",
+    "locationName": "Peenya Industrial Area, Bengaluru",
+    "location": {
+      "lat": 13.0138,
+      "lng": 77.5705
+    },
+    "details": "An explosion at a paint factory has released toxic fumes into the surrounding neighborhoods.",
+    "yield": 30,
+    "incidentType": "explosion",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "An explosion at a paint factory in Peenya Industrial Area, Bengaluru, has released toxic fumes into the surrounding neighborhoods."
+  },
+  {
+    "id": "news_sim_1764703058683",
+    "timestamp": "2025-12-02T19:17:42.576Z",
+    "expiresAt": "2025-12-02T19:17:48.576Z",
+    "name": "Fuel Tanker Fire",
+    "locationName": "Outer Ring Road, Marathahalli, Bengaluru",
+    "location": {
+      "lat": 12.9352,
+      "lng": 77.7065
+    },
+    "details": "A fuel tanker overturned and caught fire, resulting in a massive fireball.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A fuel tanker overturned and caught fire on the Outer Ring Road near Marathahalli, Bengaluru, creating a massive fireball."
+  },
+  {
+    "id": "news_sim_1764703073682",
+    "timestamp": "2025-12-02T19:17:57.680Z",
+    "expiresAt": "2025-12-02T19:18:10.680Z",
+    "name": "Transformer Explosion",
+    "locationName": "Koramangala, Bengaluru",
+    "location": {
+      "lat": 12.9352,
+      "lng": 77.6245
+    },
+    "details": "A transformer explosion has caused a local blackout and minor fires in nearby shops.",
+    "yield": 10,
+    "incidentType": "explosion",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A transformer explosion in Koramangala, Bengaluru, has triggered a local blackout and minor fires in nearby shops."
+  },
+  {
+    "id": "news_sim_1764703088686",
+    "timestamp": "2025-12-02T19:18:12.915Z",
+    "expiresAt": "2025-12-02T19:18:23.915Z",
+    "name": "Fuel Tanker Fire",
+    "locationName": "Marathahalli, Bengaluru",
+    "location": {
+      "lat": 12.9352,
+      "lng": 77.7022
+    },
+    "details": "A fuel tanker overturned and caught fire, resulting in a massive fireball on the Outer Ring Road.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A fuel tanker overturned and caught fire on the Outer Ring Road near Marathahalli, Bengaluru, creating a massive fireball."
+  },
+  {
+    "id": "news_sim_1764703103698",
+    "timestamp": "2025-12-02T19:18:27.443Z",
+    "expiresAt": "2025-12-02T19:18:37.443Z",
+    "name": "Massive Chemical Leak",
+    "locationName": "Lingarajapuram, Bengaluru",
+    "location": {
+      "lat": 12.9864,
+      "lng": 77.6101
+    },
+    "details": "A massive chemical leak has been reported at an industrial facility, prompting officials to evacuate nearby residents.",
+    "yield": 40,
+    "incidentType": "chemical_leak",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "A massive chemical leak has been reported at an industrial facility in Lingarajapuram, Bengaluru, prompting officials to evacuate nearby residents."
+  },
+  {
+    "id": "news_sim_1764703118709",
+    "timestamp": "2025-12-02T19:18:41.999Z",
+    "expiresAt": "2025-12-02T19:18:50.999Z",
+    "name": "Explosion at Paint Factory",
+    "locationName": "Peenya Industrial Area, Bengaluru",
+    "location": {
+      "lat": 13.0138,
+      "lng": 77.5705
+    },
+    "details": "An explosion at a paint factory has released toxic fumes into the surrounding neighborhoods.",
+    "yield": 25,
+    "incidentType": "explosion",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "An explosion at a paint factory in Peenya Industrial Area, Bengaluru, has released toxic fumes into the surrounding neighborhoods."
+  },
+  {
+    "id": "news_sim_1764703133709",
+    "timestamp": "2025-12-02T19:19:08.586Z",
+    "expiresAt": "2025-12-02T19:19:16.586Z",
+    "name": "Fireworks Warehouse Blaze",
+    "locationName": "Attibele, Bengaluru",
+    "location": {
+      "lat": 12.8738,
+      "lng": 77.7042
+    },
+    "details": "Firefighters are battling a large blaze at a fireworks warehouse, with reports of multiple explosions.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "Firefighters are battling a large blaze at a fireworks warehouse in Attibele, Bengaluru, with reports of multiple explosions."
+  },
+  {
+    "id": "news_sim_1764703148711",
+    "timestamp": "2025-12-02T19:19:13.300Z",
+    "expiresAt": "2025-12-02T19:19:25.300Z",
+    "name": "Gas Pipeline Rupture",
+    "locationName": "Electronic City Phase 1, Bengaluru",
+    "location": {
+      "lat": 12.8508,
+      "lng": 77.6659
+    },
+    "details": "A gas pipeline rupture has resulted in a major fire and significant traffic disruptions.",
+    "yield": 25,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A gas pipeline rupture near Electronic City Phase 1, Bengaluru, has caused a major fire and traffic gridlock."
+  },
+  {
+    "id": "news_sim_1764703163716",
+    "timestamp": "2025-12-02T19:19:27.493Z",
+    "expiresAt": "2025-12-02T19:19:33.493Z",
+    "name": "Industrial Boiler Blast",
+    "locationName": "Hosur Road, Bengaluru",
+    "location": {
+      "lat": 12.9255,
+      "lng": 77.6101
+    },
+    "details": "An industrial boiler blast occurred at a textile unit, resulting in significant structural damage.",
+    "yield": 25,
+    "incidentType": "explosion",
+    "hazardCategory": "structural",
+    "source": "simulation_news",
+    "rawText": "Industrial boiler blast reported at a textile unit on Hosur Road, Bengaluru, causing significant structural damage."
+  },
+  {
+    "id": "news_sim_1764703178719",
+    "timestamp": "2025-12-02T19:19:41.962Z",
+    "expiresAt": "2025-12-02T19:19:53.962Z",
+    "name": "Fireworks Warehouse Blaze",
+    "locationName": "Attibele, Bengaluru",
+    "location": {
+      "lat": 12.8708,
+      "lng": 77.71
+    },
+    "details": "Firefighters are battling a large blaze at a fireworks warehouse with reports of multiple explosions.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "Firefighters are battling a large blaze at a fireworks warehouse in Attibele, Bengaluru, with reports of multiple explosions."
+  },
+  {
+    "id": "news_sim_1764703193732",
+    "timestamp": "2025-12-02T19:19:57.463Z",
+    "expiresAt": "2025-12-02T19:20:08.463Z",
+    "name": "Explosion at Paint Factory",
+    "locationName": "Peenya Industrial Area, Bengaluru",
+    "location": {
+      "lat": 13.0138,
+      "lng": 77.5705
+    },
+    "details": "An explosion at a paint factory has released toxic fumes into the surrounding neighborhoods.",
+    "yield": 30,
+    "incidentType": "explosion",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "An explosion at a paint factory in Peenya Industrial Area, Bengaluru, has released toxic fumes into the surrounding neighborhoods."
+  },
+  {
+    "id": "news_sim_1764703208733",
+    "timestamp": "2025-12-02T19:20:12.513Z",
+    "expiresAt": "2025-12-02T19:20:23.513Z",
+    "name": "Fuel Tanker Fire",
+    "locationName": "Marathahalli, Bengaluru",
+    "location": {
+      "lat": 12.9352,
+      "lng": 77.7022
+    },
+    "details": "A fuel tanker overturned and caught fire, resulting in a massive fireball on the Outer Ring Road.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A fuel tanker overturned and caught fire on the Outer Ring Road near Marathahalli, Bengaluru, creating a massive fireball."
+  },
+  {
+    "id": "news_sim_1764703223738",
+    "timestamp": "2025-12-02T19:20:27.194Z",
+    "expiresAt": "2025-12-02T19:20:33.194Z",
+    "name": "Explosion at Paint Factory",
+    "locationName": "Peenya Industrial Area, Bengaluru",
+    "location": {
+      "lat": 13.0138,
+      "lng": 77.5705
+    },
+    "details": "An explosion at a paint factory has released toxic fumes into the surrounding neighborhoods.",
+    "yield": 25,
+    "incidentType": "explosion",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "An explosion at a paint factory in Peenya Industrial Area, Bengaluru, has released toxic fumes into the surrounding neighborhoods."
+  },
+  {
+    "id": "news_sim_1764703238738",
+    "timestamp": "2025-12-02T19:20:43.112Z",
+    "expiresAt": "2025-12-02T19:20:51.112Z",
+    "name": "Waste Processing Plant Fire",
+    "locationName": "Mandur, Bengaluru",
+    "location": {
+      "lat": 12.9716,
+      "lng": 77.5946
+    },
+    "details": "A waste processing plant has caught fire, producing thick black smoke over the northern suburbs.",
+    "yield": 15,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A waste processing plant in Mandur, Bengaluru, has caught fire, sending thick black smoke over the northern suburbs."
+  },
+  {
+    "id": "news_sim_1764703253739",
+    "timestamp": "2025-12-02T19:20:57.659Z",
+    "expiresAt": "2025-12-02T19:21:09.659Z",
+    "name": "Industrial Boiler Blast",
+    "locationName": "Hosur Road, Bengaluru",
+    "location": {
+      "lat": 12.9256,
+      "lng": 77.6101
+    },
+    "details": "An industrial boiler blast occurred at a textile unit, resulting in significant structural damage.",
+    "yield": 25,
+    "incidentType": "explosion",
+    "hazardCategory": "structural",
+    "source": "simulation_news",
+    "rawText": "Industrial boiler blast reported at a textile unit on Hosur Road, Bengaluru, causing significant structural damage."
+  },
+  {
+    "id": "news_sim_1764703268780",
+    "timestamp": "2025-12-02T19:21:13.174Z",
+    "expiresAt": "2025-12-02T19:21:28.173Z",
+    "name": "Transformer Explosion",
+    "locationName": "Koramangala, Bengaluru",
+    "location": {
+      "lat": 12.9352,
+      "lng": 77.6245
+    },
+    "details": "A transformer explosion has caused a local blackout and minor fires in nearby shops.",
+    "yield": 10,
+    "incidentType": "explosion",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A transformer explosion in Koramangala, Bengaluru, has triggered a local blackout and minor fires in nearby shops."
+  },
+  {
+    "id": "news_sim_1764703283791",
+    "timestamp": "2025-12-02T19:21:27.895Z",
+    "expiresAt": "2025-12-02T19:21:34.895Z",
+    "name": "Explosion at Paint Factory",
+    "locationName": "Peenya Industrial Area, Bengaluru",
+    "location": {
+      "lat": 13.0138,
+      "lng": 77.5705
+    },
+    "details": "An explosion at a paint factory has released toxic fumes into the surrounding neighborhoods.",
+    "yield": 25,
+    "incidentType": "explosion",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "An explosion at a paint factory in Peenya Industrial Area, Bengaluru, has released toxic fumes into the surrounding neighborhoods."
+  },
+  {
+    "id": "news_sim_1764703298806",
+    "timestamp": "2025-12-02T19:21:42.731Z",
+    "expiresAt": "2025-12-02T19:21:49.731Z",
+    "name": "Waste Processing Plant Fire",
+    "locationName": "Mandur, Bengaluru",
+    "location": {
+      "lat": 12.9739,
+      "lng": 77.6101
+    },
+    "details": "A waste processing plant has caught fire, releasing thick black smoke over the northern suburbs.",
+    "yield": 15,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A waste processing plant in Mandur, Bengaluru, has caught fire, sending thick black smoke over the northern suburbs."
+  },
+  {
+    "id": "news_sim_1764703313813",
+    "timestamp": "2025-12-02T19:21:57.966Z",
+    "expiresAt": "2025-12-02T19:22:02.966Z",
+    "name": "Explosion at Paint Factory",
+    "locationName": "Peenya Industrial Area, Bengaluru",
+    "location": {
+      "lat": 13.0138,
+      "lng": 77.5705
+    },
+    "details": "An explosion at a paint factory has released toxic fumes into the surrounding neighborhoods.",
+    "yield": 25,
+    "incidentType": "explosion",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "An explosion at a paint factory in Peenya Industrial Area, Bengaluru, has released toxic fumes into the surrounding neighborhoods."
+  },
+  {
+    "id": "news_sim_1764703328823",
+    "timestamp": "2025-12-02T19:22:12.952Z",
+    "expiresAt": "2025-12-02T19:22:21.952Z",
+    "name": "Industrial Boiler Blast",
+    "locationName": "Hosur Road, Bengaluru",
+    "location": {
+      "lat": 12.9256,
+      "lng": 77.6101
+    },
+    "details": "An industrial boiler blast occurred at a textile unit, resulting in significant structural damage.",
+    "yield": 25,
+    "incidentType": "explosion",
+    "hazardCategory": "structural",
+    "source": "simulation_news",
+    "rawText": "Industrial boiler blast reported at a textile unit on Hosur Road, Bengaluru, causing significant structural damage."
+  },
+  {
+    "id": "news_sim_1764703343830",
+    "timestamp": "2025-12-02T19:22:28.075Z",
+    "expiresAt": "2025-12-02T19:22:40.075Z",
+    "name": "Massive Chemical Leak",
+    "locationName": "Lingarajapuram, Bengaluru",
+    "location": {
+      "lat": 13.0101,
+      "lng": 77.6348
+    },
+    "details": "A massive chemical leak has been reported at an industrial facility, prompting officials to evacuate nearby residents.",
+    "yield": 40,
+    "incidentType": "chemical_leak",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "A massive chemical leak has been reported at an industrial facility in Lingarajapuram, Bengaluru, prompting officials to evacuate nearby residents."
+  },
+  {
+    "id": "news_sim_1764703358831",
+    "timestamp": "2025-12-02T19:22:42.418Z",
+    "expiresAt": "2025-12-02T19:22:49.418Z",
+    "name": "Massive Chemical Leak",
+    "locationName": "Lingarajapuram, Bengaluru",
+    "location": {
+      "lat": 12.9864,
+      "lng": 77.6101
+    },
+    "details": "A massive chemical leak has been reported at an industrial facility, prompting officials to evacuate nearby residents.",
+    "yield": 40,
+    "incidentType": "chemical_leak",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "A massive chemical leak has been reported at an industrial facility in Lingarajapuram, Bengaluru, prompting officials to evacuate nearby residents."
+  },
+  {
+    "id": "news_sim_1764703373831",
+    "timestamp": "2025-12-02T19:22:57.317Z",
+    "expiresAt": "2025-12-02T19:23:11.317Z",
+    "name": "Massive Chemical Leak",
+    "locationName": "Lingarajapuram, Bengaluru",
+    "location": {
+      "lat": 12.9864,
+      "lng": 77.6101
+    },
+    "details": "A massive chemical leak has been reported at an industrial facility, prompting officials to evacuate nearby residents.",
+    "yield": 40,
+    "incidentType": "chemical_leak",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "A massive chemical leak has been reported at an industrial facility in Lingarajapuram, Bengaluru, prompting officials to evacuate nearby residents."
+  },
+  {
+    "id": "news_sim_1764703388840",
+    "timestamp": "2025-12-02T19:23:12.548Z",
+    "expiresAt": "2025-12-02T19:23:23.547Z",
+    "name": "Transformer Explosion",
+    "locationName": "Koramangala, Bengaluru",
+    "location": {
+      "lat": 12.9352,
+      "lng": 77.6245
+    },
+    "details": "A transformer explosion has caused a local blackout and minor fires in nearby shops.",
+    "yield": 10,
+    "incidentType": "explosion",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A transformer explosion in Koramangala, Bengaluru, has triggered a local blackout and minor fires in nearby shops."
+  },
+  {
+    "id": "news_sim_1764703403850",
+    "timestamp": "2025-12-02T19:23:28.021Z",
+    "expiresAt": "2025-12-02T19:23:42.021Z",
+    "name": "Waste Processing Plant Fire",
+    "locationName": "Mandur, Bengaluru",
+    "location": {
+      "lat": 12.9716,
+      "lng": 77.5946
+    },
+    "details": "A waste processing plant has caught fire, releasing thick black smoke over the northern suburbs.",
+    "yield": 15,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A waste processing plant in Mandur, Bengaluru, has caught fire, sending thick black smoke over the northern suburbs."
+  },
+  {
+    "id": "news_sim_1764703418862",
+    "timestamp": "2025-12-02T19:23:42.685Z",
+    "expiresAt": "2025-12-02T19:23:56.685Z",
+    "name": "Explosion at Paint Factory",
+    "locationName": "Peenya Industrial Area, Bengaluru",
+    "location": {
+      "lat": 13.0148,
+      "lng": 77.5016
+    },
+    "details": "An explosion at a paint factory has released toxic fumes into the surrounding neighborhoods.",
+    "yield": 30,
+    "incidentType": "explosion",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "An explosion at a paint factory in Peenya Industrial Area, Bengaluru, has released toxic fumes into the surrounding neighborhoods."
+  },
+  {
+    "id": "news_sim_1764703433878",
+    "timestamp": "2025-12-02T19:23:58.184Z",
+    "expiresAt": "2025-12-02T19:24:03.184Z",
+    "name": "Transformer Explosion",
+    "locationName": "Koramangala, Bengaluru",
+    "location": {
+      "lat": 12.9352,
+      "lng": 77.6245
+    },
+    "details": "A transformer explosion has caused a local blackout and minor fires in nearby shops.",
+    "yield": 10,
+    "incidentType": "explosion",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A transformer explosion in Koramangala, Bengaluru, has triggered a local blackout and minor fires in nearby shops."
+  },
+  {
+    "id": "news_sim_1764703448888",
+    "timestamp": "2025-12-02T19:24:13.823Z",
+    "expiresAt": "2025-12-02T19:24:18.823Z",
+    "name": "Gas Pipeline Rupture",
+    "locationName": "Electronic City Phase 1, Bengaluru",
+    "location": {
+      "lat": 12.8508,
+      "lng": 77.6545
+    },
+    "details": "A gas pipeline rupture has resulted in a major fire and significant traffic disruptions.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A gas pipeline rupture near Electronic City Phase 1, Bengaluru, has caused a major fire and traffic gridlock."
+  },
+  {
+    "id": "news_sim_1764703463897",
+    "timestamp": "2025-12-02T19:24:27.969Z",
+    "expiresAt": "2025-12-02T19:24:39.968Z",
+    "name": "Gas Pipeline Rupture",
+    "locationName": "Electronic City Phase 1, Bengaluru",
+    "location": {
+      "lat": 12.8508,
+      "lng": 77.6659
+    },
+    "details": "A gas pipeline rupture has resulted in a major fire and significant traffic disruptions.",
+    "yield": 25,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A gas pipeline rupture near Electronic City Phase 1, Bengaluru, has caused a major fire and traffic gridlock."
+  },
+  {
+    "id": "news_sim_1764703478899",
+    "timestamp": "2025-12-02T19:24:42.650Z",
+    "expiresAt": "2025-12-02T19:24:51.650Z",
+    "name": "Industrial Boiler Blast",
+    "locationName": "Hosur Road, Bengaluru",
+    "location": {
+      "lat": 12.9256,
+      "lng": 77.6101
+    },
+    "details": "An industrial boiler blast occurred at a textile unit, resulting in significant structural damage.",
+    "yield": 25,
+    "incidentType": "explosion",
+    "hazardCategory": "structural",
+    "source": "simulation_news",
+    "rawText": "Industrial boiler blast reported at a textile unit on Hosur Road, Bengaluru, causing significant structural damage."
+  },
+  {
+    "id": "news_sim_1764703493905",
+    "timestamp": "2025-12-02T19:25:05.027Z",
+    "expiresAt": "2025-12-02T19:25:10.026Z",
+    "name": "Waste Processing Plant Fire",
+    "locationName": "Mandur, Bengaluru",
+    "location": {
+      "lat": 12.9716,
+      "lng": 77.5946
+    },
+    "details": "A waste processing plant has caught fire, releasing thick black smoke over the northern suburbs.",
+    "yield": 15,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A waste processing plant in Mandur, Bengaluru, has caught fire, sending thick black smoke over the northern suburbs."
+  },
+  {
+    "id": "news_sim_1764703508915",
+    "timestamp": "2025-12-02T19:25:15.531Z",
+    "expiresAt": "2025-12-02T19:25:20.531Z",
+    "name": "Fireworks Warehouse Blaze",
+    "locationName": "Attibele, Bengaluru",
+    "location": {
+      "lat": 12.8738,
+      "lng": 77.7062
+    },
+    "details": "Firefighters are battling a large blaze at a fireworks warehouse with reports of multiple explosions.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "Firefighters are battling a large blaze at a fireworks warehouse in Attibele, Bengaluru, with reports of multiple explosions."
+  },
+  {
+    "id": "news_sim_1764703523920",
+    "timestamp": "2025-12-02T19:25:27.389Z",
+    "expiresAt": "2025-12-02T19:25:38.389Z",
+    "name": "Fireworks Warehouse Blaze",
+    "locationName": "Attibele, Bengaluru",
+    "location": {
+      "lat": 12.8738,
+      "lng": 77.7061
+    },
+    "details": "Firefighters are battling a large blaze at a fireworks warehouse, with reports of multiple explosions.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "Firefighters are battling a large blaze at a fireworks warehouse in Attibele, Bengaluru, with reports of multiple explosions."
+  },
+  {
+    "id": "news_sim_1764703538924",
+    "timestamp": "2025-12-02T19:25:42.433Z",
+    "expiresAt": "2025-12-02T19:25:52.433Z",
+    "name": "Industrial Boiler Blast",
+    "locationName": "Hosur Road, Bengaluru",
+    "location": {
+      "lat": 12.9255,
+      "lng": 77.6101
+    },
+    "details": "An industrial boiler blast occurred at a textile unit, resulting in significant structural damage.",
+    "yield": 25,
+    "incidentType": "explosion",
+    "hazardCategory": "structural",
+    "source": "simulation_news",
+    "rawText": "Industrial boiler blast reported at a textile unit on Hosur Road, Bengaluru, causing significant structural damage."
+  },
+  {
+    "id": "news_sim_1764703553926",
+    "timestamp": "2025-12-02T19:25:57.860Z",
+    "expiresAt": "2025-12-02T19:26:11.860Z",
+    "name": "Waste Processing Plant Fire",
+    "locationName": "Mandur, Bengaluru",
+    "location": {
+      "lat": 12.9739,
+      "lng": 77.6101
+    },
+    "details": "A waste processing plant has caught fire, releasing thick black smoke over the northern suburbs.",
+    "yield": 15,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A waste processing plant in Mandur, Bengaluru, has caught fire, sending thick black smoke over the northern suburbs."
+  },
+  {
+    "id": "news_sim_1764703568930",
+    "timestamp": "2025-12-02T19:26:11.937Z",
+    "expiresAt": "2025-12-02T19:26:17.937Z",
+    "name": "Industrial Boiler Blast",
+    "locationName": "Hosur Road, Bengaluru",
+    "location": {
+      "lat": 12.9256,
+      "lng": 77.6101
+    },
+    "details": "An industrial boiler blast occurred at a textile unit, resulting in significant structural damage.",
+    "yield": 25,
+    "incidentType": "explosion",
+    "hazardCategory": "structural",
+    "source": "simulation_news",
+    "rawText": "Industrial boiler blast reported at a textile unit on Hosur Road, Bengaluru, causing significant structural damage."
+  },
+  {
+    "id": "news_sim_1764703583940",
+    "timestamp": "2025-12-02T19:26:27.310Z",
+    "expiresAt": "2025-12-02T19:26:36.309Z",
+    "name": "Fire at Waste Processing Plant",
+    "locationName": "Mandur, Bengaluru",
+    "location": {
+      "lat": 12.9716,
+      "lng": 77.5946
+    },
+    "details": "A waste processing plant has caught fire, releasing thick black smoke into the air.",
+    "yield": 15,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A waste processing plant in Mandur, Bengaluru, has caught fire, sending thick black smoke over the northern suburbs."
+  },
+  {
+    "id": "news_sim_1764703598942",
+    "timestamp": "2025-12-02T19:26:42.297Z",
+    "expiresAt": "2025-12-02T19:26:56.297Z",
+    "name": "Industrial Boiler Blast",
+    "locationName": "Hosur Road, Bengaluru",
+    "location": {
+      "lat": 12.9255,
+      "lng": 77.6101
+    },
+    "details": "An industrial boiler blast occurred at a textile unit, resulting in significant structural damage.",
+    "yield": 25,
+    "incidentType": "explosion",
+    "hazardCategory": "structural",
+    "source": "simulation_news",
+    "rawText": "Industrial boiler blast reported at a textile unit on Hosur Road, Bengaluru, causing significant structural damage."
+  },
+  {
+    "id": "news_sim_1764703613953",
+    "timestamp": "2025-12-02T19:26:58.366Z",
+    "expiresAt": "2025-12-02T19:27:13.366Z",
+    "name": "Transformer Explosion",
+    "locationName": "Koramangala, Bengaluru",
+    "location": {
+      "lat": 12.9352,
+      "lng": 77.6245
+    },
+    "details": "A transformer explosion has caused a local blackout and minor fires in nearby shops.",
+    "yield": 10,
+    "incidentType": "explosion",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A transformer explosion in Koramangala, Bengaluru, has triggered a local blackout and minor fires in nearby shops."
+  },
+  {
+    "id": "news_sim_1764703628966",
+    "timestamp": "2025-12-02T19:27:12.092Z",
+    "expiresAt": "2025-12-02T19:27:21.092Z",
+    "name": "Explosion at Paint Factory",
+    "locationName": "Peenya Industrial Area, Bengaluru",
+    "location": {
+      "lat": 13.0138,
+      "lng": 77.5705
+    },
+    "details": "An explosion at a paint factory has released toxic fumes into the surrounding neighborhoods.",
+    "yield": 25,
+    "incidentType": "explosion",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "An explosion at a paint factory in Peenya Industrial Area, Bengaluru, has released toxic fumes into the surrounding neighborhoods."
+  },
+  {
+    "id": "news_sim_1764703643978",
+    "timestamp": "2025-12-02T19:27:27.391Z",
+    "expiresAt": "2025-12-02T19:27:39.391Z",
+    "name": "Explosion at Paint Factory",
+    "locationName": "Peenya Industrial Area, Bengaluru",
+    "location": {
+      "lat": 13.0148,
+      "lng": 77.5016
+    },
+    "details": "An explosion at a paint factory has released toxic fumes into the surrounding neighborhoods.",
+    "yield": 30,
+    "incidentType": "explosion",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "An explosion at a paint factory in Peenya Industrial Area, Bengaluru, has released toxic fumes into the surrounding neighborhoods."
+  },
+  {
+    "id": "news_sim_1764703658982",
+    "timestamp": "2025-12-02T19:27:44.361Z",
+    "expiresAt": "2025-12-02T19:27:56.361Z",
+    "name": "Massive Chemical Leak",
+    "locationName": "Lingarajapuram, Bengaluru",
+    "location": {
+      "lat": 12.9864,
+      "lng": 77.6348
+    },
+    "details": "A massive chemical leak has been reported at an industrial facility, prompting officials to evacuate nearby residents.",
+    "yield": 40,
+    "incidentType": "chemical_leak",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "A massive chemical leak has been reported at an industrial facility in Lingarajapuram, Bengaluru, prompting officials to evacuate nearby residents."
+  },
+  {
+    "id": "news_sim_1764703673985",
+    "timestamp": "2025-12-02T19:28:01.471Z",
+    "expiresAt": "2025-12-02T19:28:11.471Z",
+    "name": "Transformer Explosion",
+    "locationName": "Koramangala, Bengaluru",
+    "location": {
+      "lat": 12.9352,
+      "lng": 77.6245
+    },
+    "details": "A transformer explosion has caused a local blackout and minor fires in nearby shops.",
+    "yield": 10,
+    "incidentType": "explosion",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A transformer explosion in Koramangala, Bengaluru, has triggered a local blackout and minor fires in nearby shops."
+  },
+  {
+    "id": "news_sim_1764703688990",
+    "timestamp": "2025-12-02T19:28:13.317Z",
+    "expiresAt": "2025-12-02T19:28:26.317Z",
+    "name": "Fireworks Warehouse Blaze",
+    "locationName": "Attibele, Bengaluru",
+    "location": {
+      "lat": 12.8738,
+      "lng": 77.7061
+    },
+    "details": "Firefighters are battling a large blaze at a fireworks warehouse, with reports of multiple explosions.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "Firefighters are battling a large blaze at a fireworks warehouse in Attibele, Bengaluru, with reports of multiple explosions."
+  },
+  {
+    "id": "news_sim_1764703703991",
+    "timestamp": "2025-12-02T19:28:28.133Z",
+    "expiresAt": "2025-12-02T19:28:34.133Z",
+    "name": "Transformer Explosion",
+    "locationName": "Koramangala, Bengaluru",
+    "location": {
+      "lat": 12.9352,
+      "lng": 77.6245
+    },
+    "details": "A transformer explosion has caused a local blackout and minor fires in nearby shops.",
+    "yield": 10,
+    "incidentType": "explosion",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A transformer explosion in Koramangala, Bengaluru, has triggered a local blackout and minor fires in nearby shops."
+  },
+  {
+    "id": "news_sim_1764703718997",
+    "timestamp": "2025-12-02T19:28:42.685Z",
+    "expiresAt": "2025-12-02T19:28:57.684Z",
+    "name": "Fuel Tanker Fire",
+    "locationName": "Marathahalli, Bengaluru",
+    "location": {
+      "lat": 12.9352,
+      "lng": 77.7023
+    },
+    "details": "A fuel tanker overturned and caught fire, resulting in a massive fireball.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A fuel tanker overturned and caught fire on the Outer Ring Road near Marathahalli, Bengaluru, creating a massive fireball."
+  },
+  {
+    "id": "news_sim_1764703734010",
+    "timestamp": "2025-12-02T19:28:58.171Z",
+    "expiresAt": "2025-12-02T19:29:07.171Z",
+    "name": "Explosion at Paint Factory",
+    "locationName": "Peenya Industrial Area, Bengaluru",
+    "location": {
+      "lat": 13.0138,
+      "lng": 77.5705
+    },
+    "details": "An explosion at a paint factory has released toxic fumes into the surrounding neighborhoods.",
+    "yield": 25,
+    "incidentType": "explosion",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "An explosion at a paint factory in Peenya Industrial Area, Bengaluru, has released toxic fumes into the surrounding neighborhoods."
+  },
+  {
+    "id": "news_sim_1764703749016",
+    "timestamp": "2025-12-02T19:29:14.800Z",
+    "expiresAt": "2025-12-02T19:29:27.800Z",
+    "name": "Industrial Boiler Blast",
+    "locationName": "Hosur Road, Bengaluru",
+    "location": {
+      "lat": 12.9256,
+      "lng": 77.6101
+    },
+    "details": "An industrial boiler blast occurred at a textile unit, resulting in significant structural damage.",
+    "yield": 25,
+    "incidentType": "explosion",
+    "hazardCategory": "structural",
+    "source": "simulation_news",
+    "rawText": "Industrial boiler blast reported at a textile unit on Hosur Road, Bengaluru, causing significant structural damage."
+  },
+  {
+    "id": "news_sim_1764703764024",
+    "timestamp": "2025-12-02T19:29:27.313Z",
+    "expiresAt": "2025-12-02T19:29:40.313Z",
+    "name": "Explosion at Paint Factory",
+    "locationName": "Peenya Industrial Area, Bengaluru",
+    "location": {
+      "lat": 13.0138,
+      "lng": 77.5705
+    },
+    "details": "An explosion at a paint factory has released toxic fumes into the surrounding neighborhoods.",
+    "yield": 25,
+    "incidentType": "explosion",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "An explosion at a paint factory in Peenya Industrial Area, Bengaluru, has released toxic fumes into the surrounding neighborhoods."
+  },
+  {
+    "id": "news_sim_1764703779032",
+    "timestamp": "2025-12-02T19:29:49.522Z",
+    "expiresAt": "2025-12-02T19:30:02.522Z",
+    "name": "Massive Chemical Leak",
+    "locationName": "Lingarajapuram, Bengaluru",
+    "location": {
+      "lat": 12.9864,
+      "lng": 77.6101
+    },
+    "details": "A massive chemical leak has been reported at an industrial facility, prompting officials to evacuate nearby residents.",
+    "yield": 40,
+    "incidentType": "chemical_leak",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "A massive chemical leak has been reported at an industrial facility in Lingarajapuram, Bengaluru, prompting officials to evacuate nearby residents."
+  },
+  {
+    "id": "news_sim_1764703794042",
+    "timestamp": "2025-12-02T19:29:58.090Z",
+    "expiresAt": "2025-12-02T19:30:05.090Z",
+    "name": "Massive Chemical Leak",
+    "locationName": "Lingarajapuram, Bengaluru",
+    "location": {
+      "lat": 12.9864,
+      "lng": 77.6412
+    },
+    "details": "A massive chemical leak has been reported at an industrial facility, prompting officials to evacuate nearby residents.",
+    "yield": 40,
+    "incidentType": "chemical_leak",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "A massive chemical leak has been reported at an industrial facility in Lingarajapuram, Bengaluru, prompting officials to evacuate nearby residents."
+  },
+  {
+    "id": "news_sim_1764703809050",
+    "timestamp": "2025-12-02T19:30:13.486Z",
+    "expiresAt": "2025-12-02T19:30:24.486Z",
+    "name": "Fireworks Warehouse Blaze",
+    "locationName": "Attibele, Bengaluru",
+    "location": {
+      "lat": 12.8738,
+      "lng": 77.7066
+    },
+    "details": "Firefighters are battling a large blaze at a fireworks warehouse, with reports of multiple explosions.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "Firefighters are battling a large blaze at a fireworks warehouse in Attibele, Bengaluru, with reports of multiple explosions."
+  },
+  {
+    "id": "news_sim_1764703824054",
+    "timestamp": "2025-12-02T19:30:27.478Z",
+    "expiresAt": "2025-12-02T19:30:32.477Z",
+    "name": "Massive Chemical Leak",
+    "locationName": "Lingarajapuram, Bengaluru",
+    "location": {
+      "lat": 12.9864,
+      "lng": 77.6101
+    },
+    "details": "A massive chemical leak has been reported at an industrial facility, prompting officials to evacuate nearby residents.",
+    "yield": 40,
+    "incidentType": "chemical_leak",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "A massive chemical leak has been reported at an industrial facility in Lingarajapuram, Bengaluru, prompting officials to evacuate nearby residents."
+  },
+  {
+    "id": "news_sim_1764703839054",
+    "timestamp": "2025-12-02T19:30:46.535Z",
+    "expiresAt": "2025-12-02T19:30:51.535Z",
+    "name": "Massive Chemical Leak",
+    "locationName": "Lingarajapuram, Bengaluru",
+    "location": {
+      "lat": 12.9864,
+      "lng": 77.6101
+    },
+    "details": "A massive chemical leak has been reported at an industrial facility, prompting officials to evacuate nearby residents.",
+    "yield": 40,
+    "incidentType": "chemical_leak",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "A massive chemical leak has been reported at an industrial facility in Lingarajapuram, Bengaluru, prompting officials to evacuate nearby residents."
+  },
+  {
+    "id": "news_sim_1764703854066",
+    "timestamp": "2025-12-02T19:30:57.396Z",
+    "expiresAt": "2025-12-02T19:31:04.395Z",
+    "name": "Structural Collapse at Construction Site",
+    "locationName": "Whitefield, Bengaluru",
+    "location": {
+      "lat": 12.9739,
+      "lng": 77.7499
+    },
+    "details": "A structural collapse has occurred at a construction site, trapping several workers and causing panic among bystanders.",
+    "yield": 20,
+    "incidentType": "structural_collapse",
+    "hazardCategory": "structural",
+    "source": "simulation_news",
+    "rawText": "Structural collapse reported at a construction site in Whitefield, Bengaluru, trapping several workers and causing panic."
+  },
+  {
+    "id": "news_sim_1764703869072",
+    "timestamp": "2025-12-02T19:31:13.217Z",
+    "expiresAt": "2025-12-02T19:31:27.217Z",
+    "name": "Structural Collapse at Construction Site",
+    "locationName": "Whitefield, Bengaluru",
+    "location": {
+      "lat": 12.9739,
+      "lng": 77.7499
+    },
+    "details": "A structural collapse has occurred at a construction site, trapping several workers and causing panic among bystanders.",
+    "yield": 15,
+    "incidentType": "structural_collapse",
+    "hazardCategory": "structural",
+    "source": "simulation_news",
+    "rawText": "Structural collapse reported at a construction site in Whitefield, Bengaluru, trapping several workers and causing panic."
+  },
+  {
+    "id": "news_sim_1764703884082",
+    "timestamp": "2025-12-02T19:31:27.589Z",
+    "expiresAt": "2025-12-02T19:31:40.589Z",
+    "name": "Transformer Explosion",
+    "locationName": "Koramangala, Bengaluru",
+    "location": {
+      "lat": 12.9352,
+      "lng": 77.6245
+    },
+    "details": "A transformer explosion has caused a local blackout and minor fires in nearby shops.",
+    "yield": 5,
+    "incidentType": "explosion",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A transformer explosion in Koramangala, Bengaluru, has triggered a local blackout and minor fires in nearby shops."
+  },
+  {
+    "id": "news_sim_1764703899088",
+    "timestamp": "2025-12-02T19:31:42.607Z",
+    "expiresAt": "2025-12-02T19:31:51.607Z",
+    "name": "Waste Processing Plant Fire",
+    "locationName": "Mandur, Bengaluru",
+    "location": {
+      "lat": 12.9716,
+      "lng": 77.5946
+    },
+    "details": "A waste processing plant has caught fire, releasing thick black smoke over the northern suburbs.",
+    "yield": 15,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A waste processing plant in Mandur, Bengaluru, has caught fire, sending thick black smoke over the northern suburbs."
+  },
+  {
+    "id": "news_sim_1764703914093",
+    "timestamp": "2025-12-02T19:31:58.132Z",
+    "expiresAt": "2025-12-02T19:32:03.132Z",
+    "name": "Ammonia Gas Leak",
+    "locationName": "Yeshwanthpur, Bengaluru",
+    "location": {
+      "lat": 13.0138,
+      "lng": 77.5585
+    },
+    "details": "Ammonia gas leak detected at a cold storage unit, causing breathing difficulties for local residents.",
+    "yield": 15,
+    "incidentType": "chemical_leak",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "Ammonia gas leak detected at a cold storage unit in Yeshwanthpur, Bengaluru, leading to breathing difficulties for local residents."
+  },
+  {
+    "id": "news_sim_1764703929099",
+    "timestamp": "2025-12-02T19:32:12.364Z",
+    "expiresAt": "2025-12-02T19:32:23.364Z",
+    "name": "Fireworks Warehouse Blaze",
+    "locationName": "Attibele, Bengaluru",
+    "location": {
+      "lat": 12.8738,
+      "lng": 77.7062
+    },
+    "details": "Firefighters are battling a large blaze at a fireworks warehouse, with reports of multiple explosions.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "Firefighters are battling a large blaze at a fireworks warehouse in Attibele, Bengaluru, with reports of multiple explosions."
+  },
+  {
+    "id": "news_sim_1764703944104",
+    "timestamp": "2025-12-02T19:32:29.107Z",
+    "expiresAt": "2025-12-02T19:32:34.107Z",
+    "name": "Structural Collapse at Construction Site",
+    "locationName": "Whitefield, Bengaluru",
+    "location": {
+      "lat": 12.9739,
+      "lng": 77.7499
+    },
+    "details": "A structural collapse has occurred at a construction site, trapping several workers and causing panic among bystanders.",
+    "yield": 25,
+    "incidentType": "structural_collapse",
+    "hazardCategory": "structural",
+    "source": "simulation_news",
+    "rawText": "Structural collapse reported at a construction site in Whitefield, Bengaluru, trapping several workers and causing panic."
+  },
+  {
+    "id": "news_sim_1764703959117",
+    "timestamp": "2025-12-02T19:32:42.823Z",
+    "expiresAt": "2025-12-02T19:32:47.823Z",
+    "name": "Waste Processing Plant Fire",
+    "locationName": "Mandur, Bengaluru",
+    "location": {
+      "lat": 12.9739,
+      "lng": 77.5948
+    },
+    "details": "A waste processing plant has caught fire, releasing thick black smoke over the northern suburbs.",
+    "yield": 15,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A waste processing plant in Mandur, Bengaluru, has caught fire, sending thick black smoke over the northern suburbs."
+  },
+  {
+    "id": "news_sim_1764703974114",
+    "timestamp": "2025-12-02T19:32:57.493Z",
+    "expiresAt": "2025-12-02T19:33:12.492Z",
+    "name": "Industrial Boiler Blast",
+    "locationName": "Hosur Road, Bengaluru",
+    "location": {
+      "lat": 12.9256,
+      "lng": 77.6101
+    },
+    "details": "An industrial boiler blast occurred at a textile unit, resulting in significant structural damage.",
+    "yield": 25,
+    "incidentType": "explosion",
+    "hazardCategory": "structural",
+    "source": "simulation_news",
+    "rawText": "Industrial boiler blast reported at a textile unit on Hosur Road, Bengaluru, causing significant structural damage."
+  },
+  {
+    "id": "news_sim_1764703989122",
+    "timestamp": "2025-12-02T19:33:13.027Z",
+    "expiresAt": "2025-12-02T19:33:19.027Z",
+    "name": "Fuel Tanker Fire",
+    "locationName": "Outer Ring Road, Marathahalli, Bengaluru",
+    "location": {
+      "lat": 12.9352,
+      "lng": 77.7022
+    },
+    "details": "A fuel tanker overturned and caught fire, resulting in a massive fireball.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A fuel tanker overturned and caught fire on the Outer Ring Road near Marathahalli, Bengaluru, creating a massive fireball."
+  },
+  {
+    "id": "news_sim_1764704004137",
+    "timestamp": "2025-12-02T19:33:27.892Z",
+    "expiresAt": "2025-12-02T19:33:38.891Z",
+    "name": "Industrial Boiler Blast",
+    "locationName": "Hosur Road, Bengaluru",
+    "location": {
+      "lat": 12.9255,
+      "lng": 77.6101
+    },
+    "details": "An industrial boiler blast occurred at a textile unit, resulting in significant structural damage.",
+    "yield": 25,
+    "incidentType": "explosion",
+    "hazardCategory": "structural",
+    "source": "simulation_news",
+    "rawText": "Industrial boiler blast reported at a textile unit on Hosur Road, Bengaluru, causing significant structural damage."
+  },
+  {
+    "id": "news_sim_1764704019150",
+    "timestamp": "2025-12-02T19:33:42.845Z",
+    "expiresAt": "2025-12-02T19:33:53.845Z",
+    "name": "Transformer Explosion",
+    "locationName": "Koramangala, Bengaluru",
+    "location": {
+      "lat": 12.9352,
+      "lng": 77.6245
+    },
+    "details": "A transformer explosion has caused a local blackout and minor fires in nearby shops.",
+    "yield": 10,
+    "incidentType": "explosion",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A transformer explosion in Koramangala, Bengaluru, has triggered a local blackout and minor fires in nearby shops."
+  },
+  {
+    "id": "news_sim_1764704034163",
+    "timestamp": "2025-12-02T19:33:57.985Z",
+    "expiresAt": "2025-12-02T19:34:07.985Z",
+    "name": "Ammonia Gas Leak",
+    "locationName": "Yeshwanthpur, Bengaluru",
+    "location": {
+      "lat": 13.0139,
+      "lng": 77.5584
+    },
+    "details": "Ammonia gas leak detected at a cold storage unit, causing breathing difficulties for local residents.",
+    "yield": 15,
+    "incidentType": "chemical_leak",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "Ammonia gas leak detected at a cold storage unit in Yeshwanthpur, Bengaluru, leading to breathing difficulties for local residents."
+  },
+  {
+    "id": "news_sim_1764704049171",
+    "timestamp": "2025-12-02T19:34:13.502Z",
+    "expiresAt": "2025-12-02T19:34:23.502Z",
+    "name": "Industrial Boiler Blast",
+    "locationName": "Hosur Road, Bengaluru",
+    "location": {
+      "lat": 12.9255,
+      "lng": 77.6101
+    },
+    "details": "An industrial boiler blast occurred at a textile unit, resulting in significant structural damage.",
+    "yield": 30,
+    "incidentType": "explosion",
+    "hazardCategory": "structural",
+    "source": "simulation_news",
+    "rawText": "Industrial boiler blast reported at a textile unit on Hosur Road, Bengaluru, causing significant structural damage."
+  },
+  {
+    "id": "news_sim_1764704064174",
+    "timestamp": "2025-12-02T19:34:27.711Z",
+    "expiresAt": "2025-12-02T19:34:39.711Z",
+    "name": "Transformer Explosion",
+    "locationName": "Koramangala, Bengaluru",
+    "location": {
+      "lat": 12.9352,
+      "lng": 77.6245
+    },
+    "details": "A transformer explosion has caused a local blackout and minor fires in nearby shops.",
+    "yield": 10,
+    "incidentType": "explosion",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A transformer explosion in Koramangala, Bengaluru, has triggered a local blackout and minor fires in nearby shops."
+  },
+  {
+    "id": "news_sim_1764704079178",
+    "timestamp": "2025-12-02T19:34:43.026Z",
+    "expiresAt": "2025-12-02T19:34:56.026Z",
+    "name": "Fuel Tanker Fire",
+    "locationName": "Marathahalli, Bengaluru",
+    "location": {
+      "lat": 12.9352,
+      "lng": 77.7022
+    },
+    "details": "A fuel tanker overturned and caught fire, resulting in a massive fireball on the Outer Ring Road.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A fuel tanker overturned and caught fire on the Outer Ring Road near Marathahalli, Bengaluru, creating a massive fireball."
+  },
+  {
+    "id": "news_sim_1764704094186",
+    "timestamp": "2025-12-02T19:34:58.118Z",
+    "expiresAt": "2025-12-02T19:35:11.118Z",
+    "name": "Fuel Tanker Fire",
+    "locationName": "Marathahalli, Bengaluru",
+    "location": {
+      "lat": 12.9352,
+      "lng": 77.7023
+    },
+    "details": "A fuel tanker overturned and caught fire, resulting in a massive fireball.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A fuel tanker overturned and caught fire on the Outer Ring Road near Marathahalli, Bengaluru, creating a massive fireball."
+  },
+  {
+    "id": "news_sim_1764704109199",
+    "timestamp": "2025-12-02T19:35:12.821Z",
+    "expiresAt": "2025-12-02T19:35:17.821Z",
+    "name": "Ammonia Gas Leak",
+    "locationName": "Yeshwanthpur, Bengaluru",
+    "location": {
+      "lat": 13.0139,
+      "lng": 77.5585
+    },
+    "details": "Ammonia gas leak detected at a cold storage unit, causing breathing difficulties for local residents.",
+    "yield": 15,
+    "incidentType": "chemical_leak",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "Ammonia gas leak detected at a cold storage unit in Yeshwanthpur, Bengaluru, leading to breathing difficulties for local residents."
+  },
+  {
+    "id": "news_sim_1764704124215",
+    "timestamp": "2025-12-02T19:35:28.236Z",
+    "expiresAt": "2025-12-02T19:35:36.236Z",
+    "name": "Industrial Boiler Blast",
+    "locationName": "Hosur Road, Bengaluru",
+    "location": {
+      "lat": 12.9255,
+      "lng": 77.6101
+    },
+    "details": "An industrial boiler blast occurred at a textile unit, resulting in significant structural damage.",
+    "yield": 25,
+    "incidentType": "explosion",
+    "hazardCategory": "structural",
+    "source": "simulation_news",
+    "rawText": "Industrial boiler blast reported at a textile unit on Hosur Road, Bengaluru, causing significant structural damage."
+  },
+  {
+    "id": "news_sim_1764704139220",
+    "timestamp": "2025-12-02T19:35:42.917Z",
+    "expiresAt": "2025-12-02T19:35:56.917Z",
+    "name": "Fireworks Warehouse Blaze",
+    "locationName": "Attibele, Bengaluru",
+    "location": {
+      "lat": 12.8667,
+      "lng": 77.71
+    },
+    "details": "Firefighters are battling a large blaze at a fireworks warehouse with reports of multiple explosions.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "Firefighters are battling a large blaze at a fireworks warehouse in Attibele, Bengaluru, with reports of multiple explosions."
+  },
+  {
+    "id": "news_sim_1764704154223",
+    "timestamp": "2025-12-02T19:35:57.994Z",
+    "expiresAt": "2025-12-02T19:36:09.994Z",
+    "name": "Fireworks Warehouse Blaze",
+    "locationName": "Attibele, Bengaluru",
+    "location": {
+      "lat": 12.8667,
+      "lng": 77.71
+    },
+    "details": "Firefighters are battling a large blaze at a fireworks warehouse with reports of multiple explosions.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "Firefighters are battling a large blaze at a fireworks warehouse in Attibele, Bengaluru, with reports of multiple explosions."
+  },
+  {
+    "id": "news_sim_1764704169232",
+    "timestamp": "2025-12-02T19:36:12.832Z",
+    "expiresAt": "2025-12-02T19:36:18.832Z",
+    "name": "Structural Collapse at Construction Site",
+    "locationName": "Whitefield, Bengaluru",
+    "location": {
+      "lat": 12.9739,
+      "lng": 77.7499
+    },
+    "details": "A structural collapse has occurred at a construction site, trapping several workers and causing panic among bystanders.",
+    "yield": 20,
+    "incidentType": "structural_collapse",
+    "hazardCategory": "structural",
+    "source": "simulation_news",
+    "rawText": "Structural collapse reported at a construction site in Whitefield, Bengaluru, trapping several workers and causing panic."
+  },
+  {
+    "id": "news_sim_1764704184237",
+    "timestamp": "2025-12-02T19:36:28.427Z",
+    "expiresAt": "2025-12-02T19:36:36.427Z",
+    "name": "Waste Processing Plant Fire",
+    "locationName": "Mandur, Bengaluru",
+    "location": {
+      "lat": 12.9716,
+      "lng": 77.5946
+    },
+    "details": "A waste processing plant has caught fire, releasing thick black smoke over the northern suburbs.",
+    "yield": 15,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A waste processing plant in Mandur, Bengaluru, has caught fire, sending thick black smoke over the northern suburbs."
+  },
+  {
+    "id": "news_sim_1764704199241",
+    "timestamp": "2025-12-02T19:36:42.822Z",
+    "expiresAt": "2025-12-02T19:36:54.822Z",
+    "name": "Massive Chemical Leak",
+    "locationName": "Lingarajapuram, Bengaluru",
+    "location": {
+      "lat": 12.9864,
+      "lng": 77.6101
+    },
+    "details": "A massive chemical leak has been reported at an industrial facility, prompting officials to evacuate nearby residents.",
+    "yield": 40,
+    "incidentType": "chemical_leak",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "A massive chemical leak has been reported at an industrial facility in Lingarajapuram, Bengaluru, prompting officials to evacuate nearby residents."
+  },
+  {
+    "id": "news_sim_1764704214255",
+    "timestamp": "2025-12-02T19:36:57.998Z",
+    "expiresAt": "2025-12-02T19:37:02.998Z",
+    "name": "Transformer Explosion",
+    "locationName": "Koramangala, Bengaluru",
+    "location": {
+      "lat": 12.9352,
+      "lng": 77.6245
+    },
+    "details": "A transformer explosion has caused a local blackout and minor fires in nearby shops.",
+    "yield": 10,
+    "incidentType": "explosion",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A transformer explosion in Koramangala, Bengaluru, has triggered a local blackout and minor fires in nearby shops."
+  },
+  {
+    "id": "news_sim_1764704229263",
+    "timestamp": "2025-12-02T19:37:13.988Z",
+    "expiresAt": "2025-12-02T19:37:18.988Z",
+    "name": "Fireworks Warehouse Blaze",
+    "locationName": "Attibele, Bengaluru",
+    "location": {
+      "lat": 12.8738,
+      "lng": 77.7063
+    },
+    "details": "Firefighters are battling a large blaze at a fireworks warehouse with reports of multiple explosions.",
+    "yield": 30,
+    "incidentType": "fire",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "Firefighters are battling a large blaze at a fireworks warehouse in Attibele, Bengaluru, with reports of multiple explosions."
+  },
+  {
+    "id": "news_sim_1764704244279",
+    "timestamp": "2025-12-02T19:37:30.221Z",
+    "expiresAt": "2025-12-02T19:37:41.220Z",
+    "name": "Explosion at Paint Factory",
+    "locationName": "Peenya Industrial Area, Bengaluru",
+    "location": {
+      "lat": 13.0138,
+      "lng": 77.5705
+    },
+    "details": "An explosion at a paint factory has released toxic fumes into the surrounding neighborhoods.",
+    "yield": 25,
+    "incidentType": "explosion",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "An explosion at a paint factory in Peenya Industrial Area, Bengaluru, has released toxic fumes into the surrounding neighborhoods."
   }
 ]

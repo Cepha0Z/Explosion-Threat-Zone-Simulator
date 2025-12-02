@@ -96,6 +96,27 @@
           <div id="evacuation-container"></div>
           <div id="live-threats-list" class="space-y-3"></div>
 
+          <!-- THREAT TIMELINE -->
+          <div class="mt-6 border-t border-gray-700 pt-4">
+            <button
+              id="timeline-toggle"
+              class="w-full flex justify-between items-center text-sm font-bold text-gray-400 hover:text-gray-200 transition mb-3"
+              onclick="document.getElementById('threat-timeline-list').classList.toggle('hidden'); document.getElementById('timeline-chevron').classList.toggle('rotate-180');"
+            >
+              <div class="flex items-center gap-2">
+                <i data-lucide="history" class="w-4 h-4"></i>
+                <span>Threat Timeline</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span id="timeline-count" class="text-xs font-mono bg-gray-700/50 text-gray-400 px-2 py-1 rounded">0 Entries</span>
+                <i id="timeline-chevron" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+              </div>
+            </button>
+            <div id="threat-timeline-list" class="space-y-2 hidden">
+              <div class="text-sm text-gray-500 italic p-4">No threat history this session</div>
+            </div>
+          </div>
+
           <div class="mt-6 border-t border-gray-700 pt-4">
             <h3
               class="text-sm font-bold text-blue-400 mb-3 flex items-center gap-2"

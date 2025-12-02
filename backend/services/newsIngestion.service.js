@@ -15,7 +15,7 @@ const SIMULATOR_URL = 'http://localhost:5050';
 const POLL_INTERVAL = 15000; // 15 seconds
 
 // **TESTING MODE: Set to true for random 5-15 second expiration**
-const TESTING_MODE = false;
+const TESTING_MODE = true;
 
 let pollingInterval = null;
 let currentUserEmail = null;
