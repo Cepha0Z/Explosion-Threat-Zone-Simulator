@@ -4,11 +4,11 @@
     "name": "test01",
     "locationName": "Lingarajapurum, Bengaluru",
     "location": {
-      "lat": 13.010700,
+      "lat": 13.0107,
       "lng": 77.624365
     },
     "details": "i killed the toilet lol (it worked!!)",
-    "yield": 7700,
+    "yield": 700,
     "timestamp": "2025-12-01T08:29:30.824Z",
     "source": "admin"
   }
