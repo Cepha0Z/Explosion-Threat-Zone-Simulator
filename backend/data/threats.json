@@ -4,12 +4,114 @@
     "name": "test01",
     "locationName": "Lingarajapurum, Bengaluru",
     "location": {
-      "lat": 13.013251,
-      "lng": 77.624151
+      "lat": 12.99646,
+      "lng": 77.59077
     },
     "details": "i killed the toilet lol (it worked!!)",
     "yield": 7700,
     "timestamp": "2025-12-01T08:29:30.824Z",
     "source": "admin"
+  },
+  {
+    "id": "news_sim_1764666793792",
+    "timestamp": "2025-12-02T09:13:20.301Z",
+    "expiresAt": "2025-12-02T09:13:29.301Z",
+    "name": "Explosion at Paint Factory",
+    "locationName": "Peenya Industrial Area, Bengaluru",
+    "location": {
+      "lat": 13.0138,
+      "lng": 77.5705
+    },
+    "details": "An explosion at a paint factory has released toxic fumes into the surrounding neighborhoods.",
+    "yield": 30,
+    "incidentType": "explosion",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "An explosion at a paint factory in Peenya Industrial Area, Bengaluru, has released toxic fumes into the surrounding neighborhoods."
+  },
+  {
+    "id": "news_sim_1764666808781",
+    "timestamp": "2025-12-02T09:13:33.125Z",
+    "expiresAt": "2025-12-02T09:13:39.125Z",
+    "name": "Massive Chemical Leak",
+    "locationName": "Lingarajapuram, Bengaluru",
+    "location": {
+      "lat": 13.0138,
+      "lng": 77.6101
+    },
+    "details": "A massive chemical leak has been reported at an industrial facility, prompting officials to evacuate nearby residents.",
+    "yield": 40,
+    "incidentType": "chemical_leak",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "A massive chemical leak has been reported at an industrial facility in Lingarajapuram, Bengaluru, prompting officials to evacuate nearby residents."
+  },
+  {
+    "id": "news_sim_1764666823792",
+    "timestamp": "2025-12-02T09:13:47.847Z",
+    "expiresAt": "2025-12-02T09:14:00.847Z",
+    "name": "Structural Collapse at Construction Site",
+    "locationName": "Whitefield, Bengaluru",
+    "location": {
+      "lat": 12.9739,
+      "lng": 77.7499
+    },
+    "details": "A structural collapse has occurred at a construction site, trapping several workers and causing panic among bystanders.",
+    "yield": 20,
+    "incidentType": "structural_collapse",
+    "hazardCategory": "structural",
+    "source": "simulation_news",
+    "rawText": "Structural collapse reported at a construction site in Whitefield, Bengaluru, trapping several workers and causing panic."
+  },
+  {
+    "id": "news_sim_1764666838792",
+    "timestamp": "2025-12-02T09:14:02.597Z",
+    "expiresAt": "2025-12-02T09:14:07.597Z",
+    "name": "Industrial Boiler Blast",
+    "locationName": "Hosur Road, Bengaluru",
+    "location": {
+      "lat": 12.9255,
+      "lng": 77.6101
+    },
+    "details": "An industrial boiler blast occurred at a textile unit, resulting in significant structural damage.",
+    "yield": 25,
+    "incidentType": "explosion",
+    "hazardCategory": "structural",
+    "source": "simulation_news",
+    "rawText": "Industrial boiler blast reported at a textile unit on Hosur Road, Bengaluru, causing significant structural damage."
+  },
+  {
+    "id": "news_sim_1764666853793",
+    "timestamp": "2025-12-02T09:14:21.735Z",
+    "expiresAt": "2025-12-02T09:14:30.734Z",
+    "name": "Explosion at Paint Factory",
+    "locationName": "Peenya Industrial Area, Bengaluru",
+    "location": {
+      "lat": 13.0138,
+      "lng": 77.5705
+    },
+    "details": "An explosion at a paint factory has released toxic fumes into the surrounding neighborhoods.",
+    "yield": 25,
+    "incidentType": "explosion",
+    "hazardCategory": "chemical",
+    "source": "simulation_news",
+    "rawText": "An explosion at a paint factory in Peenya Industrial Area, Bengaluru, has released toxic fumes into the surrounding neighborhoods."
+  },
+  {
+    "id": "news_sim_1764666868807",
+    "timestamp": "2025-12-02T09:14:32.569Z",
+    "expiresAt": "2025-12-02T09:14:46.569Z",
+    "name": "Transformer Explosion",
+    "locationName": "Koramangala, Bengaluru",
+    "location": {
+      "lat": 12.9352,
+      "lng": 77.6245
+    },
+    "details": "A transformer explosion has caused a local blackout and minor fires in nearby shops.",
+    "yield": 10,
+    "incidentType": "explosion",
+    "hazardCategory": "thermal",
+    "source": "simulation_news",
+    "rawText": "A transformer explosion in Koramangala, Bengaluru, has triggered a local blackout and minor fires in nearby shops."
   }
 ]

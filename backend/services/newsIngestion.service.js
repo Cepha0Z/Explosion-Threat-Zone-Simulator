@@ -14,6 +14,9 @@ import { sendEmailAlert } from './emailAlert.service.js';
 const SIMULATOR_URL = 'http://localhost:5050';
 const POLL_INTERVAL = 15000; // 15 seconds
 
+// **TESTING MODE: Set to true for random 5-15 second expiration**
+const TESTING_MODE = true;
+
 let pollingInterval = null;
 let currentUserEmail = null;
 
@@ -67,12 +70,24 @@ async function processNewsItem(newsItem) {
             return null;
         }
         
-        // Step 3: Assemble final threat object
+        // Step 3: Calculate expiration
         const durationMinutes = extracted.durationMinutes || 60;
+        let expiresAt;
+        
+        if (TESTING_MODE) {
+            // Random 5-15 seconds for testing fade animations
+            const randomSeconds = Math.floor(Math.random() * 11) + 5;
+            expiresAt = new Date(Date.now() + randomSeconds * 1000).toISOString();
+            logger.pipeline(`[TESTING] Threat will expire in ${randomSeconds} seconds`);
+        } else {
+            expiresAt = calculateExpiry(durationMinutes);
+        }
+        
+        // Step 4: Assemble final threat object
         const finalThreat = {
             id: newsItem.id,
             timestamp: new Date().toISOString(),
-            expiresAt: calculateExpiry(durationMinutes),
+            expiresAt: expiresAt,
             name: extracted.name,
             locationName: extracted.locationName,
             location: { lat: coords.lat, lng: coords.lng },
@@ -84,7 +99,7 @@ async function processNewsItem(newsItem) {
             rawText: newsItem.text
         };
         
-        // Step 4: Save to storage
+        // Step 5: Save to storage
         addThreat(finalThreat);
         
         // Update status
@@ -95,10 +110,9 @@ async function processNewsItem(newsItem) {
         
         logger.pipeline(`✓ Successfully processed threat: ${finalThreat.name}`);
         
-        // Step 5: Trigger global email alert
+        // Step 6: Trigger global email alert
         try {
             logger.pipeline(`[EMAIL] Triggering alert for new threat`, { id: finalThreat.id, name: finalThreat.name });
-            // Pass null to use global default/env var
             await sendEmailAlert(null, finalThreat);
             logger.pipeline(`[EMAIL] Alert successfully sent for threat`, { id: finalThreat.id });
         } catch (err) {

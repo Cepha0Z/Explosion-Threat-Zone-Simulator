@@ -7,6 +7,28 @@ export const ThreatsModule = {
     liveThreats: [],
     liveThreatOverlays: [],
     lastThreatHash: '',
+    userLocation: null, // Store user's location for proximity checks
+
+    /**
+     * Update user location for proximity-based features
+     */
+    updateUserLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    this.userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    console.log('📍 User location updated for glow proximity:', this.userLocation);
+                },
+                (error) => {
+                    console.warn('⚠️ Could not get user location for glow proximity:', error.message);
+                    // Keep userLocation as null, will default to showing all glows
+                }
+            );
+        }
+    },
 
     /**
      * Load threats from API
@@ -133,12 +155,17 @@ export const ThreatsModule = {
             const severity = this.getThreatSeverity(threat);
             const isCritical = severity === 'critical';
             
+            // Check if threat is near user (within 50km)
+            const isNearUser = this.isThreatNearUser(threat.location);
+            
             // Draw circles
             Object.values(zones).reverse().forEach(zone => {
                 const isLethal = zone.name === 'Lethal Zone';
+                const isSevere = zone.name === 'Severe Damage';
+                const isModerate = zone.name === 'Moderate Damage';
                 
-                // Add glow for lethal zone of critical threats
-                if (isCritical && isLethal) {
+                // Add glow for lethal (red), severe (orange), and moderate (yellow) zones near user
+                if (isNearUser && (isLethal || isSevere || isModerate)) {
                     const glowCircle = new google.maps.Circle({
                         strokeColor: zone.color,
                         strokeOpacity: 0,
@@ -147,7 +174,7 @@ export const ThreatsModule = {
                         fillOpacity: 0.3,
                         map,
                         center: threat.location,
-                        radius: zone.radius * 1.05, // Slightly larger for subtle glow
+                        radius: zone.radius, // EXACT same size as zone
                         zIndex: 1
                     });
                     threatOverlays.push(glowCircle);
@@ -202,12 +229,38 @@ export const ThreatsModule = {
     },
 
     /**
-     * Animate pulse effect for a circle
+     * Check if threat is near user's location
+     * @param {Object} threatLocation - {lat, lng}
+     * @returns {boolean}
+     */
+    isThreatNearUser(threatLocation) {
+        // Try to get user's current location
+        if (!this.userLocation) {
+            // Attempt to get it from browser geolocation (cached)
+            return true; // Default to true if we don't have user location yet
+        }
+        
+        // Calculate distance using Haversine formula
+        const R = 6371; // Earth's radius in km
+        const dLat = (threatLocation.lat - this.userLocation.lat) * Math.PI / 180;
+        const dLng = (threatLocation.lng - this.userLocation.lng) * Math.PI / 180;
+        const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                  Math.cos(this.userLocation.lat * Math.PI / 180) * 
+                  Math.cos(threatLocation.lat * Math.PI / 180) *
+                  Math.sin(dLng/2) * Math.sin(dLng/2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        const distance = R * c;
+        
+        return distance <= 50; // Within 50km
+    },
+
+    /**
+     * Animate pulse effect for a circle (SLOWER, SMOOTHER)
      * @param {google.maps.Circle} circle 
      */
     animatePulse(circle) {
         let direction = 1;
-        let opacity = 0;
+        let opacity = 0.25;
         
         const interval = setInterval(() => {
             if (!circle.getMap()) {
@@ -215,24 +268,15 @@ export const ThreatsModule = {
                 return;
             }
             
-            // Increment/Decrement
-            opacity += 0.015 * direction; // Slightly slower for smoothness
+            // Slower, smoother: smaller steps, longer interval
+            opacity += 0.015 * direction;
+            if (opacity >= 0.5) direction = -1;
+            if (opacity <= 0.15) direction = 1;
             
-            // Clamp and reverse direction
-            if (opacity >= 0.6) {
-                opacity = 0.6;
-                direction = -1;
-            } else if (opacity <= 0) {
-                opacity = 0;
-                direction = 1;
-            }
-            
-            // Ensure valid value for Google Maps
-            const safeOpacity = Math.max(0, Math.min(0.6, opacity));
-            circle.setOptions({ fillOpacity: safeOpacity });
-        }, 50);
+            circle.setOptions({ fillOpacity: opacity });
+        }, 60); // Slower: 60ms per frame
         
-        // Store interval to clear it later if needed
+        // Store interval to clear it later if needed (though getMap check handles most cases)
         circle.pulseInterval = interval;
     },
 
@@ -305,8 +349,8 @@ export const ThreatsModule = {
         `;
 
         threatEl.addEventListener('click', () => {
-            map.panTo(threat.location);
-            map.setZoom(16);
+            // Smooth zoom to threat location
+            this.smoothZoomTo(map, threat.location, 16);
             const currentDetailsPanel = threatEl.querySelector('.threat-details');
             
             // Close others
@@ -350,11 +394,61 @@ export const ThreatsModule = {
     },
 
     /**
+     * Smooth zoom to a location
+     * @param {google.maps.Map} map
+     * @param {Object} location - {lat, lng}
+     * @param {number} targetZoom
+     */
+    smoothZoomTo(map, location, targetZoom) {
+        map.panTo(location);
+        
+        const currentZoom = map.getZoom();
+        if (currentZoom === targetZoom) return;
+        
+        // Smooth zoom animation
+        const step = currentZoom < targetZoom ? 1 : -1;
+        const zoomInterval = setInterval(() => {
+            const zoom = map.getZoom();
+            if ((step > 0 && zoom >= targetZoom) || (step < 0 && zoom <= targetZoom)) {
+                map.setZoom(targetZoom);
+                clearInterval(zoomInterval);
+            } else {
+                map.setZoom(zoom + step);
+            }
+        }, 100); // Zoom step every 100ms
+    },
+
+    /**
      * Start auto-update loop
      * @param {google.maps.Map} map
      * @param {number} interval - Update interval in ms (default: 5000)
      */
     startAutoUpdate(map, interval = 5000) {
+        // Get user location for proximity-based glow and zoom
+        this.updateUserLocation();
+        
+        // Smooth zoom to user location on startup
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const userPos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    console.log('🎯 Zooming to user location:', userPos);
+                    this.smoothZoomTo(map, userPos, 12);
+                    
+                    // Update user marker on map module
+                    if (window.MapModule && window.MapModule.updateUserMarker) {
+                        window.MapModule.updateUserMarker(userPos);
+                    }
+                },
+                (error) => {
+                    console.warn('⚠️ Could not zoom to user location:', error.message);
+                }
+            );
+        }
+        
         this.autoUpdate(map); // Initial load
         setInterval(() => this.autoUpdate(map), interval);
     }

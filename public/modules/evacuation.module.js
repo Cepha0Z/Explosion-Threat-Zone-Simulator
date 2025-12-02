@@ -55,6 +55,24 @@ export const EvacuationModule = {
             return;
         }
 
+        // **NEW: Check if user is OUTSIDE the danger zone**
+        if (!threatData.isInside) {
+            const userConfirmed = confirm(
+                '✅ You are outside the danger zone.\n\n' +
+                'Would you like to navigate to the nearest hospital?'
+            );
+            
+            if (!userConfirmed) {
+                console.log('[Evacuation] User declined hospital navigation.');
+                return;
+            }
+            
+            // Find nearest hospital avoiding the threat zone
+            await this.navigateToNearestHospital(userLocation, userLatLng, threatData, map);
+            return;
+        }
+
+        // **EXISTING: User is INSIDE danger zone - evacuate to safety first**
         // 2. Calculate Safe Exit
         const safeDestination = EvacuationCore.calculateSafeExitPoint(userLatLng, threatData);
 
@@ -88,15 +106,6 @@ export const EvacuationModule = {
         } else {
             // Relaxed Filter Fallback (if strict failed)
             console.warn('[Evacuation] No strict hospitals found. Relaxing filters...');
-            // Note: EvacuationCore.filterSafeFacilities is strict. 
-            // If we want relaxed, we might need another method or just filter manually here using a simpler check.
-            // Re-using the "isSafe" logic from Core would be ideal if exposed, but for now let's implement the relaxed check here 
-            // or add it to Core. The legacy code had a relaxed check.
-            // Let's stick to the Core's strict filter for now to keep it clean, 
-            // or if we want to match legacy exactly, we should add `filterSafeFacilitiesRelaxed` to Core.
-            // For this iteration, if no safe hospitals found, we go to safe exit.
-            // Legacy code did: "Filter relaxation... const relaxedCandidates = results.filter(place => isSafe(place));"
-            // Let's replicate that behavior by manually filtering for safety only if strict failed.
             
             const relaxedCandidates = facilities.filter(place => {
                 if (!place.geometry || !place.geometry.location) return false;
@@ -134,5 +143,122 @@ export const EvacuationModule = {
         console.log(`[Evacuation] Opening URL: ${navUrl}`);
         
         window.open(navUrl, '_blank');
+    },
+
+    /**
+     * Navigate to nearest hospital (for users OUTSIDE danger zone)
+     * @param {Object} userLocation - {lat, lng}
+     * @param {google.maps.LatLng} userLatLng
+     * @param {Object} threatData - Threat information
+     * @param {google.maps.Map} map
+     */
+    async navigateToNearestHospital(userLocation, userLatLng, threatData, map) {
+        console.log('[Evacuation] User is safe. Finding nearest hospital...');
+
+        // Search for hospitals near user's location
+        let facilities = [];
+        try {
+            facilities = await EvacuationCore.searchHospitals(map, userLatLng);
+        } catch (err) {
+            console.error('[Evacuation] Hospital search failed:', err);
+            alert('Could not find nearby hospitals. Please try again.');
+            return;
+        }
+
+        if (facilities.length === 0) {
+            alert('No hospitals found nearby.');
+            return;
+        }
+
+        // Filter out hospitals that are inside the threat zone
+        const safeHospitals = facilities.filter(place => {
+            if (!place.geometry || !place.geometry.location) return false;
+            const distToThreat = google.maps.geometry.spherical.computeDistanceBetween(
+                place.geometry.location,
+                threatData.threatLatLng
+            );
+            return distToThreat > threatData.largestRadius;
+        });
+
+        if (safeHospitals.length === 0) {
+            alert('No safe hospitals found outside the threat zone.');
+            return;
+        }
+
+        // Sort by distance to user
+        safeHospitals.sort((a, b) => {
+            const distA = google.maps.geometry.spherical.computeDistanceBetween(a.geometry.location, userLatLng);
+            const distB = google.maps.geometry.spherical.computeDistanceBetween(b.geometry.location, userLatLng);
+            return distA - distB;
+        });
+
+        // Check if route to nearest hospital goes through threat zone
+        let selectedHospital = null;
+        for (const hospital of safeHospitals) {
+            const routeAvoidsThreat = this.checkRouteAvoidsThreat(
+                userLatLng,
+                hospital.geometry.location,
+                threatData.threatLatLng,
+                threatData.largestRadius
+            );
+
+            if (routeAvoidsThreat) {
+                selectedHospital = hospital;
+                break;
+            }
+        }
+
+        // If no hospital with safe route found, use the nearest one anyway
+        if (!selectedHospital) {
+            console.warn('[Evacuation] No hospital with guaranteed safe route. Using nearest.');
+            selectedHospital = safeHospitals[0];
+        }
+
+        const hospitalLocation = selectedHospital.geometry.location;
+        const hospitalName = selectedHospital.name || 'Nearest Hospital';
+
+        console.log(`[Evacuation] Selected hospital: ${hospitalName}`);
+        console.log(`[Evacuation] Distance: ${(google.maps.geometry.spherical.computeDistanceBetween(userLatLng, hospitalLocation) / 1000).toFixed(2)} km`);
+
+        // Generate direct navigation URL
+        const navUrl = EvacuationCore.generateNavigationUrl(
+            userLocation,
+            hospitalLocation,
+            null // No waypoint needed - direct route
+        );
+
+        window.open(navUrl, '_blank');
+    },
+
+    /**
+     * Check if a straight line route avoids the threat zone
+     * @param {google.maps.LatLng} start
+     * @param {google.maps.LatLng} end
+     * @param {google.maps.LatLng} threatCenter
+     * @param {number} threatRadius
+     * @returns {boolean}
+     */
+    checkRouteAvoidsThreat(start, end, threatCenter, threatRadius) {
+        // Simple check: calculate closest point on line to threat center
+        // If closest distance > threatRadius, route likely avoids threat
+        
+        const startToEnd = google.maps.geometry.spherical.computeDistanceBetween(start, end);
+        const startToThreat = google.maps.geometry.spherical.computeDistanceBetween(start, threatCenter);
+        const endToThreat = google.maps.geometry.spherical.computeDistanceBetween(end, threatCenter);
+
+        // If both endpoints are outside threat, and threat is not between them
+        if (startToThreat > threatRadius && endToThreat > threatRadius) {
+            // Use heading to check if threat is roughly perpendicular to route
+            const headingToEnd = google.maps.geometry.spherical.computeHeading(start, end);
+            const headingToThreat = google.maps.geometry.spherical.computeHeading(start, threatCenter);
+            const angleDiff = Math.abs(headingToEnd - headingToThreat);
+            
+            // If angle difference is > 45 degrees, threat is not directly in path
+            if (angleDiff > 45 && angleDiff < 315) {
+                return true;
+            }
+        }
+
+        return false;
     }
 };

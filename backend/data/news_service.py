@@ -28,6 +28,11 @@ SMTP_PORT = int(os.getenv("SMTP_PORT", 587))
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "mistralai/Mistral-7B-Instruct:free")
 
+# OLLAMA CONFIG
+OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "llama3.1:8b")
+
+
 llm_client = (
     OpenAI(
         base_url="https://openrouter.ai/api/v1",
