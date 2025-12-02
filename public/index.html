@@ -386,6 +386,97 @@
     <script type="module" src="/app.new.js"></script>
 
     <script>
+      // ===== SIDEBAR COLLAPSE FUNCTIONALITY =====
+      
+      const panelToggleBtn = document.getElementById('panel-toggle');
+      const controlPanel = document.querySelector('.control-panel');
+      const mapContainer = document.getElementById('map');
+      const toggleIcon = panelToggleBtn.querySelector('i');
+      
+      // Check for reduced motion preference
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      
+      // Load saved state from localStorage
+      const savedState = localStorage.getItem('sidebarCollapsed');
+      let isCollapsed = savedState === 'true';
+      
+      // Apply initial state
+      if (isCollapsed) {
+        applySidebarState(true, false); // true = collapsed, false = no animation on load
+      }
+      
+      // Toggle button click handler
+      panelToggleBtn.addEventListener('click', () => {
+        isCollapsed = !isCollapsed;
+        applySidebarState(isCollapsed, true); // true = animate
+        
+        // Save state to localStorage
+        localStorage.setItem('sidebarCollapsed', isCollapsed);
+      });
+      
+      // Keyboard accessibility (Enter or Space)
+      panelToggleBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          panelToggleBtn.click();
+        }
+      });
+      
+      /**
+       * Apply sidebar collapsed/expanded state
+       * @param {boolean} collapsed - Whether sidebar should be collapsed
+       * @param {boolean} animate - Whether to animate the transition
+       */
+      function applySidebarState(collapsed, animate) {
+        const duration = (animate && !prefersReducedMotion) ? 300 : 0;
+        
+        if (collapsed) {
+          // Collapse sidebar - change width to 0 to reclaim space
+          controlPanel.style.transition = duration ? `width ${duration}ms ease-in-out, opacity ${duration}ms ease-in-out, padding ${duration}ms ease-in-out` : 'none';
+          controlPanel.style.width = '0';
+          controlPanel.style.minWidth = '0';
+          controlPanel.style.maxWidth = '0';
+          controlPanel.style.opacity = '0';
+          controlPanel.style.padding = '0';
+          controlPanel.style.overflow = 'hidden';
+          
+          // Update toggle button
+          toggleIcon.setAttribute('data-lucide', 'chevrons-right');
+          panelToggleBtn.title = 'Show panel';
+          panelToggleBtn.style.left = '4px';
+        } else {
+          // Expand sidebar - restore original width
+          controlPanel.style.transition = duration ? `width ${duration}ms ease-in-out, opacity ${duration}ms ease-in-out, padding ${duration}ms ease-in-out` : 'none';
+          controlPanel.style.width = '';
+          controlPanel.style.minWidth = '';
+          controlPanel.style.maxWidth = '';
+          controlPanel.style.opacity = '1';
+          controlPanel.style.padding = '';
+          controlPanel.style.overflow = '';
+          
+          // Update toggle button
+          toggleIcon.setAttribute('data-lucide', 'chevrons-left');
+          panelToggleBtn.title = 'Hide panel';
+          panelToggleBtn.style.left = '16px';
+        }
+        
+        // Re-render lucide icons
+        if (window.lucide) {
+          lucide.createIcons();
+        }
+        
+        // Trigger Google Maps resize after transition
+        if (duration > 0) {
+          setTimeout(() => {
+            if (window.google && window.google.maps && window.MapModule) {
+              google.maps.event.trigger(window.MapModule.getMap(), 'resize');
+            }
+          }, duration);
+        }
+      }
+      
+      // ===== OTHER FUNCTIONALITY =====
+      
       let currentNewsMode = "nearme";
       let userCity = null;
 
