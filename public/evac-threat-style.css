@@ -1,0 +1,78 @@
+/* EVACUATION RESULT CARD - THREAT CARD STYLE */
+/* Matches existing threat card visual language exactly */
+
+/* Success state - green accent bar (like critical threat) */
+.evac-result-safe .threat-severity-bar {
+    background-color: #10b981; /* Green-500 */
+}
+
+/* Warning state - orange accent bar (like high threat) */
+.evac-result-warning .threat-severity-bar {
+    background-color: #fb923c; /* Orange-400 */
+}
+
+/* Reason text - lighter emphasis, supporting information */
+.evac-reason {
+    font-size: 0.6875rem; /* 11px - smaller than threat-meta */
+    font-weight: 400; /* Regular weight */
+    color: rgba(255, 255, 255, 0.55); /* More muted */
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.25rem;
+    font-style: italic;
+    line-height: 1.5;
+}
+
+.evac-reason i {
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+}
+
+/* Dismiss button - top-right corner of card */
+.evac-dismiss {
+    position: absolute;
+    top: 0.625rem;
+    right: 0.625rem;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 1.375rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0.25rem;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.25rem;
+    transition: all 0.15s ease;
+    z-index: 10; /* Ensure it's on top */
+}
+
+.evac-dismiss:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Fade-in animation for evacuation card */
+.threat-item.evac-result-safe,
+.threat-item.evac-result-warning {
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.threat-item.evac-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Make threat-content relative for absolute dismiss button */
+.evac-result-safe .threat-content,
+.evac-result-warning .threat-content {
+    position: relative;
+}

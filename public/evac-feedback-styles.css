@@ -1,0 +1,146 @@
+/* EVACUATION FEEDBACK CARD STYLES - ENHANCED */
+
+/* Base card with gradient background */
+.evac-feedback-card {
+    margin-top: 0.75rem;
+    padding: 0;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: linear-gradient(135deg, rgba(31, 41, 55, 0.95) 0%, rgba(17, 24, 39, 0.95) 100%);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.evac-feedback-card.evac-feedback-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Success state - green accent */
+.evac-feedback-safe {
+    border-color: rgba(16, 185, 129, 0.5);
+    background: linear-gradient(135deg, rgba(6, 78, 59, 0.3) 0%, rgba(17, 24, 39, 0.95) 100%);
+}
+
+/* Warning/Error state - orange/red accent */
+.evac-feedback-warning {
+    border-color: rgba(251, 146, 60, 0.5);
+    background: linear-gradient(135deg, rgba(124, 45, 18, 0.3) 0%, rgba(17, 24, 39, 0.95) 100%);
+}
+
+/* Header section */
+.evac-feedback-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px 10px 0 0;
+}
+
+.evac-feedback-status {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.evac-feedback-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+.evac-feedback-title {
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+/* Dismiss button */
+.evac-feedback-dismiss {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.evac-feedback-dismiss:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+/* Content sections */
+.evac-feedback-section {
+    padding: 0.875rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.evac-feedback-section:last-child {
+    border-bottom: none;
+    border-radius: 0 0 10px 10px;
+}
+
+.evac-feedback-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.375rem;
+}
+
+.evac-feedback-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.4;
+}
+
+.evac-feedback-meta {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 0.25rem;
+}
+
+.evac-feedback-reason {
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .evac-feedback-card {
+        margin-top: 0.5rem;
+    }
+    
+    .evac-feedback-header {
+        padding: 0.875rem 1rem;
+    }
+    
+    .evac-feedback-section {
+        padding: 0.75rem 1rem;
+    }
+    
+    .evac-feedback-title {
+        font-size: 0.75rem;
+    }
+}
